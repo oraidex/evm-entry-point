@@ -10,7 +10,7 @@ contract Lock is Test {
         testNumber = 42;
     }
 
-    function test_NumberIs42() public {
+    function test_NumberIs42() public view {
         assertEq(testNumber, 42);
     }
 
