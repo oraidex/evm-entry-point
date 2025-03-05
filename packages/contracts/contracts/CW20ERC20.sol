@@ -31,58 +31,58 @@ contract CW20ERC20Token is IERC20, Ownable {
 
     function mint(address account, uint256 amount) external onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
-        string memory recipient = Payload.formatPayload("recipient", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(account)));
-        string memory amt = Payload.formatPayload("amount", Payload.doubleQuotes(Strings.toString(amount)));
-        string memory req = Payload.curlyBrace(Payload.formatPayload("mint", Payload.curlyBrace(Payload.join(recipient, amt, ","))));
+        string memory recipient = formatPayload("recipient", doubleQuotes(AddrPrecompile.getCosmosAddr(account)));
+        string memory amt = formatPayload("amount", doubleQuotes(Strings.toString(amount)));
+        string memory req = curlyBrace(formatPayload("mint", curlyBrace(join(recipient, amt, ","))));
         _execute(req);
     }
 
     function name() public view returns (string memory) {
-        string memory req = Payload.curlyBrace(Payload.formatPayload("token_info", "{}"));
+        string memory req = curlyBrace(formatPayload("token_info", "{}"));
         bytes memory response = WasmdPrecompile.query(cw20Address, bytes(req));
         return string(JsonPrecompile.extractAsBytes(response, "name"));
     }
 
     function symbol() public view returns (string memory) {
-        string memory req = Payload.curlyBrace(Payload.formatPayload("token_info", "{}"));
+        string memory req = curlyBrace(formatPayload("token_info", "{}"));
         bytes memory response = WasmdPrecompile.query(cw20Address, bytes(req));
         return string(JsonPrecompile.extractAsBytes(response, "symbol"));
     }
 
     function decimals() public view returns (uint8) {
-        string memory req = Payload.curlyBrace(Payload.formatPayload("token_info", "{}"));
+        string memory req = curlyBrace(formatPayload("token_info", "{}"));
         bytes memory response = WasmdPrecompile.query(cw20Address, bytes(req));
         return uint8(JsonPrecompile.extractAsUint256(response, "decimals"));
     }
 
     function balanceOf(address owner) public view override returns (uint256) {
         require(owner != address(0), "ERC20: balance query for the zero address");
-        string memory ownerAddr = Payload.formatPayload("address", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(owner)));
-        string memory req = Payload.curlyBrace(Payload.formatPayload("balance", Payload.curlyBrace(ownerAddr)));
+        string memory ownerAddr = formatPayload("address", doubleQuotes(AddrPrecompile.getCosmosAddr(owner)));
+        string memory req = curlyBrace(formatPayload("balance", curlyBrace(ownerAddr)));
         bytes memory response = WasmdPrecompile.query(cw20Address, bytes(req));
         return JsonPrecompile.extractAsUint256(response, "balance");
     }
 
     function totalSupply() public view override returns (uint256) {
-        string memory req = Payload.curlyBrace(Payload.formatPayload("token_info", "{}"));
+        string memory req = curlyBrace(formatPayload("token_info", "{}"));
         bytes memory response = WasmdPrecompile.query(cw20Address, bytes(req));
         return JsonPrecompile.extractAsUint256(response, "total_supply");
     }
 
     function transfer(address to, uint256 amount) public override returns (bool) {
         require(to != address(0), "ERC20: transfer to the zero address");
-        string memory recipient = Payload.formatPayload("recipient", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(to)));
-        string memory amt = Payload.formatPayload("amount", Payload.doubleQuotes(Strings.toString(amount)));
-        string memory req = Payload.curlyBrace(Payload.formatPayload("transfer", Payload.curlyBrace(Payload.join(recipient, amt, ","))));
+        string memory recipient = formatPayload("recipient", doubleQuotes(AddrPrecompile.getCosmosAddr(to)));
+        string memory amt = formatPayload("amount", doubleQuotes(Strings.toString(amount)));
+        string memory req = curlyBrace(formatPayload("transfer", curlyBrace(join(recipient, amt, ","))));
         _execute(req);
         return true;
     }
 
     function allowance(address owner, address spender) public view override returns (uint256) {
         require(owner != address(0), "ERC20: allowance query for the zero address");
-        string memory ownerAddr = Payload.formatPayload("owner", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(owner)));
-        string memory spenderAddr = Payload.formatPayload("spender", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(spender)));
-        string memory req = Payload.curlyBrace(Payload.formatPayload("allowance", Payload.curlyBrace(Payload.join(ownerAddr, spenderAddr, ","))));
+        string memory ownerAddr = formatPayload("owner", doubleQuotes(AddrPrecompile.getCosmosAddr(owner)));
+        string memory spenderAddr = formatPayload("spender", doubleQuotes(AddrPrecompile.getCosmosAddr(spender)));
+        string memory req = curlyBrace(formatPayload("allowance", curlyBrace(join(ownerAddr, spenderAddr, ","))));
         bytes memory response = WasmdPrecompile.query(cw20Address, bytes(req));
         return JsonPrecompile.extractAsUint256(response, "allowance");
     }
@@ -90,10 +90,10 @@ contract CW20ERC20Token is IERC20, Ownable {
     function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
-        string memory fromAddr = Payload.formatPayload("owner", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(from)));
-        string memory toAddr = Payload.formatPayload("recipient", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(to)));
-        string memory amt = Payload.formatPayload("amount", Payload.doubleQuotes(Strings.toString(amount)));
-        string memory req = Payload.curlyBrace(Payload.formatPayload("transfer_from", Payload.curlyBrace(Payload.join(fromAddr, Payload.join(toAddr, amt, ","), ","))));
+        string memory fromAddr = formatPayload("owner", doubleQuotes(AddrPrecompile.getCosmosAddr(from)));
+        string memory toAddr = formatPayload("recipient", doubleQuotes(AddrPrecompile.getCosmosAddr(to)));
+        string memory amt = formatPayload("amount", doubleQuotes(Strings.toString(amount)));
+        string memory req = curlyBrace(formatPayload("transfer_from", curlyBrace(join(fromAddr, join(toAddr, amt, ","), ","))));
         _execute(req);
         return true;
     }
@@ -103,18 +103,18 @@ contract CW20ERC20Token is IERC20, Ownable {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
-        string memory spenderAddr = Payload.formatPayload("spender", Payload.doubleQuotes(AddrPrecompile.getCosmosAddr(spender)));
+        string memory spenderAddr = formatPayload("spender", doubleQuotes(AddrPrecompile.getCosmosAddr(spender)));
 
         // reset allowance to zero
         uint256 currentAllowance = allowance(owner, spender);
         if (currentAllowance > 0) {
-            string memory amtDecrease = Payload.formatPayload("amount", Payload.doubleQuotes(Strings.toString(currentAllowance)));
-            string memory decreaseAllowanceReq = Payload.curlyBrace(Payload.formatPayload("decrease_allowance", Payload.curlyBrace(Payload.join(spenderAddr, amtDecrease, ","))));
+            string memory amtDecrease = formatPayload("amount", doubleQuotes(Strings.toString(currentAllowance)));
+            string memory decreaseAllowanceReq = curlyBrace(formatPayload("decrease_allowance", curlyBrace(join(spenderAddr, amtDecrease, ","))));
             _execute(decreaseAllowanceReq);
         }
 
-        string memory amt = Payload.formatPayload("amount", Payload.doubleQuotes(Strings.toString(amount)));
-        string memory req = Payload.curlyBrace(Payload.formatPayload("increase_allowance", Payload.curlyBrace(Payload.join(spenderAddr, amt, ","))));
+        string memory amt = formatPayload("amount", doubleQuotes(Strings.toString(amount)));
+        string memory req = curlyBrace(formatPayload("increase_allowance", curlyBrace(join(spenderAddr, amt, ","))));
         _execute(req);
 
         emit Approval(owner, spender, amount);
