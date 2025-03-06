@@ -34,21 +34,21 @@ contract PoolV2Factory {
         return response;
     }
 
-    // function getPairByCosmosToken(
-    //     string memory token1,
-    //     string memory token2
-    // ) public view returns (bytes memory) {
-    //     string memory asset1Json = denomToAssetInfo(token1);
-    //     string memory asset2Json = denomToAssetInfo(token2);
+    function getPairByCosmosToken(
+        string memory token1,
+        string memory token2
+    ) public view returns (bytes memory) {
+        // string memory asset1Json = denomToAssetInfo(token1);
+        // string memory asset2Json = denomToAssetInfo(token2);
 
-    //     string memory req = string(
-    //         abi.encodePacked('{"pair":[', asset1Json, ",", asset2Json, "]}")
-    //     );
+        // string memory req = string(
+        //     abi.encodePacked('{"pair":[', asset1Json, ",", asset2Json, "]}")
+        // );
 
-    //     bytes memory response = WasmdPrecompile.query(
-    //         oraiswapFactory,
-    //         bytes(req)
-    //     );
-    //     return response;
-    // }
+        // bytes memory response = WasmdPrecompile.query(
+        //     oraiswapFactory,
+        //     bytes(req)
+        // );
+        // return response;
+    }
 }
