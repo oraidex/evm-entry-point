@@ -8,20 +8,21 @@ import {IWasmd} from "./precompiles/IWasmd.sol";
 import {IJson} from "./precompiles/IJson.sol";
 import {IAddr} from "./precompiles/IAddr.sol";
 import {IBank} from "./precompiles/IBank.sol";
+import {IAuthz} from "./precompiles/IAuthz.sol";
 import "./libraries/Payload.sol";
 
-contract NativeERC20Token is IERC20 {
+contract NativeERC20 is IERC20 {
     address constant WASMD_PRECOMPILE_ADDRESS =
         0x9000000000000000000000000000000000000001;
     address constant JSON_PRECOMPILE_ADDRESS =
         0x9000000000000000000000000000000000000002;
     address constant BANK_PRECOMPILE_ADDRESS =
         0x9000000000000000000000000000000000000004;
-    address constant ADDR_PRECOMPILE_ADDRESS =
+    address constant AUTHZ_PRECOMPILE_ADDRESS =
         0x9000000000000000000000000000000000000005;
-    IWasmd public WasmdPrecompile;
     IJson public JsonPrecompile;
     IBank public BankPrecompile;
+    IWasmd public WasmdPrecompile;
     IAuthz public AuthzPrecompile;
     string public tokenFactoryAddress;
     string public fullDenom;
@@ -44,7 +45,7 @@ contract NativeERC20Token is IERC20 {
 
     function name() public view returns (string memory) {
         string memory denom = formatPayload("denom", doubleQuotes(fullDenom));
-        string memory req = curlyBrace(formatPayload("get_metadata", "{}"));
+        string memory req = curlyBrace(formatPayload("get_metadata", denom));
         bytes memory response = WasmdPrecompile.query(
             tokenFactoryAddress,
             bytes(req)
@@ -115,10 +116,10 @@ contract NativeERC20Token is IERC20 {
     }
 
     function approve(address spender, uint256 amount) public returns (bool) {
-        address owner = _msgSender();
+        address owner = msg.sender;
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
-        AuthzPrecompile.setGrant(owner, spender, fullDenom, amount);
+        AuthzPrecompile.setGrant(spender, fullDenom, amount);
         emit Approval(owner, spender, amount);
         return true;
     }
