@@ -12,6 +12,10 @@ function curlyBrace(string memory s) pure returns (string memory) {
     return string.concat("{", string.concat(s, "}"));
 }
 
+function squareBrace(string memory s) pure returns (string memory) {
+    return string.concat("[", string.concat(s, "]"));
+}
+
 function doubleQuotes(string memory s) pure returns (string memory) {
     return string.concat('"', string.concat(s, '"'));
 }
