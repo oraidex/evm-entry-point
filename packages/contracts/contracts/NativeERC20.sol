@@ -26,11 +26,15 @@ contract NativeERC20 is IERC20 {
     IAuthz public AuthzPrecompile;
     string public tokenFactoryAddress;
     string public fullDenom;
+    string public name;
+    string public symbol;
     uint256 public decimals;
 
     constructor(
         string memory _tokenFactoryAddress,
         string memory _subdenom,
+        string memory _name,
+        string memory _symbol,
         uint256 _decimals
     ) {
         WasmdPrecompile = IWasmd(WASMD_PRECOMPILE_ADDRESS);
@@ -40,37 +44,9 @@ contract NativeERC20 is IERC20 {
         fullDenom = string(
             abi.encodePacked("factory/", _tokenFactoryAddress, "/", _subdenom)
         );
+        name = _name;
+        symbol = _symbol;
         decimals = _decimals;
-    }
-
-    function name() public view returns (string memory) {
-        string memory denom = formatPayload("denom", doubleQuotes(fullDenom));
-        string memory req = curlyBrace(formatPayload("get_metadata", denom));
-        bytes memory response = WasmdPrecompile.query(
-            tokenFactoryAddress,
-            bytes(req)
-        );
-        bytes memory metadata = JsonPrecompile.extractAsBytes(
-            response,
-            "metadata"
-        );
-        return string(JsonPrecompile.extractAsBytes(metadata, "name"));
-    }
-
-    function symbol() public view returns (string memory) {
-        string memory denom = formatPayload("denom", doubleQuotes(fullDenom));
-        string memory req = curlyBrace(
-            formatPayload("get_metadata", curlyBrace(denom))
-        );
-        bytes memory response = WasmdPrecompile.query(
-            tokenFactoryAddress,
-            bytes(req)
-        );
-        bytes memory metadata = JsonPrecompile.extractAsBytes(
-            response,
-            "metadata"
-        );
-        return string(JsonPrecompile.extractAsBytes(metadata, "symbol"));
     }
 
     function balanceOf(address owner) public view override returns (uint256) {

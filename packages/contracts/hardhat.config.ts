@@ -10,9 +10,9 @@ const hardhatConfig: HardhatUserConfig = {
     oraichain: {
       url: "https://evm.orai.io/",
       chainId: 108160679,
-      accounts: {
-        mnemonic: process.env.MNEMONIC || "",
-      },
+      accounts: process.env.PRIVATE_KEY
+        ? [process.env.PRIVATE_KEY || ""]
+        : { mnemonic: process.env.MNEMONIC || "" },
     },
   },
 };

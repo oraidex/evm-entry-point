@@ -1,0 +1,2 @@
+Req: {"create_denom":{"metadata":{"name":"TESTT","symbol":"TESTT","display":"erc20.TESTT","base":"factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0x6c89ccde43a35802947fa550a4f1d3a902046ceb","denom_units":[{"denom":"factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0x6c89ccde43a35802947fa550a4f1d3a902046ceb","exponent":0,"aliases":[]},{"denom":"erc20.TESTT","exponent":18,"aliases":[]}]},"subdenom":"0x6c89ccde43a35802947fa550a4f1d3a902046ceb"}}
+Coins: [{"denom":"orai","amount":1}]
