@@ -5,6 +5,7 @@ import {
   CW20ERC20Token__factory,
   ERC20Native__factory,
   IBank__factory,
+  IAddr__factory,
 } from "../typechain-types";
 const { ethers } = hre;
 
@@ -14,8 +15,17 @@ const main = async () => {
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
 
+  // const cosmosAddr = await IAddr__factory.connect(
+  //   "0x9000000000000000000000000000000000000003",
+  //   account
+  // ).getCosmosAddr(account.address);
+
+  // console.log({ cosmosAddr });
+
+  // local: orai14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9savsjyw
+  // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
   // const erc20Native = await new ERC20Native__factory(account).deploy(
-  //   "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42",
+  //   "orai14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9savsjyw",
   //   "YASUO",
   //   "YASUO",
   //   18,
@@ -31,15 +41,15 @@ const main = async () => {
   // );
   // console.log(`Transfer tx: ${tx.hash}`);
 
-  const result = await IBank__factory.connect(
-    "0x9000000000000000000000000000000000000004",
-    account
-  ).send(
-    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
-    "factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0x69eab7ed31b8c3dfbc25b622b6834e048f007a44",
-    1000n
-  );
-  console.log(`Transaction hash: ${result.hash}`);
+  // const result = await IBank__factory.connect(
+  //   "0x9000000000000000000000000000000000000004",
+  //   account
+  // ).send(
+  //   "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
+  //   "factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0x69eab7ed31b8c3dfbc25b622b6834e048f007a44",
+  //   1000n
+  // );
+  // console.log(`Transaction hash: ${result.hash}`);
 
   // const cw20Erc20 = await new CW20ERC20Token__factory(account).deploy(
   //   "orai15un8msx3n5zf9ahlxmfeqd2kwa5wm0nrpxer304m9nd5q6qq0g6sku5pdd",
@@ -51,44 +61,45 @@ const main = async () => {
   // console.log("Deploy tx:", await cw20Erc20.waitForDeployment());
   // console.log("CW20ERC20 address:", cw20Erc20.target);
 
-  // const wasm = IWasmd__factory.connect(
-  //   "0x9000000000000000000000000000000000000001",
-  //   account
-  // );
-  // const tx = await wasm.execute(
-  //   "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42",
-  //   Buffer.from(
-  //     JSON.stringify({
-  //       create_denom: {
-  //         metadata: {
-  //           name: "TESTT",
-  //           symbol: "TESTT",
-  //           display: "erc20.TESTT",
-  //           base: "factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0xb95e42e88b8c4978ed591206e2ebd4db60adaa12",
-  //           denom_units: [
-  //             {
-  //               denom:
-  //                 "factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0xb95e42e88b8c4978ed591206e2ebd4db60adaa12",
-  //               exponent: 0,
-  //               aliases: [],
-  //             },
-  //             { denom: "erc20.TESTT", exponent: 18, aliases: [] },
-  //           ],
-  //         },
-  //         subdenom: "0xb95e42e88b8c4978ed591206e2ebd4db60adaa12",
-  //       },
-  //     })
-  //   ),
-  //   Buffer.from(
-  //     JSON.stringify([
-  //       {
-  //         denom: "orai",
-  //         amount: 1,
-  //       },
-  //     ])
-  //   )
-  // );
-  // console.log(tx);
+  console.log("Running with account:", account.address);
+  const wasm = IWasmd__factory.connect(
+    "0x9000000000000000000000000000000000000001",
+    account
+  );
+  const tx = await wasm.execute(
+    "orai1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrq3e4sxg",
+    Buffer.from(
+      JSON.stringify({
+        create_denom: {
+          metadata: {
+            name: "TESTT",
+            symbol: "TESTT",
+            display: "erc20.TESTT",
+            base: "factory/orai1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrq3e4sxg/0xb95e42e88b8c4978ed591206e2ebd4db60adaa12",
+            denom_units: [
+              {
+                denom:
+                  "factory/orai1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrq3e4sxg/0xb95e42e88b8c4978ed591206e2ebd4db60adaa12",
+                exponent: 0,
+                aliases: [],
+              },
+              { denom: "erc20.TESTT", exponent: 18, aliases: [] },
+            ],
+          },
+          subdenom: "0xb95e42e88b8c4978ed591206e2ebd4db60adaa12",
+        },
+      })
+    ),
+    Buffer.from(
+      JSON.stringify([
+        {
+          denom: "orai",
+          amount: 1,
+        },
+      ])
+    )
+  );
+  console.log(tx);
 
   // const wasm = IWasmd__factory.connect(
   //   "0x9000000000000000000000000000000000000001",
