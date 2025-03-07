@@ -25,7 +25,7 @@ contract NativeERC20 is IERC20 {
     IWasmd public WasmdPrecompile;
     IAuthz public AuthzPrecompile;
     string public tokenFactoryAddress;
-    string public fullDenom;
+    string public fulldenom;
     string public name;
     string public symbol;
     uint256 public decimals;
@@ -41,7 +41,7 @@ contract NativeERC20 is IERC20 {
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
         BankPrecompile = IBank(BANK_PRECOMPILE_ADDRESS);
         AuthzPrecompile = IAuthz(AUTHZ_PRECOMPILE_ADDRESS);
-        fullDenom = string(
+        fulldenom = string(
             abi.encodePacked("factory/", _tokenFactoryAddress, "/", _subdenom)
         );
         name = _name;
@@ -54,11 +54,11 @@ contract NativeERC20 is IERC20 {
             owner != address(0),
             "ERC20: balance query for the zero address"
         );
-        return BankPrecompile.balance(owner, fullDenom);
+        return BankPrecompile.balance(owner, fulldenom);
     }
 
     function totalSupply() public view override returns (uint256) {
-        return BankPrecompile.supply(fullDenom);
+        return BankPrecompile.supply(fulldenom);
     }
 
     function transfer(
@@ -66,7 +66,15 @@ contract NativeERC20 is IERC20 {
         uint256 amount
     ) public override returns (bool) {
         require(to != address(0), "ERC20: transfer to the zero address");
-        return BankPrecompile.send(to, fullDenom, amount);
+        (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature(
+                "send(address,string,uint256)",
+                to,
+                fulldenom,
+                amount
+            )
+        );
+        return success;
     }
 
     function allowance(
@@ -77,7 +85,7 @@ contract NativeERC20 is IERC20 {
             owner != address(0),
             "ERC20: allowance query for the zero address"
         );
-        return AuthzPrecompile.grant(owner, spender, fullDenom);
+        return AuthzPrecompile.grant(owner, spender, fulldenom);
     }
 
     function transferFrom(
@@ -87,7 +95,7 @@ contract NativeERC20 is IERC20 {
     ) public override returns (bool) {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
-        AuthzPrecompile.execGrant(from, to, fullDenom, amount);
+        AuthzPrecompile.execGrant(from, to, fulldenom, amount);
         return true;
     }
 
@@ -95,7 +103,15 @@ contract NativeERC20 is IERC20 {
         address owner = msg.sender;
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
-        AuthzPrecompile.setGrant(spender, fullDenom, amount);
+        (bool success, ) = AUTHZ_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature(
+                "setGrant(address,string,uint256)",
+                spender,
+                fulldenom,
+                amount
+            )
+        );
+        require(success, "ERC20: approve failed");
         emit Approval(owner, spender, amount);
         return true;
     }

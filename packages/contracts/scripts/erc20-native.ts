@@ -1,11 +1,10 @@
 import hre from "hardhat";
 import {
-  IBank__factory,
   IWasmd__factory,
   NativeERC20__factory,
-  ERC20,
   CW20ERC20Token__factory,
   ERC20Native__factory,
+  IBank__factory,
 } from "../typechain-types";
 const { ethers } = hre;
 
@@ -15,17 +14,32 @@ const main = async () => {
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
 
-  const erc20Native = await new ERC20Native__factory(account).deploy(
-    "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42",
-    "TESTT",
-    "TESTT",
-    18,
-    1000000n
+  // const erc20Native = await new ERC20Native__factory(account).deploy(
+  //   "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42",
+  //   "YASUO",
+  //   "YASUO",
+  //   18,
+  //   1000000n * 10n ** 18n
+  // );
+  // console.log("Deploy tx:", await erc20Native.waitForDeployment());
+  // console.log("ERC20Native address:", erc20Native.target);
+  // console.log("Full denom:", await erc20Native.fulldenom());
+
+  // const tx = await erc20Native.transfer(
+  //   "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
+  //   1000n
+  // );
+  // console.log(`Transfer tx: ${tx.hash}`);
+
+  const result = await IBank__factory.connect(
+    "0x9000000000000000000000000000000000000004",
+    account
+  ).send(
+    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
+    "factory/orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42/0x69eab7ed31b8c3dfbc25b622b6834e048f007a44",
+    1000n
   );
-  console.log("Deploy tx:", await erc20Native.waitForDeployment());
-  console.log("CW20ERC20 address:", erc20Native.target);
-  console.log("Req:", await erc20Native.metadataBuilder());
-  console.log("Coins:", await erc20Native.metadataCoins());
+  console.log(`Transaction hash: ${result.hash}`);
 
   // const cw20Erc20 = await new CW20ERC20Token__factory(account).deploy(
   //   "orai15un8msx3n5zf9ahlxmfeqd2kwa5wm0nrpxer304m9nd5q6qq0g6sku5pdd",

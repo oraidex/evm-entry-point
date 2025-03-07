@@ -29,7 +29,7 @@ contract ERC20Native is IERC20, Ownable {
     IAddr public AddrPrecompile;
     IAuthz public AuthzPrecompile;
     string public tokenFactoryAddress;
-    string public fullDenom;
+    string public fulldenom;
     string public name;
     string public symbol;
     uint256 public decimals;
@@ -41,7 +41,7 @@ contract ERC20Native is IERC20, Ownable {
         string memory _symbol,
         uint256 _decimals,
         uint256 _totalSupply
-    ) payable Ownable(msg.sender) {
+    ) Ownable(msg.sender) {
         WasmdPrecompile = IWasmd(WASMD_PRECOMPILE_ADDRESS);
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
         BankPrecompile = IBank(BANK_PRECOMPILE_ADDRESS);
@@ -49,7 +49,7 @@ contract ERC20Native is IERC20, Ownable {
         AuthzPrecompile = IAuthz(AUTHZ_PRECOMPILE_ADDRESS);
         tokenFactoryAddress = _tokenFactoryAddress;
         subdenom = address(this).toHexString();
-        fullDenom = string(
+        fulldenom = string(
             abi.encodePacked("factory/", _tokenFactoryAddress, "/", subdenom)
         );
         decimals = _decimals;
@@ -62,7 +62,7 @@ contract ERC20Native is IERC20, Ownable {
     function _mint(address _receiver, uint256 _amount) internal {
         string memory encodeDenom = formatPayload(
             "denom",
-            doubleQuotes(fullDenom)
+            doubleQuotes(fulldenom)
         );
         string memory encodeAmount = formatPayload(
             "amount",
@@ -88,7 +88,6 @@ contract ERC20Native is IERC20, Ownable {
     }
 
     function _createDenom() internal {
-        string memory subdenom = address(this).toHexString();
         string memory encodeName = formatPayload("name", doubleQuotes(name));
         string memory encodeSymbol = formatPayload(
             "symbol",
@@ -100,12 +99,12 @@ contract ERC20Native is IERC20, Ownable {
         );
         string memory encodeBase = formatPayload(
             "base",
-            doubleQuotes(fullDenom)
+            doubleQuotes(fulldenom)
         );
         string memory denomUnitBase = curlyBrace(
             join(
                 join(
-                    formatPayload("denom", doubleQuotes(fullDenom)),
+                    formatPayload("denom", doubleQuotes(fulldenom)),
                     formatPayload("exponent", 0.toString()),
                     ","
                 ),
@@ -169,110 +168,16 @@ contract ERC20Native is IERC20, Ownable {
         _execute(req, coins);
     }
 
-    function metadataBuilder() public view returns (string memory) {
-        string memory encodeName = formatPayload("name", doubleQuotes(name));
-        string memory encodeSymbol = formatPayload(
-            "symbol",
-            doubleQuotes(symbol)
-        );
-        string memory encodeDisplay = formatPayload(
-            "display",
-            doubleQuotes(string(abi.encodePacked("erc20.", symbol)))
-        );
-        string memory encodeBase = formatPayload(
-            "base",
-            doubleQuotes(fullDenom)
-        );
-        string memory denomUnitBase = curlyBrace(
-            join(
-                join(
-                    formatPayload("denom", doubleQuotes(fullDenom)),
-                    formatPayload("exponent", 0.toString()),
-                    ","
-                ),
-                formatPayload("aliases", "[]"),
-                ","
-            )
-        );
-        string memory denomDisplay = curlyBrace(
-            join(
-                join(
-                    formatPayload(
-                        "denom",
-                        doubleQuotes(string(abi.encodePacked("erc20.", symbol)))
-                    ),
-                    formatPayload("exponent", decimals.toString()),
-                    ","
-                ),
-                formatPayload("aliases", "[]"),
-                ","
-            )
-        );
-        string memory denomUnit = formatPayload(
-            "denom_units",
-            squareBrace(join(denomUnitBase, denomDisplay, ","))
-        );
-        string memory metadata = curlyBrace(
-            join(
-                join(
-                    join(
-                        join(encodeName, encodeSymbol, ","),
-                        encodeDisplay,
-                        ","
-                    ),
-                    encodeBase,
-                    ","
-                ),
-                denomUnit,
-                ","
-            )
-        );
-        string memory encodeMetadata = formatPayload("metadata", metadata);
-        string memory encodeSubdenom = formatPayload(
-            "subdenom",
-            doubleQuotes(address(this).toHexString())
-        );
-        string memory req = curlyBrace(
-            formatPayload(
-                "create_denom",
-                curlyBrace(join(encodeMetadata, encodeSubdenom, ","))
-            )
-        );
-        return req;
-        // string memory coins = squareBrace(
-        //     curlyBrace(
-        //         join(
-        //             formatPayload("denom", doubleQuotes("orai")),
-        //             formatPayload("amount", 1.toString()),
-        //             ","
-        //         )
-        //     )
-        // );
-    }
-
-    function metadataCoins() public pure returns (string memory) {
-        string memory coins = squareBrace(
-            curlyBrace(
-                join(
-                    formatPayload("denom", doubleQuotes("orai")),
-                    formatPayload("amount", 1.toString()),
-                    ","
-                )
-            )
-        );
-        return coins;
-    }
-
     function balanceOf(address owner) public view override returns (uint256) {
         require(
             owner != address(0),
             "ERC20: balance query for the zero address"
         );
-        return BankPrecompile.balance(owner, fullDenom);
+        return BankPrecompile.balance(owner, fulldenom);
     }
 
     function totalSupply() public view override returns (uint256) {
-        return BankPrecompile.supply(fullDenom);
+        return BankPrecompile.supply(fulldenom);
     }
 
     function transfer(
@@ -280,7 +185,15 @@ contract ERC20Native is IERC20, Ownable {
         uint256 amount
     ) public override returns (bool) {
         require(to != address(0), "ERC20: transfer to the zero address");
-        return BankPrecompile.send(to, fullDenom, amount);
+        (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature(
+                "send(address,string,uint256)",
+                to,
+                fulldenom,
+                amount
+            )
+        );
+        return success;
     }
 
     function allowance(
@@ -291,7 +204,7 @@ contract ERC20Native is IERC20, Ownable {
             owner != address(0),
             "ERC20: allowance query for the zero address"
         );
-        return AuthzPrecompile.grant(owner, spender, fullDenom);
+        return AuthzPrecompile.grant(owner, spender, fulldenom);
     }
 
     function transferFrom(
@@ -301,7 +214,7 @@ contract ERC20Native is IERC20, Ownable {
     ) public override returns (bool) {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
-        AuthzPrecompile.execGrant(from, to, fullDenom, amount);
+        AuthzPrecompile.execGrant(from, to, fulldenom, amount);
         return true;
     }
 
@@ -309,7 +222,15 @@ contract ERC20Native is IERC20, Ownable {
         address owner = _msgSender();
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
-        AuthzPrecompile.setGrant(spender, fullDenom, amount);
+        (bool success, ) = AUTHZ_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature(
+                "setGrant(address,string,uint256)",
+                spender,
+                fulldenom,
+                amount
+            )
+        );
+        require(success, "ERC20: approve failed");
         emit Approval(owner, spender, amount);
         return true;
     }
