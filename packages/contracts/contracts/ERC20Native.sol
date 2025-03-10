@@ -160,7 +160,7 @@ contract ERC20Native is IERC20, Ownable {
             curlyBrace(
                 join(
                     formatPayload("denom", doubleQuotes("orai")),
-                    formatPayload("amount", 1.toString()),
+                    formatPayload("amount", doubleQuotes(1.toString())),
                     ","
                 )
             )
@@ -214,23 +214,32 @@ contract ERC20Native is IERC20, Ownable {
     ) public override returns (bool) {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
-        AuthzPrecompile.execGrant(from, to, fulldenom, amount);
-        return true;
+        (bool success, ) = AUTHZ_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature(
+                "execGrant(address,address,string,uint256)",
+                from,
+                to,
+                fulldenom,
+                amount
+            )
+        );
+        return success;
     }
 
     function approve(address spender, uint256 amount) public returns (bool) {
         address owner = _msgSender();
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
-        (bool success, ) = AUTHZ_PRECOMPILE_ADDRESS.delegatecall(
-            abi.encodeWithSignature(
-                "setGrant(address,string,uint256)",
-                spender,
-                fulldenom,
-                amount
-            )
-        );
-        require(success, "ERC20: approve failed");
+        (bool success, bytes memory result) = AUTHZ_PRECOMPILE_ADDRESS
+            .delegatecall(
+                abi.encodeWithSignature(
+                    "setGrant(address,string,uint256)",
+                    spender,
+                    fulldenom,
+                    amount
+                )
+            );
+        require(success == true, string(result));
         emit Approval(owner, spender, amount);
         return true;
     }
