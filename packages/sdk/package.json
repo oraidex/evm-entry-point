@@ -1,0 +1,23 @@
+{
+  "name": "@oraichain/oraidex-evm-sdk",
+  "description": "Oraidex EVM SDK",
+  "repository": "https://github.com/oraidex/evm-entry-point.git",
+  "keywords": [
+    "oraichain",
+    "ethereum",
+    "oraidex"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
