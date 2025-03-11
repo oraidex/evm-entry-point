@@ -1,12 +1,7 @@
 import hre from "hardhat";
 import {
-  IWasmd__factory,
-  NativeERC20__factory,
-  CW20ERC20Token__factory,
-  ERC20Native__factory,
+  ExampleERC20Native__factory,
   IBank__factory,
-  IAddr__factory,
-  IAuthz__factory,
 } from "../typechain-types";
 const { ethers } = hre;
 
@@ -26,7 +21,7 @@ const main = async () => {
   // local: orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69
   // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
   // console.log(secondAccount);
-  const erc20Native = await new ERC20Native__factory(account).deploy(
+  const erc20Native = await new ExampleERC20Native__factory(account).deploy(
     tokenFactoryAddress,
     "YASUO",
     "YASUO",
@@ -65,7 +60,7 @@ const main = async () => {
   //   );
   // console.log("Exec Grant:", result.hash);
 
-  const approveTx = await erc20Native.approve(secondAccount.address, 1000n);
+  const approveTx = await erc20Native.approve(secondAccount.address, 10000n);
   console.log(`Approve tx: ${approveTx.hash}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const allowance = await erc20Native.allowance(
@@ -88,6 +83,11 @@ const main = async () => {
   if (tokenBalance !== 1000n) {
     throw new Error("Failed");
   }
+  const afterAllowance = await erc20Native.allowance(
+    account.address,
+    secondAccount.address
+  );
+  console.log("After Allowance:", afterAllowance.toString());
 };
 
 main();

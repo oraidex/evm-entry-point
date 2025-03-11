@@ -11,7 +11,7 @@ import {IBank} from "./precompiles/IBank.sol";
 import {IAuthz} from "./precompiles/IAuthz.sol";
 import "./libraries/Payload.sol";
 
-contract NativeERC20 is IERC20 {
+abstract contract NativeERC20 is IERC20 {
     address constant WASMD_PRECOMPILE_ADDRESS =
         0x9000000000000000000000000000000000000001;
     address constant JSON_PRECOMPILE_ADDRESS =
@@ -26,16 +26,16 @@ contract NativeERC20 is IERC20 {
     IAuthz public AuthzPrecompile;
     string public tokenFactoryAddress;
     string public fulldenom;
-    string public name;
-    string public symbol;
-    uint256 public decimals;
+    string internal _name;
+    string internal _symbol;
+    uint256 internal _decimals;
 
     constructor(
         string memory _tokenFactoryAddress,
         string memory _subdenom,
-        string memory _name,
-        string memory _symbol,
-        uint256 _decimals
+        string memory _tokenName,
+        string memory _tokenSymbol,
+        uint256 _tokenDecimals
     ) {
         WasmdPrecompile = IWasmd(WASMD_PRECOMPILE_ADDRESS);
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
@@ -44,12 +44,24 @@ contract NativeERC20 is IERC20 {
         fulldenom = string(
             abi.encodePacked("factory/", _tokenFactoryAddress, "/", _subdenom)
         );
-        name = _name;
-        symbol = _symbol;
-        decimals = _decimals;
+        _name = _tokenName;
+        _symbol = _tokenSymbol;
+        _decimals = _tokenDecimals;
     }
 
-    function balanceOf(address owner) public view override returns (uint256) {
+    function name() public view virtual returns (string memory) {
+        return _name;
+    }
+
+    function symbol() public view virtual returns (string memory) {
+        return _symbol;
+    }
+
+    function decimals() public view virtual returns (uint256) {
+        return uint256(_decimals);
+    }
+
+    function balanceOf(address owner) public view virtual returns (uint256) {
         require(
             owner != address(0),
             "ERC20: balance query for the zero address"
@@ -57,14 +69,14 @@ contract NativeERC20 is IERC20 {
         return BankPrecompile.balance(owner, fulldenom);
     }
 
-    function totalSupply() public view override returns (uint256) {
+    function totalSupply() public view virtual returns (uint256) {
         return BankPrecompile.supply(fulldenom);
     }
 
     function transfer(
         address to,
         uint256 amount
-    ) public override returns (bool) {
+    ) public virtual returns (bool) {
         require(to != address(0), "ERC20: transfer to the zero address");
         (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
             abi.encodeWithSignature(
@@ -80,7 +92,7 @@ contract NativeERC20 is IERC20 {
     function allowance(
         address owner,
         address spender
-    ) public view override returns (uint256) {
+    ) public view virtual returns (uint256) {
         require(
             owner != address(0),
             "ERC20: allowance query for the zero address"
@@ -92,7 +104,7 @@ contract NativeERC20 is IERC20 {
         address from,
         address to,
         uint256 amount
-    ) public override returns (bool) {
+    ) public virtual returns (bool) {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
         (bool success, ) = AUTHZ_PRECOMPILE_ADDRESS.delegatecall(
@@ -107,7 +119,10 @@ contract NativeERC20 is IERC20 {
         return success;
     }
 
-    function approve(address spender, uint256 amount) public returns (bool) {
+    function approve(
+        address spender,
+        uint256 amount
+    ) public virtual returns (bool) {
         address owner = msg.sender;
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");

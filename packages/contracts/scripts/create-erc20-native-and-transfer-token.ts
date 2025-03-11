@@ -1,13 +1,5 @@
 import hre from "hardhat";
-import {
-  IWasmd__factory,
-  NativeERC20__factory,
-  CW20ERC20Token__factory,
-  ERC20Native__factory,
-  IBank__factory,
-  IAddr__factory,
-  IAuthz__factory,
-} from "../typechain-types";
+import { ExampleERC20Native__factory } from "../typechain-types";
 const { ethers } = hre;
 
 const main = async () => {
@@ -16,11 +8,11 @@ const main = async () => {
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
   const tokenFactoryAddress =
-    "orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69";
+    "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42";
 
   // local: orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69
   // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
-  const erc20Native = await new ERC20Native__factory(account).deploy(
+  const erc20Native = await new ExampleERC20Native__factory(account).deploy(
     tokenFactoryAddress,
     "YASUOS",
     "YASUOS",
