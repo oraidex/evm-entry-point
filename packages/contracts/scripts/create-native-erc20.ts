@@ -1,5 +1,8 @@
 import hre from "hardhat";
-import { ExampleNativeERC20__factory } from "../typechain-types";
+import {
+  ExampleNativeERC20__factory,
+  IBank__factory,
+} from "../typechain-types";
 const { ethers } = hre;
 
 const main = async () => {
@@ -10,10 +13,11 @@ const main = async () => {
   const tokenFactoryAddress =
     "orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9";
 
-  // const bank = IBank__factory.connect(
-  //   "0x9000000000000000000000000000000000000004",
-  //   account
-  // );
+  const bank = IBank__factory.connect(
+    "0x9000000000000000000000000000000000000004",
+    account
+  );
+  await bank.send(ethers.ZeroAddress, "orai", 1n);
   // const supply = await bank.supply(
   //   "factory/orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9/oraim8c9d1nkfuQk9EzGYEUGxqL3MHQYndRw1huVo5h"
   // );

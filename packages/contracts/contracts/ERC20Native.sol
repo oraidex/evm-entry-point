@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import {IWasmd} from "./precompiles/IWasmd.sol";
 import {IJson} from "./precompiles/IJson.sol";
@@ -10,19 +10,10 @@ import {IAddr} from "./precompiles/IAddr.sol";
 import {IBank} from "./precompiles/IBank.sol";
 import {IAuthz} from "./precompiles/IAuthz.sol";
 import "./libraries/Payload.sol";
+import "./libraries/Constants.sol";
 
-abstract contract ERC20Native is IERC20, Ownable {
+abstract contract ERC20Native is IERC20, Context {
     using Strings for *;
-    address constant WASMD_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000001;
-    address constant JSON_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000002;
-    address constant ADDR_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000003;
-    address constant BANK_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000004;
-    address constant AUTHZ_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000005;
     IWasmd public WasmdPrecompile;
     IJson public JsonPrecompile;
     IBank public BankPrecompile;
@@ -41,7 +32,7 @@ abstract contract ERC20Native is IERC20, Ownable {
         string memory _tokenSymbol,
         uint256 _tokenDecimals,
         uint256 _initTotalSupply
-    ) Ownable(msg.sender) {
+    ) {
         WasmdPrecompile = IWasmd(WASMD_PRECOMPILE_ADDRESS);
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
         BankPrecompile = IBank(BANK_PRECOMPILE_ADDRESS);
@@ -56,7 +47,7 @@ abstract contract ERC20Native is IERC20, Ownable {
         _symbol = _tokenSymbol;
         _decimals = _tokenDecimals;
         _createDenom();
-        _mint(msg.sender, _initTotalSupply);
+        _mint(_msgSender(), _initTotalSupply);
     }
 
     function name() public view virtual returns (string memory) {
@@ -189,6 +180,34 @@ abstract contract ERC20Native is IERC20, Ownable {
         string memory req = curlyBrace(
             formatPayload(
                 "mint_tokens",
+                curlyBrace(
+                    join(
+                        join(encodeDenom, encodeAmount, ","),
+                        encodeReceiver,
+                        ","
+                    )
+                )
+            )
+        );
+        _execute(req, "[]");
+    }
+
+    function _burn(address _receiver, uint256 _amount) internal {
+        string memory encodeDenom = formatPayload(
+            "denom",
+            doubleQuotes(fulldenom)
+        );
+        string memory encodeAmount = formatPayload(
+            "amount",
+            doubleQuotes(_amount.toString())
+        );
+        string memory encodeReceiver = formatPayload(
+            "burn_from_address",
+            doubleQuotes(AddrPrecompile.getCosmosAddr(_receiver))
+        );
+        string memory req = curlyBrace(
+            formatPayload(
+                "burn_tokens",
                 curlyBrace(
                     join(
                         join(encodeDenom, encodeAmount, ","),

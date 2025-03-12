@@ -35,9 +35,39 @@ const main = async () => {
   const tokenBalance = await erc20Native.balanceOf(
     "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1"
   );
+  const totalSupply = await erc20Native.totalSupply();
   console.log("Token balance:", tokenBalance.toString());
-  console.log("Total supply:", (await erc20Native.totalSupply()).toString());
+  console.log("Total supply:", totalSupply.toString());
   if (tokenBalance !== 200000n * 10n ** 18n) {
+    throw new Error("Failed");
+  }
+
+  const mintTx = await erc20Native.mint(
+    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
+    100000n * 10n ** 18n
+  );
+  console.log(`Mint tx: ${mintTx.hash}`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (
+    totalSupply + 100000n * 10n ** 18n !==
+    (await erc20Native.totalSupply())
+  ) {
+    throw new Error("Failed");
+  }
+
+  const burnTx = await erc20Native.burn(
+    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
+    100000n * 10n ** 18n
+  );
+  console.log(`Burn tx: ${burnTx.hash}`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (totalSupply !== (await erc20Native.totalSupply())) {
+    throw new Error("Failed");
+  }
+  const receiverBalance = await erc20Native.balanceOf(
+    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1"
+  );
+  if (receiverBalance !== 200000n * 10n ** 18n) {
     throw new Error("Failed");
   }
 };
