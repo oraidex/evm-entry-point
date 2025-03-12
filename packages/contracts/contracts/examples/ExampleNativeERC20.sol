@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./ERC20Native.sol";
+import "../NativeERC20.sol";
 
-contract ExampleERC20Native is ERC20Native {
+contract ExampleNativeERC20 is NativeERC20 {
     constructor(
         string memory _tokenFactoryAddress,
+        string memory _subdenom,
         string memory _tokenName,
         string memory _tokenSymbol,
-        uint256 _tokenDecimals,
-        uint256 _initTotalSupply
+        uint256 _tokenDecimals
     )
-        ERC20Native(
+        NativeERC20(
             _tokenFactoryAddress,
+            _subdenom,
             _tokenName,
             _tokenSymbol,
-            _tokenDecimals,
-            _initTotalSupply
+            _tokenDecimals
         )
     {}
 }

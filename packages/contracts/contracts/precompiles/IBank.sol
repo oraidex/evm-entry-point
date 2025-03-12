@@ -13,6 +13,11 @@ interface IBank {
         uint256 amount
     ) external returns (bool success);
 
+    function burn(
+        string memory denom,
+        uint256 amount
+    ) external returns (bool success);
+
     // Queries
     function balance(
         address acc,

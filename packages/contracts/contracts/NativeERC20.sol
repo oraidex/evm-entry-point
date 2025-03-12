@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import {IWasmd} from "./precompiles/IWasmd.sol";
 import {IJson} from "./precompiles/IJson.sol";
@@ -10,16 +10,9 @@ import {IAddr} from "./precompiles/IAddr.sol";
 import {IBank} from "./precompiles/IBank.sol";
 import {IAuthz} from "./precompiles/IAuthz.sol";
 import "./libraries/Payload.sol";
+import "./libraries/Constants.sol";
 
-abstract contract NativeERC20 is IERC20 {
-    address constant WASMD_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000001;
-    address constant JSON_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000002;
-    address constant BANK_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000004;
-    address constant AUTHZ_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000005;
+abstract contract NativeERC20 is IERC20, Context {
     IJson public JsonPrecompile;
     IBank public BankPrecompile;
     IWasmd public WasmdPrecompile;
@@ -123,7 +116,7 @@ abstract contract NativeERC20 is IERC20 {
         address spender,
         uint256 amount
     ) public virtual returns (bool) {
-        address owner = msg.sender;
+        address owner = _msgSender();
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
         (bool success, ) = AUTHZ_PRECOMPILE_ADDRESS.delegatecall(
