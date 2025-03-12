@@ -1,16 +1,34 @@
 import hre from "hardhat";
-import { ExampleERC20Native__factory } from "../typechain-types";
+import {
+  ExampleERC20Native__factory,
+  IAddr__factory,
+  IBank__factory,
+} from "../typechain-types";
 const { ethers } = hre;
 
 const main = async () => {
-  const [account, ...accs] = await ethers.getSigners();
+  const [account, secondAccount, ...accs] = await ethers.getSigners();
   console.log("Connect account with address:", account.address);
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
   const tokenFactoryAddress =
-    "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42";
+    "orai1wkwy0xh89ksdgj9hr347dyd2dw7zesmtrue6kfzyml4vdtz6e5ws5thn3e";
 
+  console.log(
+    "Cosmos address:",
+    await IAddr__factory.connect(
+      "0x9000000000000000000000000000000000000003",
+      account
+    ).getCosmosAddr(account.address)
+  );
+  const bank = IBank__factory.connect(
+    "0x9000000000000000000000000000000000000004",
+    account
+  );
+  const sendTx = await bank.send(secondAccount.address, "orai", 100000n);
+  console.log("Send tx:", sendTx.hash);
   // local: orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69
+  // testnet: orai1wkwy0xh89ksdgj9hr347dyd2dw7zesmtrue6kfzyml4vdtz6e5ws5thn3e
   // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
   const erc20Native = await new ExampleERC20Native__factory(account).deploy(
     tokenFactoryAddress,
@@ -38,12 +56,13 @@ const main = async () => {
   const totalSupply = await erc20Native.totalSupply();
   console.log("Token balance:", tokenBalance.toString());
   console.log("Total supply:", totalSupply.toString());
+  const fulldenom = await erc20Native.fulldenom();
   if (tokenBalance !== 200000n * 10n ** 18n) {
     throw new Error("Failed");
   }
 
   const mintTx = await erc20Native.mint(
-    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
+    secondAccount.address,
     100000n * 10n ** 18n
   );
   console.log(`Mint tx: ${mintTx.hash}`);
@@ -55,19 +74,16 @@ const main = async () => {
     throw new Error("Failed");
   }
 
-  const burnTx = await erc20Native.burn(
-    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1",
-    100000n * 10n ** 18n
-  );
+  const burnTx = await erc20Native
+    .connect(secondAccount)
+    .burnDirect(100000n * 10n ** 18n);
   console.log(`Burn tx: ${burnTx.hash}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   if (totalSupply !== (await erc20Native.totalSupply())) {
     throw new Error("Failed");
   }
-  const receiverBalance = await erc20Native.balanceOf(
-    "0xFEBCB5CE1b111C4f4AC1e52EC81E1F84132Dd2f1"
-  );
-  if (receiverBalance !== 200000n * 10n ** 18n) {
+  const receiverBalance = await erc20Native.balanceOf(secondAccount.address);
+  if (receiverBalance !== 0n * 10n ** 18n) {
     throw new Error("Failed");
   }
 };

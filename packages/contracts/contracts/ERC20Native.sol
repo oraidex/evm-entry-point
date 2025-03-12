@@ -192,32 +192,11 @@ abstract contract ERC20Native is IERC20, Context {
         _execute(req, "[]");
     }
 
-    function _burn(address _receiver, uint256 _amount) internal {
-        string memory encodeDenom = formatPayload(
-            "denom",
-            doubleQuotes(fulldenom)
+    function _burnDirect(uint256 _amount) internal {
+        (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature("burn(string,uint256)", fulldenom, _amount)
         );
-        string memory encodeAmount = formatPayload(
-            "amount",
-            doubleQuotes(_amount.toString())
-        );
-        string memory encodeReceiver = formatPayload(
-            "burn_from_address",
-            doubleQuotes(AddrPrecompile.getCosmosAddr(_receiver))
-        );
-        string memory req = curlyBrace(
-            formatPayload(
-                "burn_tokens",
-                curlyBrace(
-                    join(
-                        join(encodeDenom, encodeAmount, ","),
-                        encodeReceiver,
-                        ","
-                    )
-                )
-            )
-        );
-        _execute(req, "[]");
+        require(success, "ERC20: burn failed");
     }
 
     function _createDenom() internal {
