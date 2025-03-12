@@ -34,7 +34,7 @@ jobs:
         run: pnpm install
 
       - name: Build Package
-        run: pnpm build --filter @oraichain/evm-entry-point
+        run: pnpm build
 
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
