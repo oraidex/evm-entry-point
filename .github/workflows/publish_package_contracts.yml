@@ -1,0 +1,46 @@
+name: Publish EVM Entry Point Package
+
+on:
+  push:
+    branches: [feat/add-chart-ui]
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install pnpm
+        run: npm install -g pnpm@9.15.4
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build Package
+        run: pnpm build --filter @oraichain/evm-entry-point
+
+      - name: Authenticate with private NPM package
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Publish to npm
+        run: pnpm publish --filter @oraichain/evm-entry-point --access public --no-git-checks
+        env:
+          CI: false
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

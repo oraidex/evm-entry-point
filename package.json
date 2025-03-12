@@ -1,11 +1,12 @@
 {
-  "name": "evm-entry-point",
+  "name": "@oraichain/evm-entry-point",
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "deploy": "pnpm publish --access public",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
@@ -15,5 +16,6 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "pnpm@9.15.4"
 }
