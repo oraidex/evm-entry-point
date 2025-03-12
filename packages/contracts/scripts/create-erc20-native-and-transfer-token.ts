@@ -76,7 +76,7 @@ const main = async () => {
 
   const burnTx = await erc20Native
     .connect(secondAccount)
-    .burnDirect(100000n * 10n ** 18n);
+    .burn(100000n * 10n ** 18n);
   console.log(`Burn tx: ${burnTx.hash}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   if (totalSupply !== (await erc20Native.totalSupply())) {

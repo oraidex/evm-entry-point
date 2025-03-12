@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+
 import "../ERC20Native.sol";
 
 contract ExampleERC20Native is ERC20Native, Ownable {
@@ -26,7 +27,7 @@ contract ExampleERC20Native is ERC20Native, Ownable {
         _mint(to, amount);
     }
 
-    function burnDirect(uint256 amount) public {
-        _burnDirect(amount);
+    function burn(uint256 amount) public {
+        _burn(_msgSender(), amount);
     }
 }
