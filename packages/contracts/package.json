@@ -1,5 +1,5 @@
 {
-  "name": "evm-mapping-contracts",
+  "name": "@oraichain/evm-entry-point",
   "version": "1.0.0",
   "license": "MIT",
   "files": [

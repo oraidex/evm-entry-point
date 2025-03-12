@@ -1,5 +1,5 @@
 {
-  "name": "@oraichain/evm-entry-point",
+  "name": "root",
   "private": true,
   "scripts": {
     "build": "turbo run build",
