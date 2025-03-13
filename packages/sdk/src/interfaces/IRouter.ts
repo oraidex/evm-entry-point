@@ -58,7 +58,7 @@ export type ActionRoute = SwapActionRoute | BridgeActionRoute;
  * @abstract
  * @class IRouter
  */
-export abstract class IRouter<RoutingConfig> {
+export abstract class IRouter {
     /**
      * Finds the optimal way to swap tokens, and returns the route as well as a quote for the swap.
      * Considers split routes, multi-hop swaps, and gas costs.
@@ -76,6 +76,5 @@ export abstract class IRouter<RoutingConfig> {
       quoteCurrency: Currency,
       swapType: TradeType,
       swapOptions?: SwapOptions,
-      partialRoutingConfig?: Partial<RoutingConfig>
     ): Promise<ActionRoute[] | null>;
   }

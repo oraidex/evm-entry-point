@@ -14,7 +14,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --config eslint.config.js",
+    "lint:fix": "eslint . --config eslint.config.js --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
   },
   "dependencies": {
     "@oraichain/oraidex-contracts-sdk": "^1.0.56",
@@ -22,6 +26,11 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "typescript": "^5.8.2"
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.1",
+    "globals": "^13.24.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.24.1"
   }
 }

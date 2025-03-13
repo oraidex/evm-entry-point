@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SwapOptions } from "./interfaces/IRouter";
+import { ActionRoute, Currency, CurrencyAmount, IRouter, SwapOptions, TradeType } from "./interfaces/IRouter";
 
 type OSORRequestParams = {
     sourceAsset: string;
@@ -30,7 +30,14 @@ const OSORRequestSchema: z.ZodSchema<OSORRequestParams> = z.object({
     }),
   });
   
-  export class OSORRequestBuilder {
+  export class OsorRouter extends IRouter {
+
+    constructor(public osorUrl: string) {
+      super();
+    }
+    route(amount: CurrencyAmount, quoteCurrency: Currency, swapType: TradeType, swapOptions?: SwapOptions): Promise<ActionRoute[] | null> {
+      throw new Error("Method not implemented.");
+    }
     data: OSORRequestParams = {
       sourceAsset: "",
       sourceChainId: "Oraichain",
@@ -42,7 +49,7 @@ const OSORRequestSchema: z.ZodSchema<OSORRequestParams> = z.object({
         maxSplits: 1,
       },
     };
-    constructor(protected osorUrl: string) {}
+   
   
     addSourceToken(token: Token): this {
       this.data = {
