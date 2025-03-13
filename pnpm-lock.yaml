@@ -23,6 +23,9 @@ importers:
       '@openzeppelin/contracts':
         specifier: ^5.2.0
         version: 5.2.0
+      hardhat-contract-sizer:
+        specifier: ^2.10.0
+        version: 2.10.0(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
     devDependencies:
       '@nomicfoundation/hardhat-chai-matchers':
         specifier: ^2.0.8
@@ -2771,6 +2774,11 @@ packages:
     resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
     engines: {node: '>=0.4.7'}
     hasBin: true
+
+  hardhat-contract-sizer@2.10.0:
+    resolution: {integrity: sha512-QiinUgBD5MqJZJh1hl1jc9dNnpJg7eE/w4/4GEnrcmZJJTDbVFNe3+/3Ep24XqISSkYxRz36czcPHKHd/a0dwA==}
+    peerDependencies:
+      hardhat: ^2.0.0
 
   hardhat-gas-reporter@2.2.2:
     resolution: {integrity: sha512-xlg3d00wrgUvP2S5tw3Zf6nO7OyS5crK3P6/ZP69i24pz4grM+6oFHGW/eJPSGqiDWBYX+gKp9XoqP4rwRXrdQ==}
@@ -7368,6 +7376,13 @@ snapshots:
       wordwrap: 1.0.0
     optionalDependencies:
       uglify-js: 3.19.3
+
+  hardhat-contract-sizer@2.10.0(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2)):
+    dependencies:
+      chalk: 4.1.2
+      cli-table3: 0.6.5
+      hardhat: 2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2)
+      strip-ansi: 6.0.1
 
   hardhat-gas-reporter@2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2):
     dependencies:

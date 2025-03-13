@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-address constant ADDR_PRECOMPILE_ADDRESS = 0x9000000000000000000000000000000000000003;
-
-IAddr constant ADDR_CONTRACT = IAddr(ADDR_PRECOMPILE_ADDRESS);
-
 interface IAddr {
     // Queries
     function getCosmosAddr(

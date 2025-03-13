@@ -24,8 +24,7 @@ abstract contract NativeERC20 is IERC20, Context {
     uint256 internal _decimals;
 
     constructor(
-        string memory _tokenFactoryAddress,
-        string memory _subdenom,
+        string memory _fullDenom,
         string memory _tokenName,
         string memory _tokenSymbol,
         uint256 _tokenDecimals
@@ -34,9 +33,7 @@ abstract contract NativeERC20 is IERC20, Context {
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
         BankPrecompile = IBank(BANK_PRECOMPILE_ADDRESS);
         AuthzPrecompile = IAuthz(AUTHZ_PRECOMPILE_ADDRESS);
-        fulldenom = string(
-            abi.encodePacked("factory/", _tokenFactoryAddress, "/", _subdenom)
-        );
+        fulldenom = _fullDenom;
         _name = _tokenName;
         _symbol = _tokenSymbol;
         _decimals = _tokenDecimals;

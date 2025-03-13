@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-address constant WASMD_PRECOMPILE_ADDRESS = 0x9000000000000000000000000000000000000001;
-
-IWasmd constant WASMD_CONTRACT = IWasmd(WASMD_PRECOMPILE_ADDRESS);
-
 interface IWasmd {
     // Transactions
     function instantiate(
