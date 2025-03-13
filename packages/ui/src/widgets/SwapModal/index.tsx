@@ -7,6 +7,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   ArrowDownUp,
   ChevronDownIcon,
@@ -57,7 +58,7 @@ export const SwapModal = () => {
               </Drawer>
 
               <RotateCw size={20} />
-              <div>Connect Wallet</div>
+              <ConnectButton />
             </div>
           </div>
         </div>

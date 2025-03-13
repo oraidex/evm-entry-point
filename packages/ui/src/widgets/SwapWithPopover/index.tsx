@@ -14,7 +14,17 @@ export const SwapWithPopover = () => {
           <OraiDEXIcon width={48} height={48} />
         </div>
       </PopoverTrigger>
-      <PopoverContent align="start" side="top" sideOffset={16}>
+      <PopoverContent
+        onFocusOutside={(event) => {
+          event.preventDefault();
+        }}
+        onInteractOutside={(event) => {
+          event.preventDefault();
+        }}
+        align="start"
+        side="top"
+        sideOffset={16}
+      >
         <SwapModal />
       </PopoverContent>
     </Popover>
