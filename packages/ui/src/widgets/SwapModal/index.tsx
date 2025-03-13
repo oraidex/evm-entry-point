@@ -16,18 +16,11 @@ import {
   Settings,
   X,
 } from "lucide-react";
-import { useRef } from "react";
 
 export const SwapModal = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  console.log(containerRef);
-
   return (
     <div className="border flex flex-col w-[90vw] h-[500px] max-w-[420px] max-h-[500px] rounded-2xl ">
-      <div
-        className="relative h-full p-4 rounded-2xl overflow-hidden"
-        ref={containerRef}
-      >
+      <div className="relative h-full p-4 rounded-2xl overflow-hidden">
         <div className="">
           <div className="w-full flex items-center justify-between">
             <div>
@@ -82,7 +75,7 @@ export const SwapModal = () => {
             />
 
             <div className="w-full p-2 flex justify-between items-center">
-              <div className="p-2 bg-secondary border rounded-full">
+              <div className="p-2 bg-secondary border rounded-full hover:cursor-pointer">
                 <ArrowDownUp size={24} />
               </div>
               <div>
