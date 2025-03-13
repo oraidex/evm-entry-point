@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import {IWasmd, WASMD_PRECOMPILE_ADDRESS} from "./precompiles/IWasmd.sol";
-import {IJson, JSON_PRECOMPILE_ADDRESS} from "./precompiles/IJson.sol";
-import {IAddr, ADDR_PRECOMPILE_ADDRESS} from "./precompiles/IAddr.sol";
-import {IBank, BANK_PRECOMPILE_ADDRESS} from "./precompiles/IBank.sol";
+import {IWasmd} from "./precompiles/IWasmd.sol";
+import {IJson} from "./precompiles/IJson.sol";
+import {IAddr} from "./precompiles/IAddr.sol";
+import {IBank} from "./precompiles/IBank.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./libraries/Payload.sol";
+import "./libraries/Constants.sol";
 
 contract PoolV2Factory {
     // Precompile entry points

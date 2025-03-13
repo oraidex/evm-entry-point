@@ -1,8 +1,4 @@
 import hre from "hardhat";
-import {
-  ExampleNativeERC20__factory,
-  IBank__factory,
-} from "../typechain-types";
 const { ethers } = hre;
 
 const main = async () => {
@@ -13,23 +9,21 @@ const main = async () => {
   const tokenFactoryAddress =
     "orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9";
 
-  const bank = IBank__factory.connect(
-    "0x9000000000000000000000000000000000000004",
-    account
+  const ExampleNativeERC20Upgradeable = await hre.ethers.getContractFactory(
+    "ExampleNativeERC20Upgradeable"
   );
-  await bank.send(ethers.ZeroAddress, "orai", 1n);
-  // const supply = await bank.supply(
-  //   "factory/orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9/oraim8c9d1nkfuQk9EzGYEUGxqL3MHQYndRw1huVo5h"
-  // );
-  // console.log(supply);
-  // return;
-  // local: orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69
-  // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
-  const nativeERC20 = await new ExampleNativeERC20__factory(account).deploy(
-    `factory/${tokenFactoryAddress}/oraim8c9d1nkfuQk9EzGYEUGxqL3MHQYndRw1huVo5h`,
-    "MAX",
-    "MAX",
-    6
+  //@ts-ignore
+  const nativeERC20 = await upgrades.deployProxy(
+    ExampleNativeERC20Upgradeable,
+    [
+      `factory/${tokenFactoryAddress}/oraim8c9d1nkfuQk9EzGYEUGxqL3MHQYndRw1huVo5h`,
+      "MAX",
+      "MAX",
+      6,
+    ],
+    {
+      kind: "uups",
+    }
   );
   console.log("Deploy tx:", await nativeERC20.waitForDeployment());
   console.log("ERC20Native address:", nativeERC20.target);

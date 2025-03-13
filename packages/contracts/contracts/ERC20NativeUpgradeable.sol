@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import {IWasmd} from "./precompiles/IWasmd.sol";
 import {IJson} from "./precompiles/IJson.sol";
@@ -12,7 +13,11 @@ import {IAuthz} from "./precompiles/IAuthz.sol";
 import "./libraries/Payload.sol";
 import "./libraries/Constants.sol";
 
-abstract contract ERC20Native is IERC20, Context {
+abstract contract ERC20NativeUpgradeable is
+    Initializable,
+    ContextUpgradeable,
+    IERC20
+{
     using Strings for *;
     IWasmd public WasmdPrecompile;
     IJson public JsonPrecompile;
@@ -26,13 +31,30 @@ abstract contract ERC20Native is IERC20, Context {
     uint256 internal _decimals;
     string public subdenom;
 
-    constructor(
+    function __ERC20Native__init(
         string memory _tokenFactoryAddress,
         string memory _tokenName,
         string memory _tokenSymbol,
         uint256 _tokenDecimals,
         uint256 _initTotalSupply
-    ) {
+    ) internal onlyInitializing {
+        __Context_init_unchained();
+        __ERC20Native__init__unchained(
+            _tokenFactoryAddress,
+            _tokenName,
+            _tokenSymbol,
+            _tokenDecimals,
+            _initTotalSupply
+        );
+    }
+
+    function __ERC20Native__init__unchained(
+        string memory _tokenFactoryAddress,
+        string memory _tokenName,
+        string memory _tokenSymbol,
+        uint256 _tokenDecimals,
+        uint256 _initTotalSupply
+    ) internal onlyInitializing {
         WasmdPrecompile = IWasmd(WASMD_PRECOMPILE_ADDRESS);
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
         BankPrecompile = IBank(BANK_PRECOMPILE_ADDRESS);
@@ -93,6 +115,9 @@ abstract contract ERC20Native is IERC20, Context {
         return success;
     }
 
+    /**
+     * @custom:oz-upgrades-unsafe-allow-reachable delegatecall
+     */
     function allowance(
         address owner,
         address spender
@@ -204,6 +229,9 @@ abstract contract ERC20Native is IERC20, Context {
         _execute(req, "[]");
     }
 
+    /**
+     * @custom:oz-upgrades-unsafe-allow-reachable delegatecall
+     */
     function _burn(address _account, uint256 _amount) internal {
         if (_account == _msgSender()) {
             (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(

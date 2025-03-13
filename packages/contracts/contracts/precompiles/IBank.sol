@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-address constant BANK_PRECOMPILE_ADDRESS = 0x9000000000000000000000000000000000000004;
-
-IBank constant BANK_CONTRACT = IBank(BANK_PRECOMPILE_ADDRESS);
-
 interface IBank {
     // Transactions
     function send(

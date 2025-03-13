@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-
 import "../ERC20Native.sol";
 
 contract ExampleERC20Native is ERC20Native, Ownable {
