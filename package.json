@@ -22,6 +22,7 @@
   },
   "packageManager": "pnpm@9.15.4",
   "lint-staged": {
-    "*/packages/**/*.{ts,tsx}": ["pnpm lint:fix"]
+    "packages/sdk/**/*.{ts,tsx}": ["eslint --fix --config ./packages/sdk/eslint.config.js"],
+    "packages/ui/**/*.{ts,tsx}": ["eslint --fix --config ./packages/ui/eslint.config.js"]
   }
 }
