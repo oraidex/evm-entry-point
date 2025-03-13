@@ -74,6 +74,9 @@ abstract contract ERC20Native is IERC20, Context {
         return BankPrecompile.supply(fulldenom);
     }
 
+    /**
+     * @custom:oz-upgrades-unsafe-allow-reachable delegatecall
+     */
     function transfer(
         address to,
         uint256 amount
@@ -101,6 +104,9 @@ abstract contract ERC20Native is IERC20, Context {
         return AuthzPrecompile.grant(owner, spender, fulldenom);
     }
 
+    /**
+     * @custom:oz-upgrades-unsafe-allow-reachable delegatecall
+     */
     function transferFrom(
         address from,
         address to,
@@ -120,6 +126,9 @@ abstract contract ERC20Native is IERC20, Context {
         return success;
     }
 
+    /**
+     * @custom:oz-upgrades-unsafe-allow-reachable delegatecall
+     */
     function approve(
         address spender,
         uint256 amount
@@ -141,6 +150,9 @@ abstract contract ERC20Native is IERC20, Context {
         return true;
     }
 
+    /**
+     * @custom:oz-upgrades-unsafe-allow-reachable delegatecall
+     */
     function _execute(
         string memory req,
         string memory coins

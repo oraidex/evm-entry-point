@@ -5,6 +5,11 @@
       "address": "0x431dA1CE2Febe53d3AA3fff76E547f6D2d124Bc3",
       "txHash": "0xec0d2d13e2ece630d1abbc452829f1ba996b66968233bd39ff931cbf520dd18a",
       "kind": "uups"
+    },
+    {
+      "address": "0xbe61b2CA901A4Ef09eb1AeA4eD6C1d9553A1a828",
+      "txHash": "0x1c0c17a9b5278054bfde6105c67b723fc8e7467268c9c4a61b9ce101b1adea22",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -313,6 +318,133 @@
           }
         },
         "namespaces": {
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    },
+    "98082110adaa4048ccff889298a58bffab23a4f52cdf3c2a4d70fbdf8b538559": {
+      "address": "0x8329Ae06f7aA806b2d66be1816E70b718347e118",
+      "txHash": "0xd357104c130d18f47e06cfe42894a0410f099ab1e932b400e517c730dd2af4bd",
+      "layout": {
+        "solcVersion": "0.8.28",
+        "storage": [
+          {
+            "label": "currentTokenIndex",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256",
+            "contract": "LaunchpadFactory",
+            "src": "contracts/LaunchpadFactory.sol:16"
+          },
+          {
+            "label": "launchpadAddr",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "LaunchpadFactory",
+            "src": "contracts/LaunchpadFactory.sol:19"
+          },
+          {
+            "label": "tokenFactoryAddr",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage",
+            "contract": "LaunchpadFactory",
+            "src": "contracts/LaunchpadFactory.sol:22"
+          },
+          {
+            "label": "tokens",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "LaunchpadFactory",
+            "src": "contracts/LaunchpadFactory.sol:30"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)73_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(OwnableStorage)13_storage": {
+            "label": "struct OwnableUpgradeable.OwnableStorage",
+            "members": [
+              {
+                "label": "_owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:24",
+              "offset": 0,
+              "slot": "0"
+            }
+          ],
           "erc7201:openzeppelin.storage.Initializable": [
             {
               "contract": "Initializable",
