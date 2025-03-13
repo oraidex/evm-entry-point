@@ -44,7 +44,7 @@ importers:
         version: 1.0.12(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
       '@nomicfoundation/hardhat-toolbox':
         specifier: ^5.0.0
-        version: 5.0.0(hsci3amta3hsawvajcfhwqr4re)
+        version: 5.0.0(gi7arethpmx6lvuwjprtudysdm)
       '@nomicfoundation/hardhat-verify':
         specifier: ^2.0.13
         version: 2.0.13(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
@@ -77,7 +77,7 @@ importers:
         version: 2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2)
       hardhat-gas-reporter:
         specifier: ^2.2.2
-        version: 2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2)
+        version: 2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2)(zod@3.24.2)
       solidity-coverage:
         specifier: ^0.8.14
         version: 0.8.14(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
@@ -89,6 +89,16 @@ importers:
         version: 8.3.2(typescript@5.8.2)
 
   packages/sdk:
+    dependencies:
+      '@oraichain/oraidex-contracts-sdk':
+        specifier: ^1.0.56
+        version: 1.0.56
+      axios:
+        specifier: ^1.8.3
+        version: 1.8.3
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       typescript:
         specifier: ^5.8.2
@@ -918,6 +928,9 @@ packages:
 
   '@openzeppelin/contracts@5.2.0':
     resolution: {integrity: sha512-bxjNie5z89W1Ea0NZLZluFh8PrFNn9DH8DQlujEok2yjsOlraUPKID5p1Wk3qdNbf6XkQ1Os2RvfiHrrXLHWKA==}
+
+  '@oraichain/oraidex-contracts-sdk@1.0.56':
+    resolution: {integrity: sha512-AoVpOKO7aSuwTlILdspBX4pTSNoMQ64xzOxxcvMNdE3oRKdhGCtEpSjjbNHt9rH1WTBX0BkwnFirssEyFYf56w==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1767,6 +1780,9 @@ packages:
 
   axios@1.8.1:
     resolution: {integrity: sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g==}
+
+  axios@1.8.3:
+    resolution: {integrity: sha512-iP4DebzoNlP/YN2dpwCgb8zoCmhtkajzS48JvwmkSkXvPI3DHc7m+XYL5tGnSlJtR6nImXZmdCuN5aP8dh1d8A==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -4278,6 +4294,9 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
 snapshots:
 
   '@adobe/css-tools@4.4.2': {}
@@ -4975,7 +4994,7 @@ snapshots:
       ethereumjs-util: 7.1.5
       hardhat: 2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2)
 
-  '@nomicfoundation/hardhat-toolbox@5.0.0(hsci3amta3hsawvajcfhwqr4re)':
+  '@nomicfoundation/hardhat-toolbox@5.0.0(gi7arethpmx6lvuwjprtudysdm)':
     dependencies:
       '@nomicfoundation/hardhat-chai-matchers': 2.0.8(@nomicfoundation/hardhat-ethers@3.0.8(ethers@6.13.5)(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2)))(chai@4.5.0)(ethers@6.13.5)(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
       '@nomicfoundation/hardhat-ethers': 3.0.8(ethers@6.13.5)(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
@@ -4990,7 +5009,7 @@ snapshots:
       chai: 4.5.0
       ethers: 6.13.5
       hardhat: 2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2)
-      hardhat-gas-reporter: 2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2)
+      hardhat-gas-reporter: 2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2)(zod@3.24.2)
       solidity-coverage: 0.8.14(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))
       ts-node: 10.9.2(@types/node@22.13.9)(typescript@5.8.2)
       typechain: 8.3.2(typescript@5.8.2)
@@ -5070,6 +5089,8 @@ snapshots:
   '@open-draft/until@2.1.0': {}
 
   '@openzeppelin/contracts@5.2.0': {}
+
+  '@oraichain/oraidex-contracts-sdk@1.0.56': {}
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -5891,9 +5912,10 @@ snapshots:
 
   abbrev@1.0.9: {}
 
-  abitype@1.0.0(typescript@5.8.2):
+  abitype@1.0.0(typescript@5.8.2)(zod@3.24.2):
     optionalDependencies:
       typescript: 5.8.2
+      zod: 3.24.2
 
   acorn-jsx@5.3.2(acorn@8.14.0):
     dependencies:
@@ -6047,6 +6069,14 @@ snapshots:
       possible-typed-array-names: 1.1.0
 
   axios@1.8.1:
+    dependencies:
+      follow-redirects: 1.15.9(debug@4.4.0)
+      form-data: 4.0.2
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.8.3:
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
       form-data: 4.0.2
@@ -6953,7 +6983,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  hardhat-gas-reporter@2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2):
+  hardhat-gas-reporter@2.2.2(hardhat@2.22.19(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))(typescript@5.8.2))(typescript@5.8.2)(zod@3.24.2):
     dependencies:
       '@ethersproject/abi': 5.8.0
       '@ethersproject/bytes': 5.8.0
@@ -6970,7 +7000,7 @@ snapshots:
       lodash: 4.17.21
       markdown-table: 2.0.0
       sha1: 1.1.1
-      viem: 2.7.14(typescript@5.8.2)
+      viem: 2.7.14(typescript@5.8.2)(zod@3.24.2)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -8468,14 +8498,14 @@ snapshots:
 
   v8-compile-cache-lib@3.0.1: {}
 
-  viem@2.7.14(typescript@5.8.2):
+  viem@2.7.14(typescript@5.8.2)(zod@3.24.2):
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
       '@noble/curves': 1.2.0
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 1.0.0(typescript@5.8.2)
+      abitype: 1.0.0(typescript@5.8.2)(zod@3.24.2)
       isows: 1.0.3(ws@8.13.0)
       ws: 8.13.0
     optionalDependencies:
@@ -8711,3 +8741,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors-cjs@2.1.2: {}
+
+  zod@3.24.2: {}
