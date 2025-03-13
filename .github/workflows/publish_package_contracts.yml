@@ -41,6 +41,8 @@ jobs:
 
       - name: Validate Authorization
         run: npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Dry-run publish to npm
         run: pnpm publish --filter @oraichain/evm-entry-point --access public --no-git-checks --dry-run
