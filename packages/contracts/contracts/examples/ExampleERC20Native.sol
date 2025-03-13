@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// import "@openzeppelin/contracts/access/Ownable.sol";
-
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "../ERC20Native.sol";
 
-contract ExampleERC20Native is ERC20Native {
+contract ExampleERC20Native is ERC20Native, Ownable {
     constructor(
         string memory _tokenFactoryAddress,
         string memory _tokenName,
@@ -20,13 +19,14 @@ contract ExampleERC20Native is ERC20Native {
             _tokenDecimals,
             _initTotalSupply
         )
+        Ownable(msg.sender)
     {}
 
-    // function mint(address to, uint256 amount) public onlyOwner {
-    //     _mint(to, amount);
-    // }
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
 
-    // function burn(uint256 amount) public {
-    //     _burn(_msgSender(), amount);
-    // }
+    function burn(uint256 amount) public {
+        _burn(_msgSender(), amount);
+    }
 }
