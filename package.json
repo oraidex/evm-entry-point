@@ -13,16 +13,11 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.0",
     "turbo": "^2.4.4",
     "typescript": "~5.7.2"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@9.15.4",
-  "lint-staged": {
-    "packages/sdk/**/*.{ts,tsx}": ["eslint --fix --config ./packages/sdk/eslint.config.js"],
-    "packages/ui/**/*.{ts,tsx}": ["eslint --fix --config ./packages/ui/eslint.config.js"]
-  }
+  "packageManager": "pnpm@9.15.4"
 }
