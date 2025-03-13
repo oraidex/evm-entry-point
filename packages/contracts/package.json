@@ -1,6 +1,6 @@
 {
   "name": "@oraichain/evm-entry-point",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "files": [
     "contracts/**/*.sol"
@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.2.0",
+    "@openzeppelin/contracts-upgradeable": "^5.2.0",
+    "@openzeppelin/hardhat-upgrades": "^3.9.0",
     "hardhat-contract-sizer": "^2.10.0"
   },
   "devDependencies": {

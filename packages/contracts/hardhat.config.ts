@@ -1,4 +1,5 @@
 import "@nomicfoundation/hardhat-toolbox";
+import "@openzeppelin/hardhat-upgrades";
 import "hardhat-contract-sizer";
 import config from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";

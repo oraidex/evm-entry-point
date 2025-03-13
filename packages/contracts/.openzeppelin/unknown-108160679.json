@@ -1,0 +1,338 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x431dA1CE2Febe53d3AA3fff76E547f6D2d124Bc3",
+      "txHash": "0xec0d2d13e2ece630d1abbc452829f1ba996b66968233bd39ff931cbf520dd18a",
+      "kind": "uups"
+    }
+  ],
+  "impls": {
+    "136344b8c9f73cfc8c5d14d9a1d35868110a9a59a31932586c475dbe1e275d1f": {
+      "address": "0xa36c1E5E8512C75a474FedfFe9488E8dbC4BaA48",
+      "txHash": "0x70ecafb6fae14cc9bcc8d6c4322141570f7ebfd44fb26f892018e83bffddbc82",
+      "layout": {
+        "solcVersion": "0.8.28",
+        "storage": [
+          {
+            "label": "WasmdPrecompile",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IWasmd)7213",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:22"
+          },
+          {
+            "label": "JsonPrecompile",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IJson)7173",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:23"
+          },
+          {
+            "label": "BankPrecompile",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_contract(IBank)7142",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:24"
+          },
+          {
+            "label": "AddrPrecompile",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_contract(IAddr)7044",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:25"
+          },
+          {
+            "label": "AuthzPrecompile",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_contract(IAuthz)7082",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:26"
+          },
+          {
+            "label": "tokenFactoryAddress",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_string_storage",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:27"
+          },
+          {
+            "label": "fulldenom",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_string_storage",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:28"
+          },
+          {
+            "label": "_name",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_string_storage",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:29"
+          },
+          {
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_string_storage",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:30"
+          },
+          {
+            "label": "_decimals",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_uint256",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:31"
+          },
+          {
+            "label": "subdenom",
+            "offset": 0,
+            "slot": "10",
+            "type": "t_string_storage",
+            "contract": "ERC20NativeUpgradeable",
+            "src": "contracts/ERC20NativeUpgradeable.sol:32"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)7_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_contract(IAddr)7044": {
+            "label": "contract IAddr",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IAuthz)7082": {
+            "label": "contract IAuthz",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IBank)7142": {
+            "label": "contract IBank",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IJson)7173": {
+            "label": "contract IJson",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IWasmd)7213": {
+            "label": "contract IWasmd",
+            "numberOfBytes": "20"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    },
+    "3e27bee4bdccc9c1531067a20f33f45e5036d014e02de352200300b1c9b61f6c": {
+      "address": "0xAC807E36adbD6a98562f92DF119B2e48E5a89c68",
+      "txHash": "0x1e537893f6784ad3e33ade105f3eedb2d398a0e038e079e9f9941564f545541e",
+      "layout": {
+        "solcVersion": "0.8.28",
+        "storage": [
+          {
+            "label": "JsonPrecompile",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IJson)6767",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:21"
+          },
+          {
+            "label": "BankPrecompile",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IBank)6736",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:22"
+          },
+          {
+            "label": "WasmdPrecompile",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_contract(IWasmd)6807",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:23"
+          },
+          {
+            "label": "AuthzPrecompile",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_contract(IAuthz)6676",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:24"
+          },
+          {
+            "label": "tokenFactoryAddress",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_string_storage",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:25"
+          },
+          {
+            "label": "fulldenom",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_string_storage",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:26"
+          },
+          {
+            "label": "_name",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_string_storage",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:27"
+          },
+          {
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_string_storage",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:28"
+          },
+          {
+            "label": "_decimals",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_uint256",
+            "contract": "NativeERC20Upgradeable",
+            "src": "contracts/NativeERC20Upgradeable.sol:29"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)7_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_contract(IAuthz)6676": {
+            "label": "contract IAuthz",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IBank)6736": {
+            "label": "contract IBank",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IJson)6767": {
+            "label": "contract IJson",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IWasmd)6807": {
+            "label": "contract IWasmd",
+            "numberOfBytes": "20"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
