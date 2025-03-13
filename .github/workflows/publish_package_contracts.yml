@@ -39,6 +39,12 @@ jobs:
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
+      - name: Validate Authorization
+        run: npm whoami
+
+      - name: Dry-run publish to npm
+        run: pnpm publish --filter @oraichain/evm-entry-point --access public --no-git-checks --dry-run
+        
       - name: Publish to npm
         run: pnpm publish --filter @oraichain/evm-entry-point --access public --no-git-checks
         env:
