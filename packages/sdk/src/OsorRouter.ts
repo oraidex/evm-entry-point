@@ -1,4 +1,5 @@
-import { SmartRouteConfig } from "./interfaces/IOsor";
+import { z } from "zod";
+import { SwapOptions } from "./interfaces/IRouter";
 
 type OSORRequestParams = {
     sourceAsset: string;
@@ -6,8 +7,10 @@ type OSORRequestParams = {
     destAsset: string;
     destChainId: string;
     offerAmount: string;
-  } & SmartRouteConfig;
-
+  } & {
+    swapOptions: SwapOptions;
+  };
+ 
 
 const OSORRequestSchema: z.ZodSchema<OSORRequestParams> = z.object({
     sourceAsset: z.string(),
