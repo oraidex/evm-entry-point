@@ -28,14 +28,18 @@ const main = async () => {
   await IBank__factory.connect(
     "0x9000000000000000000000000000000000000004",
     account
-  ).send(tokenDeployer.target, "orai", 1n);
+  ).send(tokenDeployer.target, "orai", 1n); // 0.000001 orai
   await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const createTokenTx = await tokenDeployer.createToken(
     tokenFactoryAddress,
     "M",
     "M",
     6,
-    1000000n * 10n ** 18n
+    1000000n * 10n ** 18n,
+    {
+      value: "1",
+    }
   );
   console.log("Create token tx:", await createTokenTx.wait());
 

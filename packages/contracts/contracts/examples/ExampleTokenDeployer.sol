@@ -23,7 +23,7 @@ contract ExampleTokenDeployer is Initializable, UUPSUpgradeable {
         string memory _tokenSymbol,
         uint256 _tokenDecimals,
         uint256 _initTotalSupply
-    ) external {
+    ) external payable {
         ExampleERC20Native token = new ExampleERC20Native(
             _tokenFactoryAddress,
             _tokenName,
