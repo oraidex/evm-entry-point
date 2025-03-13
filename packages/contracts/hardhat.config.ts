@@ -1,4 +1,6 @@
 import "@nomicfoundation/hardhat-toolbox";
+import "@openzeppelin/hardhat-upgrades";
+import "hardhat-contract-sizer";
 import config from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
 import { ethers } from "ethers";
@@ -11,7 +13,18 @@ for (let i = 0; i < 20; i++) {
 }
 
 const hardhatConfig: HardhatUserConfig = {
-  solidity: "0.8.28",
+  solidity: {
+    version: "0.8.28",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 800,
+      },
+      metadata: {
+        bytecodeHash: "none",
+      },
+    },
+  },
   networks: {
     oraichain: {
       url: "https://evm.orai.io/",

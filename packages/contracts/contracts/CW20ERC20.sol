@@ -9,16 +9,9 @@ import {IJson} from "./precompiles/IJson.sol";
 import {IAddr} from "./precompiles/IAddr.sol";
 import {IBank} from "./precompiles/IBank.sol";
 import "./libraries/Payload.sol";
+import "./libraries/Constants.sol";
 
 contract CW20ERC20Token is IERC20, Ownable {
-    address constant WASMD_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000001;
-    address constant JSON_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000002;
-    address constant ADDR_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000003;
-    address constant BANK_PRECOMPILE_ADDRESS =
-        0x9000000000000000000000000000000000000004;
     IWasmd public WasmdPrecompile;
     IJson public JsonPrecompile;
     IAddr public AddrPrecompile;

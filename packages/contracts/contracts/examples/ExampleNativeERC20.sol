@@ -5,18 +5,9 @@ import "../NativeERC20.sol";
 
 contract ExampleNativeERC20 is NativeERC20 {
     constructor(
-        string memory _tokenFactoryAddress,
-        string memory _subdenom,
+        string memory _fulldenom,
         string memory _tokenName,
         string memory _tokenSymbol,
         uint256 _tokenDecimals
-    )
-        NativeERC20(
-            _tokenFactoryAddress,
-            _subdenom,
-            _tokenName,
-            _tokenSymbol,
-            _tokenDecimals
-        )
-    {}
+    ) NativeERC20(_fulldenom, _tokenName, _tokenSymbol, _tokenDecimals) {}
 }

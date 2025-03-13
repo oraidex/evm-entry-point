@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-address constant JSON_PRECOMPILE_ADDRESS = 0x9000000000000000000000000000000000000002;
-
-IJson constant JSON_CONTRACT = IJson(JSON_PRECOMPILE_ADDRESS);
-
 interface IJson {
     // Queries
     function extractAsBytes(

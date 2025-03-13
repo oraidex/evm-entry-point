@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import {IWasmd} from "./precompiles/IWasmd.sol";
 import {IJson} from "./precompiles/IJson.sol";
@@ -12,7 +13,11 @@ import {IAuthz} from "./precompiles/IAuthz.sol";
 import "./libraries/Payload.sol";
 import "./libraries/Constants.sol";
 
-abstract contract NativeERC20 is IERC20, Context {
+abstract contract NativeERC20Upgradeable is
+    Initializable,
+    ContextUpgradeable,
+    IERC20
+{
     IJson public JsonPrecompile;
     IBank public BankPrecompile;
     IWasmd public WasmdPrecompile;
@@ -23,12 +28,27 @@ abstract contract NativeERC20 is IERC20, Context {
     string internal _symbol;
     uint256 internal _decimals;
 
-    constructor(
+    function __NativeERC20__init(
         string memory _fullDenom,
         string memory _tokenName,
         string memory _tokenSymbol,
         uint256 _tokenDecimals
-    ) {
+    ) internal onlyInitializing {
+        __Context_init_unchained();
+        __NativeERC20__init__unchained(
+            _fullDenom,
+            _tokenName,
+            _tokenSymbol,
+            _tokenDecimals
+        );
+    }
+
+    function __NativeERC20__init__unchained(
+        string memory _fullDenom,
+        string memory _tokenName,
+        string memory _tokenSymbol,
+        uint256 _tokenDecimals
+    ) internal onlyInitializing {
         WasmdPrecompile = IWasmd(WASMD_PRECOMPILE_ADDRESS);
         JsonPrecompile = IJson(JSON_PRECOMPILE_ADDRESS);
         BankPrecompile = IBank(BANK_PRECOMPILE_ADDRESS);
