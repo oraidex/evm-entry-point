@@ -23,14 +23,6 @@
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.ts", "test/**/*.ts", "vitest.config.ts"]
-    },
-    "test:watch": {
-      "cache": false,
-      "persistent": true
-    },
-    "test:coverage": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"]
     }
   }
 }

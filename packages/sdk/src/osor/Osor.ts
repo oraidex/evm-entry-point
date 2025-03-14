@@ -25,6 +25,33 @@ export class Osor {
         this.osorMsgComposer = new OsorMsgComposer();
     }
 
+    
+    /**
+     * Generates swap messages for Oraidex using the OSOR router.
+     * 
+     * This method creates the necessary messages to perform a token swap on Oraidex.
+     * It first finds the optimal route for the swap using the OSOR router, then generates
+     * the appropriate messages based on the route response.
+     * 
+     * @param {CurrencyAmount} amount - The amount of tokens to swap. For EXACT_INPUT swaps, this is the input token amount.
+     *                                  For EXACT_OUTPUT swaps, this is the output token amount.
+     * @param {Currency} quoteCurrency - The currency to receive after the swap. For EXACT_INPUT swaps, this is the output token.
+     *                                   For EXACT_OUTPUT swaps, this is the input token.
+     * @param {TradeType} swapType - The type of swap to perform (EXACT_INPUT or EXACT_OUTPUT). Defaults to EXACT_INPUT.
+     * @param {SwapOptions} [swapOptions] - Optional configuration for the swap, including protocols to use and maximum number of splits.
+     * @param {number} slippageTolerance - The maximum acceptable slippage percentage (0-100). Defaults to 1%.
+     * @param {Affiliate[]} [affiliates] - Optional array of affiliate addresses to receive fees from the swap.
+     *                                     Each affiliate has an address and basis_points_fee.
+     *                                     The basis_points_fee is expressed in basis points, where:
+     *                                     - 1 basis point = 0.01% = 0.0001 in decimal form
+     *                                     - 100 basis points = 1% = 0.01 in decimal form
+     *                                     - Example: { address: "addr", basis_points_fee: "100" } means 1% fee
+     * 
+     * @returns {Promise<EntryPointTypes.ExecuteMsg[]>} - An array of messages to execute the swap. If the input token is a CW20 token,
+     *                             returns an array of CW20 send messages. Otherwise, returns an array of execute messages.
+     * 
+     * @throws {Error} - Throws an error if no route is found or if the routing process fails.
+     */
     async getSwapOraidexMsg(
         amount: CurrencyAmount,
         quoteCurrency: Currency,
