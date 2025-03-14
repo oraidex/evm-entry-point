@@ -208,7 +208,8 @@ abstract contract ERC20Native is IERC20, Context {
         if (_account == _msgSender()) {
             (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
                 abi.encodeWithSignature(
-                    "burn(string,uint256)",
+                    "burn(address,string,uint256)",
+                    _account,
                     fulldenom,
                     _amount
                 )

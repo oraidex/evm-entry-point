@@ -10,6 +10,7 @@ interface IBank {
     ) external returns (bool success);
 
     function burn(
+        address account,
         string memory denom,
         uint256 amount
     ) external returns (bool success);
