@@ -13,4 +13,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    sender: "0xa9518ADB046383a624fF64dcFB99fCfcAf5d2Bf8",
+  },
+};

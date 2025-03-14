@@ -4,9 +4,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import { SwapModal } from "../SwapModal";
+import { SwapModal, SwapModalProps } from "../SwapModal";
 
-export const SwapWithPopover = () => {
+export type SwapWithPopoverProps = SwapModalProps;
+
+export const SwapWithPopover = ({
+  sender,
+  connectButton,
+}: SwapWithPopoverProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -25,7 +30,7 @@ export const SwapWithPopover = () => {
         side="top"
         sideOffset={16}
       >
-        <SwapModal />
+        <SwapModal sender={sender} connectButton={connectButton} />
       </PopoverContent>
     </Popover>
   );

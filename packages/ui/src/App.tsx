@@ -7,7 +7,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
-import { SwapWithPopover } from "./widgets";
+import Wallet from "./Wallet";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -40,8 +40,8 @@ function App() {
         <RainbowKitProvider>
           <div className="w-full flex justify-center items-center h-[100vh] text-2xl">
             <ConnectButton />
-            <SwapWithPopover />
           </div>
+          <Wallet />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

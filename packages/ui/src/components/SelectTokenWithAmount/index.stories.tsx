@@ -21,11 +21,20 @@ export const Default: Story = {
 export const TokenSelected: Story = {
   args: {
     token: {
+      address: {
+        cosmos: "orai",
+        evm: "orai",
+      },
+      name: "Oraichain",
       symbol: "ORAI",
-      image: "https://github.com/shadcn.png",
-      balance: 12.455,
-      price: 2.37,
+      decimals: {
+        cosmos: 6,
+        evm: 18,
+      },
+      image: "https://images.orai.io/logo/orai-token.png",
     },
+    price: 2.37,
+    balance: 12.455,
     amount: 123,
   },
 };

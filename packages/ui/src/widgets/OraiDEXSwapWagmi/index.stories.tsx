@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SwapWithPopover } from ".";
+import { OraiDEXSwapWagmi } from ".";
 
-const meta: Meta<typeof SwapWithPopover> = {
-  title: "Widgets/SwapWithPopover",
-  component: SwapWithPopover,
+const meta: Meta<typeof OraiDEXSwapWagmi> = {
+  title: "Widgets/OraiDEXSwapWagmi",
+  component: OraiDEXSwapWagmi,
   parameters: {
     layout: "fullscreen",
   },
@@ -15,6 +15,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    sender: "0xa9518ADB046383a624fF64dcFB99fCfcAf5d2Bf8",
+    syncWallet: false,
   },
 };
