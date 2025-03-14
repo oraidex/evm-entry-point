@@ -2,7 +2,7 @@ import { Token } from "@/types/Token";
 import { useEffect, useState } from "react";
 
 export const useToken = (props: any) => {
-  const {} = props;
+  // const {} = props;
 
   const [tokenList, setTokenList] = useState<Token[]>([]);
   useEffect(() => {
