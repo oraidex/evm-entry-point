@@ -76,16 +76,22 @@ const main = async () => {
 
   const burnTx = await erc20Native
     .connect(secondAccount)
-    .burn(100000n * 10n ** 18n);
+    .burn(50000n * 10n ** 18n);
   console.log(`Burn tx: ${burnTx.hash}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  if (totalSupply !== (await erc20Native.totalSupply())) {
-    throw new Error("Failed");
-  }
+  const approveFirstAccTx = await erc20Native
+    .connect(secondAccount)
+    .approve(account.address, 50000n * 10n ** 18n);
+  console.log(`Approve tx: ${approveFirstAccTx.hash}`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const burnFromTx = await erc20Native
+    .connect(account)
+    .burnFrom(secondAccount.address, 50000n * 10n ** 18n);
+  console.log(`Burn from tx: ${burnFromTx.hash}`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const receiverBalance = await erc20Native.balanceOf(secondAccount.address);
   if (receiverBalance !== 0n * 10n ** 18n) {
     throw new Error("Failed");
   }
 };
-
 main();
