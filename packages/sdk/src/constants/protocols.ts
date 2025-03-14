@@ -1,2 +1,1 @@
-export type Protocol = "Oraidex" | "OraidexV3" | "Osmosis";
-
+export type Protocol = 'Oraidex' | 'OraidexV3' | 'Osmosis';

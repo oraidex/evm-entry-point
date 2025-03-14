@@ -1,1 +1,1 @@
-export * from "./OsorRouter";
+export * from './osor';
