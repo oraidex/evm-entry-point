@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "compile": "hardhat compile; forge build",
-    "test": "hardhat test; forge test"
+    "test:contract": "hardhat test; forge test"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.2.0",

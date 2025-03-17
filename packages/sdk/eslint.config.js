@@ -1,11 +1,16 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+const js = require('@eslint/js');
+const globals = require('globals');
+const tseslint = require('typescript-eslint');
+const prettierConfig = require('eslint-config-prettier');
 
-export default tseslint.config(
+module.exports = tseslint.config(
   { ignores: ['dist', 'node_modules', '.turbo'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
+    extends: [
+      js.configs.recommended, 
+      ...tseslint.configs.recommendedTypeChecked,
+      prettierConfig
+    ],
     files: ['**/*.{ts}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -14,7 +19,7 @@ export default tseslint.config(
       },
       parserOptions: {
         project: true,
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
       },
     },
     rules: {
