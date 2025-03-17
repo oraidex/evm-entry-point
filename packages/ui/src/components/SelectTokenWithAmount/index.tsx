@@ -9,6 +9,7 @@ type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   price: number;
   tokenList: Token[];
   amount?: string;
+  setToken: (token: Token) => void;
   onAmountChange: (value: string) => void;
   disableInputAmount?: boolean;
 };
@@ -24,28 +25,30 @@ export const SelectTokenWithAmount = forwardRef<
       price,
       tokenList,
       amount,
+      setToken,
       disableInputAmount,
       className,
       onAmountChange,
       ...props
     },
-    ref
+    _ref
   ) => {
     return (
       <div
         className={cn(
-          "py-5 px-4 flex flex-col border group rounded-xl",
+          "py-5 px-4 flex flex-col border border-primary group rounded-xl",
           className
         )}
         {...props}
-        ref={ref}
+        // ref={ref}
       >
         <div className="flex justify-between items-center">
           <SelectToken
             variant="secondary"
             token={token}
             tokenList={tokenList}
-            className="border"
+            className="border-2"
+            setToken={setToken}
           />
           <div className="text-right">
             <input
@@ -59,7 +62,7 @@ export const SelectTokenWithAmount = forwardRef<
             />
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-baseline">
           <div className="flex mt-3 space-x-1 text-xs items-center fill-current cursor-pointer">
             <svg
               width="10"

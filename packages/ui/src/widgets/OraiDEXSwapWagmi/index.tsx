@@ -6,6 +6,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Config, WagmiProvider } from "wagmi";
 import { SwapWithPopover } from "../SwapWithPopover";
+// import "@rainbow-me/rainbowkit/styles.css";
 
 export type OraiDEXSwapWagmiProps = {
   syncWallet: boolean;

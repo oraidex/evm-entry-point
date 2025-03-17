@@ -29,6 +29,7 @@
   "dependencies": {
     "@oraichain/oraidex-contracts-sdk": "^1.0.56",
     "@oraichain/osor-api-contracts-sdk": "^1.0.3",
+    "ethers": "^6.13.5",
     "axios": "^1.8.3",
     "decimal.js": "^10.5.0",
     "long": "^5.3.1",

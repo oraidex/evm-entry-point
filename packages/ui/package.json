@@ -33,6 +33,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@rainbow-me/rainbowkit": "^2.2.4",
     "@tanstack/react-query": "^5.67.3",
+    "ethers": "^6.13.5",
     "decimal.js": "^10.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -43,11 +44,11 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
     "viem": "~2.7.14",
-    "wagmi": "^2.14.13"
+    "wagmi": "^2.14.13",
+    "buffer": "^6.0.3"
   },
   "devDependencies": {
     "@oraichain/oraidex-evm-sdk": "workspace:*",
-    "@oraichain/evm-entry-point": "workspace:*",
     "@chromatic-com/storybook": "^3.2.5",
     "@eslint/js": "^9.21.0",
     "@storybook/addon-essentials": "^8.6.4",

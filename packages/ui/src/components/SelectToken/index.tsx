@@ -20,6 +20,7 @@ export interface SelectTokenProps
     VariantProps<typeof buttonVariants> {
   token: Token | null;
   tokenList: Token[];
+  setToken: (token: Token) => void;
 }
 
 export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
@@ -27,6 +28,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
     {
       token,
       tokenList,
+      setToken,
       className,
       variant = "outline",
       size = "default",
@@ -45,7 +47,6 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
             {...props}
             ref={ref}
           >
-            {/* Select a token<ChevronDownIcon /> */}
             {token ? (
               <div className="flex gap-2">
                 <Avatar>
@@ -78,22 +79,28 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
               <Input placeholder="Find token by symbol" />
               <ScrollArea
                 type="scroll"
-                className="max-h-[370px] w-full rounded-md overflow-auto"
+                className="max-h-[370px] w-full rounded-md overflow-auto flex flex-col gap-2 text-base justify-start"
               >
                 {tokenList.map((token, index) => (
-                  <div key={index} className="flex gap-2">
-                    <Avatar>
-                      <AvatarImage
-                        className="rounded-full"
-                        width={20}
-                        height={20}
-                        src={token.image}
-                        alt="Token Image"
-                      />
-                      <AvatarFallback>?</AvatarFallback>
-                    </Avatar>
-                    <span>{token.symbol}</span>
-                  </div>
+                  <DrawerClose>
+                    <div
+                      onClick={() => setToken(token)}
+                      key={index}
+                      className="flex gap-2 items-center"
+                    >
+                      <Avatar>
+                        <AvatarImage
+                          className="rounded-full"
+                          width={40}
+                          height={40}
+                          src={token.image}
+                          alt="Token Image"
+                        />
+                        <AvatarFallback>?</AvatarFallback>
+                      </Avatar>
+                      <span>{token.symbol}</span>
+                    </div>
+                  </DrawerClose>
                 ))}
               </ScrollArea>
             </div>

@@ -54,6 +54,7 @@ export class Osor {
     async getSwapOraidexMsg(
         amount: CurrencyAmount,
         quoteCurrency: Currency,
+        recipient: string,
         swapType: TradeType = TradeType.EXACT_INPUT,
         swapOptions?: SwapOptions,
         slippageTolerance: number = 1,
@@ -69,7 +70,6 @@ export class Osor {
         returnAmount: string
     }> {
         try {
-            console.log(1)
             const route = await this.osorRouter.route<OsorSmartRouteResponse>(
                 amount,
                 quoteCurrency,
@@ -99,7 +99,11 @@ export class Osor {
                             }
                         },
                         timeout_timestamp: +calculateTimeoutTimestamp(IBC_TRANSFER_TIMEOUT),
-                        post_swap_action: {},
+                        post_swap_action: {
+                            transfer: {
+                                to_address: recipient
+                            }
+                        },
                         user_swap: {
                             swap_exact_asset_in: {
                                 swap_venue_name: 'oraidex', operations: msg
