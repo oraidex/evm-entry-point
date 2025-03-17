@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@oraichain/oraichain-evm-sdk.svg)](https://www.npmjs.com/package/@oraichain/oraichain-evm-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A TypeScript SDK for interacting with Oraichain on EVM-compatible blockchains.
+A TypeScript SDK for interacting with ORAIDEX on EVM-compatible blockchains through precompile Wasmd module in blockchain. All messages here were build in cosmwasm format.
 
 ## Installation
 
@@ -15,9 +15,10 @@ yarn add @oraichain/oraichain-evm-sdk
 
 ## Features
 
-- **OSOR (Oraichain Smart Order Router)**: Optimized routing for token swaps
+- **OSOR (Oraichain Smart Order Router)**: Optimized routing for token swaps on ORAIDEX
 - **API Client**: Simplified HTTP requests with built-in error handling
-- **Utilities**: Helper functions for common operations
+- **Utilities**: Helper functions for common operations with Cosmos and EVM compatibility
+- **CosmWasm Integration**: Built-in support for CosmWasm message formats
 
 ## Usage
 
@@ -46,19 +47,19 @@ const osor = new Osor('https://api.oraidex.io');
 
 // Define the swap parameters
 const inputAmount = new CurrencyAmount({
-  amount: '1000000', // Amount in smallest unit (e.g., wei)
+  amount: '1000000', // Amount in smallest unit
   currency: {
-    address: '0x...',  // Token address
-    decimals: 18,
-    symbol: 'TOKEN',
+    address: 'orai1k0y373yxqne22pc9g7jvnr4qulw5gfwyw0k7sp',  // Token address in bech32 format
+    decimals: 6,
+    symbol: 'USDT',
     chainId: 1
   }
 });
 
 const outputCurrency = new Currency({
-  address: '0x...',  // Output token address
-  decimals: 18,
-  symbol: 'USDT',
+  address: 'orai',  // Native ORAI coin
+  decimals: 6,
+  symbol: 'ORAI',
   chainId: 1
 });
 
@@ -89,8 +90,11 @@ const apiClient = new ApiClient({
 const response = await apiClient.get('/path/to/endpoint');
 console.log(response.data);
 
-// Make a POST request
-const postResponse = await apiClient.post('/path/to/endpoint', { key: 'value' });
+// Make a POST request with CosmWasm message
+const postResponse = await apiClient.post('/path/to/endpoint', {
+  token: 'orai1k0y373yxqne22pc9g7jvnr4qulw5gfwyw0k7sp',
+  amount: '1000000'
+});
 console.log(postResponse.data);
 ```
 
@@ -98,23 +102,23 @@ console.log(postResponse.data);
 
 ### Osor Class
 
-The main class for interacting with the Oraichain Smart Order Router.
+The main class for interacting with the ORAIDEX Smart Order Router through CosmWasm messages.
 
 #### Methods
 
-- `getSwapOraidexMsg(amount, quoteCurrency, swapType, swapOptions, slippageTolerance, affiliates)`: Generates swap messages for Oraidex using the OSOR router.
+- `getSwapOraidexMsg(amount, quoteCurrency, swapType, swapOptions, slippageTolerance, affiliates)`: Generates CosmWasm-formatted swap messages for ORAIDEX using the OSOR router.
 
 ### OsorRouter Class
 
-Handles routing logic for finding optimal swap paths.
+Handles routing logic for finding optimal swap paths on ORAIDEX.
 
 ### OsorMsgComposer Class
 
-Composes messages for different types of operations on Oraidex.
+Composes CosmWasm-formatted messages for different types of operations on ORAIDEX.
 
 ### ApiClient Class
 
-A wrapper around Axios for making HTTP requests with standardized error handling.
+A wrapper around Axios for making HTTP requests with standardized error handling and CosmWasm message support.
 
 #### Methods
 
