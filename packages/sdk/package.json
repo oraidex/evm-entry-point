@@ -19,7 +19,7 @@
     "build": "tsc",
     "dev:watch": "tsc -w",
     "lint": "eslint . --config eslint.config.js",
-    "lint:fix": "eslint . --config eslint.config.js --fix",
+    "lint:fix": "eslint . --config eslint.config.cjs --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "vitest run",
