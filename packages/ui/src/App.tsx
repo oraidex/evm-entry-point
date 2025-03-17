@@ -38,7 +38,7 @@ function App() {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <div className="w-full flex justify-center items-center h-[100vh] text-2xl">
+          <div className="m-10">
             <ConnectButton />
           </div>
           <Wallet />

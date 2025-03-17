@@ -1,14 +1,13 @@
 import { EntryPointTypes } from "@oraichain/osor-api-contracts-sdk/src";
+import { Affiliate } from "@oraichain/osor-api-contracts-sdk/src/EntryPoint.types";
+import { Decimal } from 'decimal.js';
 import { ApiClient } from "../ApiClient";
+import { IBC_TRANSFER_TIMEOUT } from "../constants";
 import { OsorSmartRouteResponse } from "../interfaces/IOsor";
-import { Currency, CurrencyAmount, TradeType } from "../interfaces/IRouter";
-import { SwapOptions } from "../interfaces/IRouter";
+import { Currency, CurrencyAmount, SwapOptions, TradeType } from "../interfaces/IRouter";
+import { calculateTimeoutTimestamp, isCw20Token, toBinary } from "../utils";
 import { OsorMsgComposer } from "./OsorMsgComposer";
 import { OsorRouter } from "./OsorRouter";
-import { Decimal } from 'decimal.js';
-import { calculateTimeoutTimestamp, isCw20Token, toBinary } from "../utils";
-import { Affiliate } from "@oraichain/osor-api-contracts-sdk/src/EntryPoint.types";
-import { IBC_TRANSFER_TIMEOUT } from "../constants";
 
 export class Osor {
     protected readonly apiClient: ApiClient;
@@ -19,13 +18,13 @@ export class Osor {
 
     constructor(
         private readonly osorUrl: string,
-    ){ 
+    ) {
         this.apiClient = new ApiClient();
         this.osorRouter = new OsorRouter(this.osorUrl, this.apiClient);
         this.osorMsgComposer = new OsorMsgComposer();
     }
 
-    
+
     /**
      * Generates swap messages for Oraidex using the OSOR router.
      * 
@@ -59,7 +58,13 @@ export class Osor {
         swapOptions?: SwapOptions,
         slippageTolerance: number = 1,
         affiliates?: Affiliate[],
-    ) {
+    ): Promise<(EntryPointTypes.ExecuteMsg | {
+        send: {
+            contract: string,
+            amount: string,
+            msg: string
+          }
+    })[]> {
         try {
             const route = await this.osorRouter.route<OsorSmartRouteResponse>(
                 amount,
@@ -67,7 +72,7 @@ export class Osor {
                 swapType,
                 swapOptions
             );
-            if(!route) {
+            if (!route) {
                 throw new Error('No route found');
             }
             const miniumAmount = new Decimal(route.returnAmount).mul(new Decimal(100).sub(slippageTolerance || 0).div(100));
@@ -91,22 +96,22 @@ export class Osor {
                         timeout_timestamp: +calculateTimeoutTimestamp(IBC_TRANSFER_TIMEOUT),
                         post_swap_action: {},
                         user_swap: {
-                            swap_exact_asset_in: {   
-                                swap_venue_name: 'oraidex',  operations: msg
+                            swap_exact_asset_in: {
+                                swap_venue_name: 'oraidex', operations: msg
                             }
                         }
                     }
                 } as EntryPointTypes.ExecuteMsg;
             })
 
-            if(isCw20Token(amount.currency.address)){
+            if (isCw20Token(amount.currency.address)) {
                 return executeMsgs.map(msg => {
                     return {
                         send: {
                             contract: this.ORAICHAIN_OSOR_ROUTER_ADDRESS,
                             amount: amount.amount,
                             msg: toBinary(msg)
-                          }
+                        }
                     }
                 });
             }

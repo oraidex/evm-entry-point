@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Token } from "@/types/Token";
 import { ComponentProps, forwardRef } from "react";
 import { SelectToken } from "../SelectToken";
@@ -7,7 +8,7 @@ type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   balance: number;
   price: number;
   tokenList: Token[];
-  amount?: number;
+  amount?: string;
   onAmountChange: (value: string) => void;
   disableInputAmount?: boolean;
 };
@@ -24,6 +25,7 @@ export const SelectTokenWithAmount = forwardRef<
       tokenList,
       amount,
       disableInputAmount,
+      className,
       onAmountChange,
       ...props
     },
@@ -31,7 +33,10 @@ export const SelectTokenWithAmount = forwardRef<
   ) => {
     return (
       <div
-        className="py-5 px-4 flex flex-col border group rounded-xl"
+        className={cn(
+          "py-5 px-4 flex flex-col border group rounded-xl",
+          className
+        )}
         {...props}
         ref={ref}
       >
@@ -40,6 +45,7 @@ export const SelectTokenWithAmount = forwardRef<
             variant="secondary"
             token={token}
             tokenList={tokenList}
+            className="border"
           />
           <div className="text-right">
             <input
@@ -72,7 +78,7 @@ export const SelectTokenWithAmount = forwardRef<
             <span>{token?.symbol}</span>
           </div>
           <span className="text-xs">
-            ${((price || 0) * (amount || 0)).toFixed(2)}
+            ${((price || 0) * (Number(amount) || 0)).toFixed(2)}
           </span>
         </div>
       </div>

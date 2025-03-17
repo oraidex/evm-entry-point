@@ -28,7 +28,7 @@ export type SwapModalProps = {
 
 export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
   const { tokenList } = useToken({});
-  const { token1, token2 } = useSwap({
+  const { token0, token1, amount0, amount1, onAmount0Change } = useSwap({
     tokenList,
   });
 
@@ -38,7 +38,7 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
         <div className="">
           <div className="w-full flex items-center justify-between">
             <div>
-              <span className="font-bold">OBridge</span>
+              <span className="font-bold">OraiDEX Swap</span>
             </div>
             <div className="flex items-center gap-4">
               <Drawer>
@@ -84,12 +84,12 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
         <div className="h-full mt-4 flex flex-col items-center justify-start">
           <div className="w-full rounded-xl flex flex-col gap-2">
             <SelectTokenWithAmount
-              token={token1}
+              token={token0}
               balance={0}
               price={0}
               tokenList={tokenList}
-              amount={123}
-              onAmountChange={() => console.log("set amount")}
+              amount={amount0}
+              onAmountChange={onAmount0Change}
             />
 
             <div className="w-full p-2 flex justify-between items-center">
@@ -104,13 +104,14 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
             </div>
 
             <SelectTokenWithAmount
-              token={token2}
+              token={token1}
               balance={0}
               price={0}
               tokenList={tokenList}
-              amount={123}
+              amount={amount1}
               onAmountChange={() => console.log("set amount")}
               disableInputAmount={true}
+              className="bg-secondary"
             />
 
             <Drawer>

@@ -35,6 +35,6 @@ export const TokenSelected: Story = {
     },
     price: 2.37,
     balance: 12.455,
-    amount: 123,
+    amount: "123",
   },
 };

@@ -1,7 +1,7 @@
 import { Token } from "@/types/Token";
 import { useEffect, useState } from "react";
 
-export const useToken = (props: any) => {
+export const useToken = (_props: any) => {
   // const {} = props;
 
   const [tokenList, setTokenList] = useState<Token[]>([]);
@@ -27,7 +27,7 @@ export const useToken = (props: any) => {
             address: {
               cosmos:
                 "factory/orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9/oraim8c9d1nkfuQk9EzGYEUGxqL3MHQYndRw1huVo5h",
-              evm: "orai",
+              evm: "0x519d9D63437e1111c6b84B6796dd500F800805ED",
             },
             name: "Max",
             symbol: "MAX",

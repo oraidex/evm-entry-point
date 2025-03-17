@@ -32,7 +32,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
       size = "default",
       ...props
     },
-    ref
+    _ref
   ) => {
     return (
       <Drawer modal>
@@ -57,7 +57,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
                   />
                   <AvatarFallback>?</AvatarFallback>
                 </Avatar>
-                ORAI
+                {token.symbol}
               </div>
             ) : (
               <span>Select a token</span>
