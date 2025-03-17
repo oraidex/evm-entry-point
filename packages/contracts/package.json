@@ -1,12 +1,12 @@
 {
   "name": "@oraichain/evm-entry-point",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "MIT",
   "files": [
     "contracts/**/*.sol",
-    "typechain-types/**/*.ts"
+    "dist/**/*"
   ],
-  "types": "./typechain-types/index.ts",
+  "main": "dist/typechain-types/index.js",
   "keywords": [
     "solidity",
     "smart-contracts",
@@ -20,9 +20,11 @@
     "test:contract": "hardhat test; forge test"
   },
   "dependencies": {
+    "@cosmjs/stargate": "^0.33.1",
     "@openzeppelin/contracts": "^5.2.0",
     "@openzeppelin/contracts-upgradeable": "^5.2.0",
     "@openzeppelin/hardhat-upgrades": "^3.9.0",
+    "@oraichain/oraidex-contracts-sdk": "^1.0.56",
     "hardhat-contract-sizer": "^2.10.0"
   },
   "devDependencies": {
