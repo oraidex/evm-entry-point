@@ -28,9 +28,10 @@ export type SwapModalProps = {
 
 export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
   const { tokenList } = useToken({});
-  const { token0, token1, amountIn, amountOut, onAmount0Change } = useSwap({
-    tokenList,
-  });
+  const { token0, token1, amountIn, amountOut, onAmount0Change, handleSwap } =
+    useSwap({
+      tokenList,
+    });
 
   return (
     <div className="border flex flex-col w-[90vw] h-[500px] max-w-[420px] max-h-[500px] rounded-2xl bg-white">
@@ -153,7 +154,7 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
           </div>
 
           <div className="w-full mt-4">
-            <SwapButton isLoading={false} content="Swap" />
+            <SwapButton onClick={handleSwap} isLoading={false} content="Swap" />
           </div>
         </div>
       </div>

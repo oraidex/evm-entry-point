@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@oraichain/oraidex-evm-sdk": "workspace:*",
+    "@oraichain/evm-entry-point": "workspace:*",
     "@chromatic-com/storybook": "^3.2.5",
     "@eslint/js": "^9.21.0",
     "@storybook/addon-essentials": "^8.6.4",

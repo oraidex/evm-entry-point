@@ -224,6 +224,9 @@ importers:
       '@eslint/js':
         specifier: ^9.21.0
         version: 9.22.0
+      '@oraichain/evm-entry-point':
+        specifier: workspace:*
+        version: link:../contracts
       '@oraichain/oraidex-evm-sdk':
         specifier: workspace:*
         version: link:../sdk

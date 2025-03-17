@@ -1,5 +1,7 @@
+import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
+import { IWasmd__factory } from "@oraichain/evm-entry-point";
 import { EntryPointTypes, Osor } from "@oraichain/oraidex-evm-sdk";
 import { Decimal } from "decimal.js";
 import { useEffect, useMemo, useState } from "react";
@@ -84,11 +86,17 @@ export const useSwap = (props: UseSwapProps) => {
     setAmountIn(value);
   };
 
+  const handleSwap = async () => {
+    console.log("swap");
+    const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY);
+  }
+
   return {
     token0,
     token1,
     amountIn,
     amountOut,
     onAmount0Change,
+    handleSwap
   };
 };
