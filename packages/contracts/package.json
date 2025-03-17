@@ -1,10 +1,12 @@
 {
   "name": "@oraichain/evm-entry-point",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "files": [
-    "contracts/**/*.sol"
+    "contracts/**/*.sol",
+    "typechain-types/**/*.ts"
   ],
+  "types": "./typechain-types/index.ts",
   "keywords": [
     "solidity",
     "smart-contracts",
