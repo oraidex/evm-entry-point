@@ -66,6 +66,7 @@ export class Osor {
           }
     })[]> {
         try {
+           console.log(1)
             const route = await this.osorRouter.route<OsorSmartRouteResponse>(
                 amount,
                 quoteCurrency,
@@ -75,6 +76,7 @@ export class Osor {
             if (!route) {
                 throw new Error('No route found');
             }
+            console.log(route);
             const miniumAmount = new Decimal(route.returnAmount).mul(new Decimal(100).sub(slippageTolerance || 0).div(100));
             const msgs = route.routes.map(this.osorMsgComposer.generateMsgFromRouteResponse);
 
