@@ -12,7 +12,7 @@ const main = async () => {
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
   const tokenFactoryAddress =
-    "orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42";
+    "orai1wkwy0xh89ksdgj9hr347dyd2dw7zesmtrue6kfzyml4vdtz6e5ws5thn3e";
 
   console.log(
     "Cosmos address:",
@@ -76,16 +76,22 @@ const main = async () => {
 
   const burnTx = await erc20Native
     .connect(secondAccount)
-    .burn(100000n * 10n ** 18n);
+    .burn(50000n * 10n ** 18n);
   console.log(`Burn tx: ${burnTx.hash}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  if (totalSupply !== (await erc20Native.totalSupply())) {
-    throw new Error("Failed");
-  }
+  const approveFirstAccTx = await erc20Native
+    .connect(secondAccount)
+    .approve(account.address, 50000n * 10n ** 18n);
+  console.log(`Approve tx: ${approveFirstAccTx.hash}`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const burnFromTx = await erc20Native
+    .connect(account)
+    .burnFrom(secondAccount.address, 50000n * 10n ** 18n);
+  console.log(`Burn from tx: ${burnFromTx.hash}`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const receiverBalance = await erc20Native.balanceOf(secondAccount.address);
   if (receiverBalance !== 0n * 10n ** 18n) {
     throw new Error("Failed");
   }
 };
-
 main();

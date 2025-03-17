@@ -1,6 +1,6 @@
+import { Token } from "@/types/Token";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Separator } from "@radix-ui/react-separator";
 import { VariantProps } from "class-variance-authority";
 import { ChevronDownIcon, X } from "lucide-react";
 import { forwardRef } from "react";
@@ -14,171 +14,33 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Input } from "../ui/input";
-import { Token } from "./types";
-
-// TODO: tokens hardcode list
-const tokens: Token[] = [
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-  {
-    symbol: "ORAI",
-    image: "https://github.com/shadcn.png",
-  },
-];
 
 export interface SelectTokenProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   token: Token | null;
+  tokenList: Token[];
 }
 
 export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
   (
-    { token, className, variant = "outline", size = "default", ...props },
+    {
+      token,
+      tokenList,
+      className,
+      variant = "outline",
+      size = "default",
+      ...props
+    },
     ref
   ) => {
     return (
       <Drawer modal>
-        <DrawerTrigger>
+        <DrawerTrigger asChild>
           <Button
             variant={variant}
             size={size}
             className={className}
-            ref={ref}
             asChild={false}
             {...props}
           >
@@ -190,10 +52,10 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
                     className="rounded-full"
                     width={20}
                     height={20}
-                    src="https://github.com/shadcn.png"
+                    src={token.image}
                     alt="Token Image"
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>?</AvatarFallback>
                 </Avatar>
                 ORAI
               </div>
@@ -203,7 +65,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
             <ChevronDownIcon />
           </Button>
         </DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent aria-describedby={undefined}>
           <DrawerHeader>
             <DrawerTitle className="text-center">Select a token</DrawerTitle>
             <DrawerClose className="absolute right-4">
@@ -217,23 +79,20 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
                 type="scroll"
                 className="max-h-[370px] w-full rounded-md overflow-auto"
               >
-                {tokens.map((token, index) => (
-                  <>
-                    <div key={index} className="flex gap-2">
-                      <Avatar>
-                        <AvatarImage
-                          className="rounded-full"
-                          width={20}
-                          height={20}
-                          src={token.image}
-                          alt="Token Image"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <span>{token.symbol}</span>
-                    </div>
-                    <Separator className="my-2" />
-                  </>
+                {tokenList.map((token, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Avatar>
+                      <AvatarImage
+                        className="rounded-full"
+                        width={20}
+                        height={20}
+                        src={token.image}
+                        alt="Token Image"
+                      />
+                      <AvatarFallback>?</AvatarFallback>
+                    </Avatar>
+                    <span>{token.symbol}</span>
+                  </div>
                 ))}
               </ScrollArea>
             </div>

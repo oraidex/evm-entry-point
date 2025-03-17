@@ -205,18 +205,15 @@ abstract contract ERC20Native is IERC20, Context {
     }
 
     function _burn(address _account, uint256 _amount) internal {
-        if (_account == _msgSender()) {
-            (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
-                abi.encodeWithSignature(
-                    "burn(string,uint256)",
-                    fulldenom,
-                    _amount
-                )
-            );
-            require(success, "ERC20: burn failed");
-        } else {
-            require(false, "ERC20: burn from another account is not supported");
-        }
+        (bool success, ) = BANK_PRECOMPILE_ADDRESS.delegatecall(
+            abi.encodeWithSignature(
+                "burn(address,string,uint256)",
+                _account,
+                fulldenom,
+                _amount
+            )
+        );
+        require(success, "ERC20: burn failed");
     }
 
     function _createDenom() internal {

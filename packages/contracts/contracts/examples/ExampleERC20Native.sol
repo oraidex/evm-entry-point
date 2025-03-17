@@ -29,4 +29,8 @@ contract ExampleERC20Native is ERC20Native, Ownable {
     function burn(uint256 amount) public {
         _burn(_msgSender(), amount);
     }
+
+    function burnFrom(address account, uint256 amount) public onlyOwner {
+        _burn(account, amount);
+    }
 }

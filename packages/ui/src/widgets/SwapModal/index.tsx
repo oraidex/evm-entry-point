@@ -7,6 +7,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { truncateHash } from "@/lib/utils";
 import {
   ArrowDownUp,
   ChevronDownIcon,
@@ -16,18 +17,24 @@ import {
   Settings,
   X,
 } from "lucide-react";
-import { useRef } from "react";
+import { JSX } from "react";
+import { useSwap } from "./hooks/useSwap";
+import { useToken } from "./hooks/useToken";
 
-export const SwapModal = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  console.log(containerRef);
+export type SwapModalProps = {
+  sender?: string;
+  connectButton?: JSX.Element;
+};
+
+export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
+  const { tokenList } = useToken({});
+  const { token1, token2 } = useSwap({
+    tokenList,
+  });
 
   return (
-    <div className="border flex flex-col w-[90vw] h-[500px] max-w-[420px] max-h-[500px] rounded-2xl ">
-      <div
-        className="relative h-full p-4 rounded-2xl overflow-hidden"
-        ref={containerRef}
-      >
+    <div className="border flex flex-col w-[90vw] h-[500px] max-w-[420px] max-h-[500px] rounded-2xl bg-white">
+      <div className="relative h-full p-4 rounded-2xl overflow-hidden">
         <div className="">
           <div className="w-full flex items-center justify-between">
             <div>
@@ -38,7 +45,7 @@ export const SwapModal = () => {
                 <DrawerTrigger>
                   <Settings size={20} />
                 </DrawerTrigger>
-                <DrawerContent>
+                <DrawerContent aria-describedby={undefined}>
                   <DrawerHeader>
                     <DrawerTitle className="text-center">
                       Slippage Settings
@@ -64,25 +71,29 @@ export const SwapModal = () => {
               </Drawer>
 
               <RotateCw size={20} />
-              <div>Connect Wallet</div>
+              {sender ? (
+                <div>
+                  {sender == "Disconnected" ? sender : truncateHash(sender)}
+                </div>
+              ) : (
+                connectButton
+              )}
             </div>
           </div>
         </div>
         <div className="h-full mt-4 flex flex-col items-center justify-start">
           <div className="w-full rounded-xl flex flex-col gap-2">
             <SelectTokenWithAmount
-              token={{
-                symbol: "ORAI",
-                image: "https://github.com/shadcn.png",
-                balance: 12.455,
-                price: 2.37,
-              }}
+              token={token1}
+              balance={0}
+              price={0}
+              tokenList={tokenList}
               amount={123}
               onAmountChange={() => console.log("set amount")}
             />
 
             <div className="w-full p-2 flex justify-between items-center">
-              <div className="p-2 bg-secondary border rounded-full">
+              <div className="p-2 bg-secondary border rounded-full hover:cursor-pointer">
                 <ArrowDownUp size={24} />
               </div>
               <div>
@@ -93,14 +104,13 @@ export const SwapModal = () => {
             </div>
 
             <SelectTokenWithAmount
-              token={{
-                symbol: "ORAI",
-                image: "https://github.com/shadcn.png",
-                balance: 12.455,
-                price: 2.37,
-              }}
+              token={token2}
+              balance={0}
+              price={0}
+              tokenList={tokenList}
               amount={123}
               onAmountChange={() => console.log("set amount")}
+              disableInputAmount={true}
             />
 
             <Drawer>
@@ -116,7 +126,7 @@ export const SwapModal = () => {
                   </div>
                 </div>
               </DrawerTrigger>
-              <DrawerContent>
+              <DrawerContent aria-describedby={undefined}>
                 <DrawerHeader>
                   <DrawerTitle className="text-center">
                     Estimated Fee

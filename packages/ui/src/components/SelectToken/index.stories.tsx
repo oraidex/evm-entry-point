@@ -26,8 +26,17 @@ export const TokenSelected: Story = {
     variant: "outline",
     size: "default",
     token: {
+      address: {
+        cosmos: "orai",
+        evm: "orai",
+      },
+      name: "Oraichain",
       symbol: "ORAI",
-      image: "https://github.com/shadcn.png",
+      decimals: {
+        cosmos: 6,
+        evm: 18,
+      },
+      image: "https://images.orai.io/logo/orai-token.png",
     },
   },
 };

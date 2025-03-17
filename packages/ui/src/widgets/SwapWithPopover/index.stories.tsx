@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SwapModal } from ".";
+import { SwapWithPopover } from ".";
 
-const meta: Meta<typeof SwapModal> = {
-  title: "Widgets/SwapModal",
-  component: SwapModal,
+const meta: Meta<typeof SwapWithPopover> = {
+  title: "Widgets/SwapWithPopover",
+  component: SwapWithPopover,
   parameters: {
-    layout: "centered",
+    layout: "fullscreen",
   },
 };
 
