@@ -28,7 +28,7 @@ export type SwapModalProps = {
 
 export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
   const { tokenList } = useToken({});
-  const { token0, token1, amount0, amount1, onAmount0Change } = useSwap({
+  const { token0, token1, amountIn, amountOut, onAmount0Change } = useSwap({
     tokenList,
   });
 
@@ -88,7 +88,7 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
               balance={0}
               price={0}
               tokenList={tokenList}
-              amount={amount0}
+              amount={amountIn}
               onAmountChange={onAmount0Change}
             />
 
@@ -108,7 +108,7 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
               balance={0}
               price={0}
               tokenList={tokenList}
-              amount={amount1}
+              amount={amountOut}
               onAmountChange={() => console.log("set amount")}
               disableInputAmount={true}
               className="bg-secondary"

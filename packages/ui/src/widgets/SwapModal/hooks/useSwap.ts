@@ -1,8 +1,8 @@
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
-import { Osor } from "@oraichain/oraidex-evm-sdk";
+import { EntryPointTypes, Osor } from "@oraichain/oraidex-evm-sdk";
 import { Decimal } from "decimal.js";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface UseSwapProps {
   tokenList: Token[];
@@ -15,10 +15,19 @@ export const useSwap = (props: UseSwapProps) => {
 
   const [token0, setToken0] = useState<Token | null>(null);
   const [token1, setToken1] = useState<Token | null>(null);
-  const [debounceAmount0, amount0, setAmount0] = useDebounce<
+  const [debounceAmountIn, amountIn, setAmountIn] = useDebounce<
     string | undefined
   >(undefined, 1000);
-  const [amount1, setAmount1] = useState<string | undefined>(undefined);
+  const [simulateResponse, setSimulateResponse] = useState<{
+    executeMsg: (EntryPointTypes.ExecuteMsg | {
+      send: {
+        contract: string,
+        amount: string,
+        msg: string
+      }
+    })[],
+    returnAmount: string
+  } | null>(null)
 
   useEffect(() => {
     if (tokenList.length >= 2) {
@@ -34,11 +43,10 @@ export const useSwap = (props: UseSwapProps) => {
         return;
       }
 
-      const amountIn = new Decimal(debounceAmount0 || 0);
+      const amountIn = new Decimal(debounceAmountIn || 0);
 
       if (amountIn.isZero()) {
-        console.log("Input amount");
-        setAmount1("0");
+        setSimulateResponse(null);
         return;
       }
 
@@ -60,21 +68,27 @@ export const useSwap = (props: UseSwapProps) => {
         }
       );
 
-      console.log(res);
 
-      setAmount1("1.23");
+      setSimulateResponse(res);
     })();
-  }, [debounceAmount0, token0, token1]);
+  }, [debounceAmountIn, token0, token1]);
+
+  const amountOut = useMemo(() => {
+    if (!simulateResponse) return "0";
+
+    return new Decimal(simulateResponse.returnAmount).div(10 ** token1.decimals.cosmos).toString();
+  }, [simulateResponse])
 
   const onAmount0Change = (value: string | undefined) => {
-    setAmount0(value);
+    // TODO: more validate here
+    setAmountIn(value);
   };
 
   return {
     token0,
     token1,
-    amount0,
-    amount1,
+    amountIn,
+    amountOut,
     onAmount0Change,
   };
 };
