@@ -7,9 +7,11 @@
     "ethereum",
     "oraidex"
   ],
-  "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "license": "MIT",
   "files": [
     "dist"
   ],

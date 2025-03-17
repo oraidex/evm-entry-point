@@ -1,7 +1,7 @@
+import { SwapOperation } from '@oraichain/osor-api-contracts-sdk/src';
 import { ActionRoute, RouteResponse, SwapActionRoute } from "../interfaces/IRouter";
 import { SwapV2, SwapV3 } from "../interfaces/ISwapMessage";
 import { denomToAssetInfo, isCw20Token, parsePoolKey, toBinary } from "../utils";
-import { SwapOperation } from '@oraichain/osor-api-contracts-sdk/src';
 
 
 const CONVERTER_CONTRACT = "orai14wy8xndhnvjmx6zl2866xqvs7fqwv2arhhrqq9";

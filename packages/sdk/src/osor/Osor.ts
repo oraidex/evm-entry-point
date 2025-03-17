@@ -78,7 +78,7 @@ export class Osor {
             }
             console.log(route);
             const miniumAmount = new Decimal(route.returnAmount).mul(new Decimal(100).sub(slippageTolerance || 0).div(100));
-            const msgs = route.routes.map(this.osorMsgComposer.generateMsgFromRouteResponse);
+            const msgs = route.routes.map(route => this.osorMsgComposer.generateMsgFromRouteResponse(route));
 
             const executeMsgs = msgs.map(msg => {
                 return {
@@ -120,7 +120,7 @@ export class Osor {
 
             return executeMsgs;
         } catch (error) {
-            console.log(error)
+            console.log(error);
             throw new Error('Failed to route swap');
         }
     }

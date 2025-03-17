@@ -32,7 +32,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
       size = "default",
       ...props
     },
-    _ref
+    ref
   ) => {
     return (
       <Drawer modal>
@@ -43,6 +43,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
             className={className}
             asChild={false}
             {...props}
+            ref={ref}
           >
             {/* Select a token<ChevronDownIcon /> */}
             {token ? (

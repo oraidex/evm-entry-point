@@ -16,7 +16,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, "./src/components/index.tsx"),
+      entry: path.resolve(__dirname, "./src/index.tsx"),
       name: "OraiDEX EVM UI",
       fileName: "oraidex-evm-ui",
     },
@@ -28,6 +28,9 @@ export default defineConfig({
           "react-dom": "ReactDOM",
         },
       },
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true, 
     },
   },
   optimizeDeps: {

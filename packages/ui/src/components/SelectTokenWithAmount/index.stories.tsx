@@ -15,7 +15,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    tokenList: [],
+  },
 };
 
 export const TokenSelected: Story = {
@@ -36,5 +38,6 @@ export const TokenSelected: Story = {
     price: 2.37,
     balance: 12.455,
     amount: "123",
+    tokenList: [],
   },
 };
