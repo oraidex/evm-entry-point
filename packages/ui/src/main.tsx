@@ -5,7 +5,7 @@ import "./index.css";
 
 import { Buffer as BufferPolyfill } from "buffer";
 import App from "./App";
-declare var Buffer: typeof BufferPolyfill;
+declare let Buffer: typeof BufferPolyfill;
 globalThis.Buffer = BufferPolyfill;
 
 const container = document.getElementById("root");
