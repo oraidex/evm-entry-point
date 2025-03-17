@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "dev:watch": "tsc -w",
     "lint": "eslint . --config eslint.config.js",
     "lint:fix": "eslint . --config eslint.config.js --fix",
     "format": "prettier --write \"src/**/*.ts\"",

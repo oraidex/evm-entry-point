@@ -4,13 +4,16 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:watch": "turbo run dev:watch dev --parallel --filter=@oraichain/oraidex-evm-sdk --filter=ui",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "lint:fix": "turbo run lint:fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "deploy": "pnpm publish --access public",
     "check-types": "turbo run check-types",
-    "prepare": "husky"
+    "prepare": "husky",
+    "clean": "turbo run clean && rm -rf node_modules .turbo dist .next",
+    "clean:fresh": "pnpm clean && rm -rf **/node_modules **/.turbo **/.next **/dist && pnpm install"
   },
   "devDependencies": {
     "husky": "^9.1.7",

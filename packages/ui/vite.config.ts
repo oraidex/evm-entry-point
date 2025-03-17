@@ -33,5 +33,10 @@ export default defineConfig({
   optimizeDeps: {
     include: ["@oraichain/oraidex-evm-sdk"],
   },
+  server: {
+    watch: {
+      ignored: ["!**/node_modules/@oraichain/oraidex-evm-sdk/**"],
+    },
+  },
   plugins: [react(), dts({ rollupTypes: true })],
 });

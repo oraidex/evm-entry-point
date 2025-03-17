@@ -8,6 +8,8 @@ const CONVERTER_CONTRACT = "orai14wy8xndhnvjmx6zl2866xqvs7fqwv2arhhrqq9";
 
 
 export class OsorMsgComposer {
+    constructor() {}
+
     parseConverterMsgToPoolId = (tokenIn: string, tokenOut: string) => {
         // In Oraichain, conversion from native token to CW20 token always occurs
         // TODO: Query the converter contract to determine the appropriate conversion method
@@ -36,17 +38,18 @@ export class OsorMsgComposer {
         }
       };
 
-    generateMsgFromRouteResponse(routeResponse: RouteResponse) {
-        const isUniversalMsg = routeResponse.paths.some(path => path.actions.some(action => action.type === 'Bridge'));
+    generateMsgFromRouteResponse = (routeResponse: RouteResponse) => {
+      const isUniversalMsg = routeResponse.paths.some(path => path.actions.some(action => action.type === 'Bridge'));
         if(isUniversalMsg){
             return this._generateUniversalSwapMsg(routeResponse);
         } else {
             const swapActionRouteSample = routeResponse.paths[0].actions;
+            console.log(swapActionRouteSample);
             return this.generateSwapOps(swapActionRouteSample);
         }
     }
 
-    generateSwapOps(swapActionRoute: ActionRoute[]): SwapOperation[] {
+    generateSwapOps= (swapActionRoute: ActionRoute[]): SwapOperation[] => {
         const swapOps: SwapOperation[] = [];
         for(const actionRoute of swapActionRoute){
             let tokenIn = actionRoute.tokenIn;
@@ -92,7 +95,7 @@ export class OsorMsgComposer {
         return swapMsgs;
     }
 
-    generateOraidexV3SwapMsg(swapActionRoute: SwapActionRoute): SwapV3[] {
+    generateOraidexV3SwapMsg = (swapActionRoute: SwapActionRoute): SwapV3[] => {
         let tokenIn = swapActionRoute.tokenIn;
         const swapInfo = swapActionRoute.swapInfo;
         const swapMsgs: SwapV3[] = [];
@@ -109,7 +112,7 @@ export class OsorMsgComposer {
         return swapMsgs;
     }
 
-    _generateUniversalSwapMsg(_routeResponse: RouteResponse): SwapOperation[] {
+    _generateUniversalSwapMsg = (_routeResponse: RouteResponse): SwapOperation[] => {
         throw new Error('Universal swap have not supported yet');
     }
 }
