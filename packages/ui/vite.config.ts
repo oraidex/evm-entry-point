@@ -8,6 +8,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@oraichain/oraidex-evm-sdk": path.resolve(
+        __dirname,
+        "../sdk/dist/index"
+      ),
     },
   },
   build: {
@@ -25,6 +29,9 @@ export default defineConfig({
         },
       },
     },
+  },
+  optimizeDeps: {
+    include: ["@oraichain/oraidex-evm-sdk"],
   },
   plugins: [react(), dts({ rollupTypes: true })],
 });

@@ -1,6 +1,6 @@
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
-// import { Osor } from "@oraichain/oraidex-evm-sdk";
+import { Osor } from "@oraichain/oraidex-evm-sdk";
 import { Decimal } from "decimal.js";
 import { useEffect, useState } from "react";
 
@@ -8,7 +8,7 @@ interface UseSwapProps {
   tokenList: Token[];
 }
 
-// const osor = new Osor("https://osor.oraidex.io/smart-router/alpha-router");
+const osor = new Osor("https://osor.oraidex.io/smart-router/alpha-router");
 
 export const useSwap = (props: UseSwapProps) => {
   const { tokenList } = props;
@@ -42,23 +42,25 @@ export const useSwap = (props: UseSwapProps) => {
         return;
       }
 
-      // const res = await osor.getSwapOraidexMsg(
-      //   {
-      //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-      //     currency: {
-      //       address: token0.address.cosmos,
-      //       chainId: "Oraichain",
-      //       decimals: token0.decimals.cosmos,
-      //       symbol: token0.symbol,
-      //     },
-      //   },
-      //   {
-      //     address: token1.address.cosmos,
-      //     chainId: "Oraichain",
-      //     decimals: token1.decimals.cosmos,
-      //     symbol: token1.symbol,
-      //   }
-      // );
+      const res = await osor.getSwapOraidexMsg(
+        {
+          amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
+          currency: {
+            address: token0.address.cosmos,
+            chainId: "Oraichain",
+            decimals: token0.decimals.cosmos,
+            symbol: token0.symbol,
+          },
+        },
+        {
+          address: token1.address.cosmos,
+          chainId: "Oraichain",
+          decimals: token1.decimals.cosmos,
+          symbol: token1.symbol,
+        }
+      );
+
+      console.log(res);
 
       setAmount1("1.23");
     })();

@@ -118,6 +118,7 @@ export class Osor {
 
             return executeMsgs;
         } catch (error) {
+            console.log(error)
             throw new Error('Failed to route swap');
         }
     }
