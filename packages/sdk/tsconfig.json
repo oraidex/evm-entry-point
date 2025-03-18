@@ -4,11 +4,11 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es2020",
-    "module": "commonjs",
+    "module": "ESNext", // Change to ESNext for ESM output
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node", // Keep this for now, but "bundler" could also work with Vite
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "outDir": "dist"

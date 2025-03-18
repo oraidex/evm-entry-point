@@ -1,24 +1,38 @@
+import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
-import { Osor } from "@oraichain/oraidex-evm-sdk";
+import { EntryPointTypes, IWasmd__factory, Osor } from "@oraichain/oraidex-evm-sdk";
+import { Buffer } from "buffer";
 import { Decimal } from "decimal.js";
-import { useEffect, useState } from "react";
+import { JsonRpcSigner } from "ethers";
+import { useEffect, useMemo, useState } from "react";
+import { TradeType } from "../../../../../sdk/dist/interfaces/IRouter";
 
 interface UseSwapProps {
   tokenList: Token[];
+  signer: JsonRpcSigner | undefined;
 }
 
 const osor = new Osor("https://osor.oraidex.io/smart-router/alpha-router");
 
 export const useSwap = (props: UseSwapProps) => {
-  const { tokenList } = props;
+  const { tokenList, signer } = props;
 
   const [token0, setToken0] = useState<Token | null>(null);
   const [token1, setToken1] = useState<Token | null>(null);
-  const [debounceAmount0, amount0, setAmount0] = useDebounce<
+  const [debounceAmountIn, amountIn, setAmountIn] = useDebounce<
     string | undefined
   >(undefined, 1000);
-  const [amount1, setAmount1] = useState<string | undefined>(undefined);
+  const [simulateResponse, setSimulateResponse] = useState<{
+    executeMsg: EntryPointTypes.ExecuteMsg | {
+      send: {
+        contract: string,
+        amount: string,
+        msg: string
+      }
+    },
+    returnAmount: string
+  } | null>(null)
 
   useEffect(() => {
     if (tokenList.length >= 2) {
@@ -34,11 +48,10 @@ export const useSwap = (props: UseSwapProps) => {
         return;
       }
 
-      const amountIn = new Decimal(debounceAmount0 || 0);
+      const amountIn = new Decimal(debounceAmountIn || 0);
 
       if (amountIn.isZero()) {
-        console.log("Input amount");
-        setAmount1("0");
+        setSimulateResponse(null);
         return;
       }
 
@@ -57,24 +70,75 @@ export const useSwap = (props: UseSwapProps) => {
           chainId: "Oraichain",
           decimals: token1.decimals.cosmos,
           symbol: token1.symbol,
-        }
+        },
+        // TODO:  query on Mapping module EVM-address
+        `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
+        TradeType.EXACT_INPUT
       );
 
-      console.log(res);
-
-      setAmount1("1.23");
+      setSimulateResponse({
+        executeMsg: res.executeMsg[0],
+        returnAmount: res.returnAmount
+      });
     })();
-  }, [debounceAmount0, token0, token1]);
+  }, [debounceAmountIn, token0, token1]);
+
+  const amountOut = useMemo(() => {
+    if (!simulateResponse) return "0";
+
+    return new Decimal(simulateResponse.returnAmount).div(10 ** token1.decimals.cosmos).toString();
+  }, [simulateResponse])
 
   const onAmount0Change = (value: string | undefined) => {
-    setAmount0(value);
+    // TODO: more validate here
+    setAmountIn(value);
   };
+
+  const handleSwap = async () => {
+    console.log("swap");
+    const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
+
+    let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
+    const coins = [];
+    const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg))
+
+    if ("send" in simulateResponse.executeMsg) {
+      toContract = token0.address.cosmos;
+    } else {
+      const amountIn = new Decimal(debounceAmountIn || 0).mul(10 ** token0.decimals.cosmos).toString();
+      coins.push({
+        denom: token0.address.cosmos,
+        amount: amountIn
+      });
+    }
+
+    console.log({
+      toAddress: toContract,
+      msg: simulateResponse.executeMsg,
+      coins: coins,
+    })
+
+    const res = await wasmd.execute(toContract, msg, Buffer.from(JSON.stringify(coins)));
+
+    console.log(res);
+  }
+
+  const handleReverseOrder = () => {
+    const [newToken0, newToken1] = [token1, token0];
+    setToken0(newToken0);
+    setAmountIn(amountOut);
+    setToken1(newToken1);
+  }
 
   return {
     token0,
     token1,
-    amount0,
-    amount1,
+    amountIn,
+    amountOut,
+    setToken0,
+    setToken1,
     onAmount0Change,
+    handleSwap,
+    handleReverseOrder
   };
 };

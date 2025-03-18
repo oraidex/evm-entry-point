@@ -15,7 +15,6 @@ export class Osor {
     osorMsgComposer: OsorMsgComposer;
     ORAICHAIN_OSOR_ROUTER_ADDRESS = "orai1yglsm0u2x3xmct9kq3lxa654cshaxj9j5d9rw5enemkkkdjgzj7sr3gwt0";
 
-
     constructor(
         private readonly osorUrl: string,
     ) {
@@ -46,25 +45,30 @@ export class Osor {
      *                                     - 100 basis points = 1% = 0.01 in decimal form
      *                                     - Example: { address: "addr", basis_points_fee: "100" } means 1% fee
      * 
-     * @returns {Promise<EntryPointTypes.ExecuteMsg[]>} - An array of messages to execute the swap. If the input token is a CW20 token,
-     *                             returns an array of CW20 send messages. Otherwise, returns an array of execute messages.
+     * @returns {Promise<{ executeMsg: (EntryPointTypes.ExecuteMsg | { send: { contract: string, amount: string, msg: string } })[], returnAmount: string }>} - 
+     *          An object containing an array of messages to execute the swap and the return amount. If the input token is a CW20 token,
+     *          returns an array of CW20 send messages. Otherwise, returns an array of execute messages.
      * 
      * @throws {Error} - Throws an error if no route is found or if the routing process fails.
      */
     async getSwapOraidexMsg(
         amount: CurrencyAmount,
         quoteCurrency: Currency,
+        recipient: string,
         swapType: TradeType = TradeType.EXACT_INPUT,
         swapOptions?: SwapOptions,
         slippageTolerance: number = 1,
         affiliates?: Affiliate[],
-    ): Promise<(EntryPointTypes.ExecuteMsg | {
-        send: {
-            contract: string,
-            amount: string,
-            msg: string
-          }
-    })[]> {
+    ): Promise<{
+        executeMsg: (EntryPointTypes.ExecuteMsg | {
+            send: {
+                contract: string,
+                amount: string,
+                msg: string
+            }
+        })[],
+        returnAmount: string
+    }> {
         try {
            console.log(1)
             const route = await this.osorRouter.route<OsorSmartRouteResponse>(
@@ -78,7 +82,7 @@ export class Osor {
             }
             console.log(route);
             const miniumAmount = new Decimal(route.returnAmount).mul(new Decimal(100).sub(slippageTolerance || 0).div(100));
-            const msgs = route.routes.map(this.osorMsgComposer.generateMsgFromRouteResponse);
+            const msgs = route.routes.map(route => this.osorMsgComposer.generateMsgFromRouteResponse(route));
 
             const executeMsgs = msgs.map(msg => {
                 return {
@@ -96,7 +100,11 @@ export class Osor {
                             }
                         },
                         timeout_timestamp: +calculateTimeoutTimestamp(IBC_TRANSFER_TIMEOUT),
-                        post_swap_action: {},
+                        post_swap_action: {
+                            transfer: {
+                                to_address: recipient
+                            }
+                        },
                         user_swap: {
                             swap_exact_asset_in: {
                                 swap_venue_name: 'oraidex', operations: msg
@@ -107,20 +115,26 @@ export class Osor {
             })
 
             if (isCw20Token(amount.currency.address)) {
-                return executeMsgs.map(msg => {
-                    return {
-                        send: {
-                            contract: this.ORAICHAIN_OSOR_ROUTER_ADDRESS,
-                            amount: amount.amount,
-                            msg: toBinary(msg)
+                return {
+                    executeMsg: executeMsgs.map(msg => {
+                        return {
+                            send: {
+                                contract: this.ORAICHAIN_OSOR_ROUTER_ADDRESS,
+                                amount: amount.amount,
+                                msg: toBinary(msg)
+                            }
                         }
-                    }
-                });
+                    }),
+                    returnAmount: route.returnAmount
+                }
             }
 
-            return executeMsgs;
+            return {
+                executeMsg: executeMsgs,
+                returnAmount: route.returnAmount
+            };
         } catch (error) {
-            console.log(error)
+            console.log(error);
             throw new Error('Failed to route swap');
         }
     }

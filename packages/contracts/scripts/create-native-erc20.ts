@@ -26,9 +26,9 @@ const main = async () => {
   // local: orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69
   // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
   const nativeERC20 = await new ExampleNativeERC20__factory(account).deploy(
-    `factory/${tokenFactoryAddress}/oraim8c9d1nkfuQk9EzGYEUGxqL3MHQYndRw1huVo5h`,
-    "MAX",
-    "MAX",
+    `factory/${tokenFactoryAddress}/oraix39mVDGnusyjag97Tz5H8GvGriSZmhVvkvXRoc4`,
+    "LEE",
+    "LEE",
     6
   );
   console.log("Deploy tx:", await nativeERC20.waitForDeployment());

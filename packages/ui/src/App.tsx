@@ -28,7 +28,7 @@ const config = getDefaultConfig({
       },
     },
   ],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  ssr: false, // If your dApp uses server side rendering (SSR)
 });
 
 const queryClient = new QueryClient();

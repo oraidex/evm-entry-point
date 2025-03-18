@@ -8,6 +8,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { truncateHash } from "@/lib/utils";
+import { JsonRpcSigner } from "ethers";
 import {
   ArrowDownUp,
   ChevronDownIcon,
@@ -24,16 +25,32 @@ import { useToken } from "./hooks/useToken";
 export type SwapModalProps = {
   sender?: string;
   connectButton?: JSX.Element;
+  signer?: JsonRpcSigner;
 };
 
-export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
+export const SwapModal = ({
+  sender,
+  connectButton,
+  signer,
+}: SwapModalProps) => {
   const { tokenList } = useToken({});
-  const { token0, token1, amount0, amount1, onAmount0Change } = useSwap({
+  const {
+    token0,
+    token1,
+    amountIn,
+    amountOut,
+    onAmount0Change,
+    handleSwap,
+    setToken0,
+    setToken1,
+    handleReverseOrder,
+  } = useSwap({
     tokenList,
+    signer,
   });
 
   return (
-    <div className="border flex flex-col w-[90vw] h-[500px] max-w-[420px] max-h-[500px] rounded-2xl bg-white">
+    <div className="border-2 border-primary flex flex-col w-[90vw] h-[520px] max-w-[420px] max-h-[520px] rounded-2xl bg-white">
       <div className="relative h-full p-4 rounded-2xl overflow-hidden">
         <div className="">
           <div className="w-full flex items-center justify-between">
@@ -87,36 +104,41 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
               token={token0}
               balance={0}
               price={0}
+              setToken={setToken0}
               tokenList={tokenList}
-              amount={amount0}
+              amount={amountIn}
               onAmountChange={onAmount0Change}
             />
 
-            <div className="w-full p-2 flex justify-between items-center">
-              <div className="p-2 bg-secondary border rounded-full hover:cursor-pointer">
+            <div className="w-full p-2 flex justify-center items-center">
+              <div
+                onClick={handleReverseOrder}
+                className="p-2 bg-secondary border border-primary rounded-full hover:cursor-pointer"
+              >
                 <ArrowDownUp size={24} />
               </div>
-              <div>
-                <span className="text-sm font-bold">
+              {/* <div> */}
+                {/* <span className="text-sm font-bold">
                   1 USDT = 0.359673 ORAI
-                </span>
-              </div>
+                </span> */}
+              {/* </div> */}
             </div>
 
             <SelectTokenWithAmount
               token={token1}
               balance={0}
               price={0}
+              setToken={setToken1}
               tokenList={tokenList}
-              amount={amount1}
+              amount={amountOut}
               onAmountChange={() => console.log("set amount")}
               disableInputAmount={true}
-              className="bg-secondary"
+              className="bg-[#cacad3]"
             />
 
             <Drawer>
               <DrawerTrigger>
-                <div className="flex justify-between border rounded-lg px-3 py-2 text-sm">
+                <div className="flex justify-between border border-primary rounded-md px-3 py-2 text-sm">
                   <div className="flex items-center gap-1">
                     <Fuel size={18} />
                     <span>Estimated Fee:</span>
@@ -153,7 +175,7 @@ export const SwapModal = ({ sender, connectButton }: SwapModalProps) => {
           </div>
 
           <div className="w-full mt-4">
-            <SwapButton isLoading={false} content="Swap" />
+            <SwapButton onClick={handleSwap} isLoading={false} content="Swap" />
           </div>
         </div>
       </div>

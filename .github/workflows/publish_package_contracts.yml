@@ -31,7 +31,7 @@ jobs:
         run: npm install -g pnpm@9.15.4
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build Package
         run: pnpm build
@@ -46,7 +46,7 @@ jobs:
 
       - name: Dry-run publish to npm
         run: pnpm publish --filter @oraichain/evm-entry-point --access public --no-git-checks --dry-run
-        
+
       - name: Publish to npm
         run: pnpm publish --filter @oraichain/evm-entry-point --access public --no-git-checks
         env:

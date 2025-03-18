@@ -5,6 +5,7 @@ import {
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import { SwapModal, SwapModalProps } from "../SwapModal";
+import { useEthersSigner } from "@/lib/utils";
 
 export type SwapWithPopoverProps = SwapModalProps;
 
@@ -12,6 +13,8 @@ export const SwapWithPopover = ({
   sender,
   connectButton,
 }: SwapWithPopoverProps) => {
+  const signer = useEthersSigner();
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -30,7 +33,11 @@ export const SwapWithPopover = ({
         side="top"
         sideOffset={16}
       >
-        <SwapModal sender={sender} connectButton={connectButton} />
+        <SwapModal
+          signer={signer}
+          sender={sender}
+          connectButton={connectButton}
+        />
       </PopoverContent>
     </Popover>
   );
