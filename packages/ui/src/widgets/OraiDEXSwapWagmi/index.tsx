@@ -8,6 +8,10 @@ import { Config, WagmiProvider } from "wagmi";
 import { SwapWithPopover } from "../SwapWithPopover";
 // import "@rainbow-me/rainbowkit/styles.css";
 
+import { Buffer as BufferPolyfill } from "buffer";
+declare let Buffer: typeof BufferPolyfill;
+globalThis.Buffer = BufferPolyfill;
+
 export type OraiDEXSwapWagmiProps = {
   syncWallet: boolean;
   sender?: string;
@@ -45,19 +49,21 @@ export const OraiDEXSwapWagmi = ({
 }: OraiDEXSwapWagmiProps) => {
   return (
     <>
-      {syncWallet
-        ? <SwapWithPopover sender={sender || "Disconnected"} />
-        : config &&
-          queryClient &&
-          !sender && (
-            <WagmiProvider config={config}>
-              <QueryClientProvider client={queryClient}>
-                <RainbowKitProvider>
-                  <SwapWithPopover connectButton={<ConnectButton />} />
-                </RainbowKitProvider>
-              </QueryClientProvider>
-            </WagmiProvider>
-          )}
+      {syncWallet ? (
+        <SwapWithPopover sender={sender || "Disconnected"} />
+      ) : (
+        config &&
+        queryClient &&
+        !sender && (
+          <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+              <RainbowKitProvider>
+                <SwapWithPopover connectButton={<ConnectButton />} />
+              </RainbowKitProvider>
+            </QueryClientProvider>
+          </WagmiProvider>
+        )
+      )}
     </>
   );
 };
