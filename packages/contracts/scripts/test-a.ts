@@ -35,6 +35,10 @@ const main = async () => {
     "orai1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqtsu49d",
     deployer.address,
     ethers.parseEther("1")
+    // {
+    //   gasLimit: 50000000,
+    //   gasPrice: ethers.parseUnits("0.0001", "gwei"),
+    // }
   );
   await testTx.wait();
   console.log("Test transaction hash:", testTx.hash);
