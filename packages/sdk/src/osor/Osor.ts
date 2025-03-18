@@ -10,6 +10,7 @@ import { OsorMsgComposer } from "./OsorMsgComposer";
 import { OsorRouter } from "./OsorRouter";
 
 export class Osor {
+    
     protected readonly apiClient: ApiClient;
     osorRouter: OsorRouter;
     osorMsgComposer: OsorMsgComposer;
@@ -22,7 +23,6 @@ export class Osor {
         this.osorRouter = new OsorRouter(this.osorUrl, this.apiClient);
         this.osorMsgComposer = new OsorMsgComposer();
     }
-
 
     /**
      * Generates swap messages for Oraidex using the OSOR router.

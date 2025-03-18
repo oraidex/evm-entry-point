@@ -147,6 +147,7 @@ describe('Osor', () => {
       await expect(osor.getSwapOraidexMsg(
         mockAmount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT
       )).rejects.toThrow('Failed to route swap');
     });
@@ -161,12 +162,13 @@ describe('Osor', () => {
       const result = await osor.getSwapOraidexMsg(
         mockAmount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT
       );
       
       // Verify
-      expect(result).toHaveLength(1);
-      const executeMsg = result[0] as ExecuteMsg;
+      expect(result.executeMsg).toHaveLength(1);
+      const executeMsg = result.executeMsg[0] as ExecuteMsg;
       expect(executeMsg).toHaveProperty('swap_and_action');
       expect(executeMsg.swap_and_action).toHaveProperty('min_asset');
       expect(executeMsg.swap_and_action.min_asset).toHaveProperty('native');
@@ -184,13 +186,14 @@ describe('Osor', () => {
       const result = await osor.getSwapOraidexMsg(
         mockCw20Amount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT
       );
       
       // Verify
-      expect(result).toHaveLength(1);
+      expect(result.executeMsg).toHaveLength(1);
       // For CW20 tokens, we get a different message format
-      const cw20Msg = result[0] as { send: { contract: string; amount: string; msg: string } };
+      const cw20Msg = result.executeMsg[0] as { send: { contract: string; amount: string; msg: string } };
       expect(cw20Msg).toHaveProperty('send');
       expect(cw20Msg.send.contract).toBe(osor['ORAICHAIN_OSOR_ROUTER_ADDRESS']);
       expect(cw20Msg.send.amount).toBe('1000000');
@@ -215,12 +218,13 @@ describe('Osor', () => {
       const result = await osor.getSwapOraidexMsg(
         mockAmount,
         mockCw20QuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT
       );
       
       // Verify
-      expect(result).toHaveLength(1);
-      const executeMsg = result[0] as ExecuteMsg;
+      expect(result.executeMsg).toHaveLength(1);
+      const executeMsg = result.executeMsg[0] as ExecuteMsg;
       expect(executeMsg).toHaveProperty('swap_and_action');
       expect(executeMsg.swap_and_action).toHaveProperty('min_asset');
       expect(executeMsg.swap_and_action.min_asset).toHaveProperty('cw20');
@@ -237,13 +241,14 @@ describe('Osor', () => {
       const result = await osor.getSwapOraidexMsg(
         mockAmount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT,
         undefined,
         0.5
       );
       
       // Verify - with 0.5% slippage, min amount should be 99.5% of return amount
-      const executeMsg = result[0] as ExecuteMsg;
+      const executeMsg = result.executeMsg[0] as ExecuteMsg;
       expect(executeMsg.swap_and_action.min_asset.native!.amount).toBe('1990000');
     });
 
@@ -264,6 +269,7 @@ describe('Osor', () => {
       const result = await osor.getSwapOraidexMsg(
         mockAmount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT,
         undefined,
         1,
@@ -271,7 +277,7 @@ describe('Osor', () => {
       );
       
       // Verify
-      const executeMsg = result[0] as ExecuteMsg;
+      const executeMsg = result.executeMsg[0] as ExecuteMsg;
       expect(executeMsg.swap_and_action.affiliates).toEqual(mockAffiliates);
     });
 
@@ -290,6 +296,7 @@ describe('Osor', () => {
       await osor.getSwapOraidexMsg(
         mockAmount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT,
         mockSwapOptions
       );
@@ -313,6 +320,7 @@ describe('Osor', () => {
       await expect(osor.getSwapOraidexMsg(
         mockAmount,
         mockQuoteCurrency,
+        'recipient123',
         TradeType.EXACT_INPUT
       )).rejects.toThrow('Failed to route swap');
     });
