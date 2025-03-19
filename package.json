@@ -15,7 +15,7 @@
     "clean": "rm -rf node_modules .turbo dist .next",
     "clean:fresh": "pnpm clean && rm -rf **/node_modules **/.turbo **/.next **/dist && pnpm install",
     "changeset": "changeset",
-    "version": "changeset version",
+    "version": "changeset version --delete",
     "release": "turbo run build --filter=!docs && changeset publish"
   },
   "devDependencies": {
