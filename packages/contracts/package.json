@@ -1,6 +1,7 @@
 {
   "name": "@oraichain/evm-entry-point",
   "version": "0.0.10",
+  "private": false,
   "license": "MIT",
   "files": [
     "contracts/**/*.sol",

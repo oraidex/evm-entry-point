@@ -1,13 +1,16 @@
-name: Changeset Version
+name: Release
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  version:
-    name: Version
+  release:
+    name: Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
