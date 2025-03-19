@@ -8,10 +8,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@oraichain/oraidex-evm-sdk": path.resolve(
-        __dirname,
-        "../sdk/dist/index"
-      ),
+      // "@oraichain/oraidex-evm-sdk": path.resolve(
+      //   __dirname,
+      //   "../sdk/dist/index"
+      // ),
     },
   },
   build: {
@@ -33,13 +33,9 @@ export default defineConfig({
       transformMixedEsModules: true,
     },
   },
-  optimizeDeps: {
-    include: ["@oraichain/oraidex-evm-sdk"],
-  },
+  optimizeDeps: {},
   server: {
-    watch: {
-      ignored: ["!**/node_modules/@oraichain/oraidex-evm-sdk/**"],
-    },
+    watch: {},
   },
   plugins: [react(), dts({ rollupTypes: true })],
 });

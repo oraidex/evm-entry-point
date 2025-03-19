@@ -4,24 +4,20 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "cache": false,
+      "cache": true,
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "cache": false
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["@oraichain/oraidex-evm-sdk#build", "^lint"]
     },
-    "check-types": {
-      "dependsOn": ["^check-types"]
-    },
+  
     "lint:fix": {
-      "dependsOn": ["^lint:fix"]
+      "dependsOn": ["@oraichain/oraidex-evm-sdk#build", "^lint:fix"]
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["^build", "^dev:watch"]
+      "persistent": true
     },
     "dev:watch": {
       "cache": false,
@@ -30,10 +26,7 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "inputs": ["src/**/*.ts", "test/**/*.ts", "vitest.config.ts"]
-    },
-    "clean": {
-      "cache": false
+      "inputs": ["src/**/*.ts", "test/**/*.ts"]
     }
   },
   "globalDependencies": ["tsconfig.json"]

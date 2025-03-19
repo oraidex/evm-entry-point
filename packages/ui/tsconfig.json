@@ -7,8 +7,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@oraichain/oraidex-evm-sdk": ["../sdk/dist/index"]
+      "@/*": ["src/*"]
     }
   }
 }

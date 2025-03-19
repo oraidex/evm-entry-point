@@ -1,12 +1,11 @@
 import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
-import { EntryPointTypes, IWasmd__factory, Osor } from "@oraichain/oraidex-evm-sdk";
+import { EntryPointTypes, IWasmd__factory, Osor, TradeType } from "@oraichain/oraidex-evm-sdk";
 import { Buffer } from "buffer";
 import { Decimal } from "decimal.js";
 import { JsonRpcSigner } from "ethers";
 import { useEffect, useMemo, useState } from "react";
-import { TradeType } from "../../../../../sdk/dist/interfaces/IRouter";
 
 interface UseSwapProps {
   tokenList: Token[];

@@ -10,6 +10,7 @@ import { OsorMsgComposer } from "./OsorMsgComposer";
 import { OsorRouter } from "./OsorRouter";
 
 export class Osor {
+    
     protected readonly apiClient: ApiClient;
     osorRouter: OsorRouter;
     osorMsgComposer: OsorMsgComposer;
@@ -22,7 +23,6 @@ export class Osor {
         this.osorRouter = new OsorRouter(this.osorUrl, this.apiClient);
         this.osorMsgComposer = new OsorMsgComposer();
     }
-
 
     /**
      * Generates swap messages for Oraidex using the OSOR router.
@@ -79,7 +79,6 @@ export class Osor {
             if (!route) {
                 throw new Error('No route found');
             }
-            console.log(route);
             const miniumAmount = new Decimal(route.returnAmount).mul(new Decimal(100).sub(slippageTolerance || 0).div(100));
             const msgs = route.routes.map(route => this.osorMsgComposer.generateMsgFromRouteResponse(route));
 
@@ -133,8 +132,7 @@ export class Osor {
                 returnAmount: route.returnAmount
             };
         } catch (error) {
-            console.log(error);
-            throw new Error('Failed to route swap');
+            throw error;
         }
     }
 }
