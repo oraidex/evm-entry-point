@@ -53,9 +53,9 @@ jobs:
         uses: changesets/action@v1
         with:
           # Automatically create a PR when changesets are detected
-          publish: pnpm release
+          publish: pnpm run release
           # Run the version command if changesets are detected
-          version: pnpm version
+          version: pnpm run version
           # The commit message when version changes are pushed to main
           commit: "chore(release): version packages"
           # The title of the PR that the changeset action will create
