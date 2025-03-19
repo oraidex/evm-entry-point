@@ -12,9 +12,6 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "suppressImplicitAnyIndexErrors": true,
-
-
     /* Linting */
     // "strict": true,
     // "noUnusedLocals": true,
