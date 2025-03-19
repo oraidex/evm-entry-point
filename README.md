@@ -24,6 +24,14 @@ This Turborepo includes the following packages/apps:
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
+### Changelog Process
+
+This repo uses [Changesets](https://github.com/changesets/changesets) to manage versioning and changelogs.
+
+- When making changes to packages, add a changeset using `pnpm changeset`
+- Changesets will be automatically versioned and published when merged to main
+- See [the changelog guide](docs/CHANGELOG_GUIDE.md) for more details
+
 ### Utilities
 
 This Turborepo has some additional tools already setup for you:
