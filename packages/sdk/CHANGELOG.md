@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-sdk
 
+## 0.2.1
+
+### Patch Changes
+
+- 85b788e: Chore test
+
 ## 0.2.0
 
 ### Minor Changes

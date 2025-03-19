@@ -1,5 +1,13 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.2.1
+
+### Patch Changes
+
+- 85b788e: Chore test
+- Updated dependencies [85b788e]
+  - @oraichain/oraidex-evm-sdk@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
