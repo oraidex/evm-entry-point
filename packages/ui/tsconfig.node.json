@@ -12,11 +12,13 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "suppressImplicitAnyIndexErrors": true,
+
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // "strict": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },

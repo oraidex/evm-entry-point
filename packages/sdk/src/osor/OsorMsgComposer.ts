@@ -9,6 +9,7 @@ const CONVERTER_CONTRACT = "orai14wy8xndhnvjmx6zl2866xqvs7fqwv2arhhrqq9";
 
 export class OsorMsgComposer {
     constructor() {
+      
       this.parseConverterMsgToPoolId = this.parseConverterMsgToPoolId.bind(this);
       this.generateMsgFromRouteResponse = this.generateMsgFromRouteResponse.bind(this);
       this.generateSwapOps = this.generateSwapOps.bind(this);
@@ -51,7 +52,6 @@ export class OsorMsgComposer {
             return this._generateUniversalSwapMsg(routeResponse);
         } else {
             const swapActionRouteSample = routeResponse.paths[0].actions;
-            console.log(swapActionRouteSample);
             return this.generateSwapOps(swapActionRouteSample);
         }
     }
