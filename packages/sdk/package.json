@@ -2,7 +2,7 @@
   "name": "@oraichain/oraidex-evm-sdk",
   "description": "Oraidex EVM SDK",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.0.0",
   "repository": "https://github.com/oraidex/evm-entry-point.git",
   "keywords": [
     "oraichain",
