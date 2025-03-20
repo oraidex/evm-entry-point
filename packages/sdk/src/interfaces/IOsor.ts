@@ -1,4 +1,4 @@
-import {  RouteResponse } from './IRouter';
+import { RouteResponse } from './IRouter';
 
 export type OsorSmartRouteResponse = {
   swapAmount: string;

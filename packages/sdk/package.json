@@ -22,8 +22,6 @@
     "dev:watch": "tsc -w",
     "lint": "eslint . --config eslint.config.cjs",
     "lint:fix": "eslint . --config eslint.config.cjs --fix",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
@@ -31,9 +29,9 @@
   "dependencies": {
     "@oraichain/oraidex-contracts-sdk": "^1.0.56",
     "@oraichain/osor-api-contracts-sdk": "^1.0.3",
-    "ethers": "^6.13.5",
     "axios": "^1.8.3",
     "decimal.js": "^10.5.0",
+    "ethers": "^6.13.5",
     "long": "^5.3.1",
     "tslib": "^2.6.2",
     "zod": "^3.24.2"
@@ -45,6 +43,7 @@
     "eslint-config-prettier": "^10.1.1",
     "globals": "^13.24.0",
     "prettier": "^3.5.3",
+    "prettier-eslint": "^16.3.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.24.1",
     "vitest": "^3.0.8"

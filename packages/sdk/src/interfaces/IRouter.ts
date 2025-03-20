@@ -28,7 +28,7 @@ export enum ActionType {
   BRIDGE = 'Bridge',
 }
 
-export type Path = {
+export type SwapPath = {
   poolId: string;
   tokenOut: string;
 };
@@ -43,7 +43,7 @@ export type BasicInfo = {
 
 export type SwapActionRoute = {
   type: 'Swap';
-  swapInfo: Path[];
+  swapInfo: SwapPath[];
 } & BasicInfo;
 
 export type BridgeActionRoute = {
@@ -52,23 +52,28 @@ export type BridgeActionRoute = {
 
 export type ConvertActionRoute = {
   type: 'Convert';
-  swapInfo: Path[];
+  swapInfo: SwapPath[];
 } & BasicInfo;
 
-export type ActionRoute = SwapActionRoute | BridgeActionRoute | ConvertActionRoute;
+export type ActionRoute =
+  | SwapActionRoute
+  | BridgeActionRoute
+  | ConvertActionRoute;
+
+export type Path = {
+  chainId: string;
+  tokenIn: string;
+  tokenInAmount: string;
+  tokenOut: string;
+  tokenOutAmount: string;
+  tokenOutChainId: string;
+  actions: ActionRoute[];
+};
 
 export type RouteResponse = {
   swapAmount: string;
   returnAmount: string;
-  paths: {
-    chainId: string;
-    tokenIn: string;
-    tokenInAmount: string;
-    tokenOut: string;
-    tokenOutAmount: string;
-    tokenOutChainId: string;
-    actions: ActionRoute[];
-  }[];
+  paths: Path[];
 };
 
 /**
@@ -78,8 +83,7 @@ export type RouteResponse = {
  * @abstract
  * @class IRouter
  */
-export abstract class IRouter<T>
- {
+export abstract class IRouter<T> {
   /**
    * Finds the optimal way to swap tokens, and returns the route as well as a quote for the swap.
    * Considers split routes, multi-hop swaps, and gas costs.
@@ -96,6 +100,6 @@ export abstract class IRouter<T>
     amount: CurrencyAmount,
     quoteCurrency: Currency,
     swapType: TradeType,
-    swapOptions?: SwapOptions
+    swapOptions?: SwapOptions,
   ): Promise<T | null>;
 }
