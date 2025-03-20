@@ -14,6 +14,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Input } from "../ui/input";
+import { twMerge } from "tailwind-merge";
 
 export interface SelectTokenProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -40,53 +41,63 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
       <Drawer modal>
         <DrawerTrigger asChild>
           <Button
-            variant={variant}
-            size={size}
-            className={className}
+            className={twMerge(
+              "rounded-boxSelectRadius bg-boxSelect border border-borderBox h-[58px] py-2",
+              className
+            )}
             asChild={false}
             {...props}
             ref={ref}
           >
             {token ? (
-              <div className="flex gap-2">
+              <div className="flex items-center justify-center gap-2 text-neutralContent text-[16px] md:text-[20px]">
                 <Avatar>
                   <AvatarImage
                     className="rounded-full"
-                    width={20}
-                    height={20}
+                    width={38}
+                    height={38}
                     src={token.image}
                     alt="Token Image"
                   />
-                  <AvatarFallback>?</AvatarFallback>
+                  <AvatarFallback>
+                    <div className="rounded-full p-5 w-5 h-5 bg-background border border-borderContainer text-neutralContent flex items-center justify-center">
+                      ?
+                    </div>
+                  </AvatarFallback>
                 </Avatar>
                 {token.symbol}
               </div>
             ) : (
               <span>Select a token</span>
             )}
-            <ChevronDownIcon />
+            <ChevronDownIcon className="text-neutralContent" />
           </Button>
         </DrawerTrigger>
         <DrawerContent aria-describedby={undefined}>
           <DrawerHeader>
-            <DrawerTitle className="text-center">Select a token</DrawerTitle>
+            <DrawerTitle className="text-center text-neutralContent">
+              Select a token
+            </DrawerTitle>
             <DrawerClose className="absolute right-4">
-              <X size={20} />
+              <X size={20} className="text-neutralContent" />
             </DrawerClose>
           </DrawerHeader>
           <div className="w-full px-4">
             <div className="w-full flex flex-col gap-4">
-              <Input placeholder="Find token by symbol" />
+              <Input
+                placeholder="Find token by symbol"
+                className="text-neutralContent"
+              />
               <ScrollArea
                 type="scroll"
-                className="max-h-[370px] w-full rounded-md overflow-auto flex flex-col gap-2 text-base justify-start"
+                className="max-h-[300px] w-full rounded-md overflow-auto flex flex-col gap-2 text-base justify-start"
               >
                 {tokenList.map((token, index) => (
                   <DrawerClose key={index}>
                     <div
                       onClick={() => setToken(token)}
                       key={index}
-                      className="flex gap-2 items-center"
+                      className="flex py-2 gap-2 items-center text-neutralContent hover:cursor-pointer hover:bg-foreground hover:brightness-75"
                     >
                       <Avatar>
                         <AvatarImage
@@ -96,9 +107,15 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
                           src={token.image}
                           alt="Token Image"
                         />
-                        <AvatarFallback>?</AvatarFallback>
+                        <AvatarFallback>
+                          <div className="rounded-full p-5 w-5 h-5 bg-background border border-borderContainer text-neutralContent flex items-center justify-center">
+                            ?
+                          </div>
+                        </AvatarFallback>
                       </Avatar>
-                      <span>{token.symbol}</span>
+                      <span className="text-neutralContent">
+                        {token.symbol}
+                      </span>
                     </div>
                   </DrawerClose>
                 ))}

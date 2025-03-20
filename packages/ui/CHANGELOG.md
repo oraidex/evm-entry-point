@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.3
+
+### Patch Changes
+
+- [#16](https://github.com/oraidex/evm-entry-point/pull/16) [`175ec03`](https://github.com/oraidex/evm-entry-point/commit/175ec035934063749c839f529c1c85692dbf042a) Thanks [@quangdz1704](https://github.com/quangdz1704)! - fix: update theme story book and add query client provider
+
 ## 0.1.2
 
 ### Patch Changes

@@ -7,6 +7,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Config, WagmiProvider } from "wagmi";
 import { SwapWithPopover } from "../SwapWithPopover";
+import { ColorScheme } from "@/constants/config";
+import { DEFAULT_CONFIG } from "@/constants/config";
+import { Theme } from "@/stores/persist-config/usePersistStore";
 
 export type OraiDEXSwapWagmiProps = {
   syncWallet: boolean;
@@ -46,7 +49,12 @@ export const OraiDEXSwapWagmi = ({
   return (
     <>
       {syncWallet ? (
-        <SwapWithPopover sender={sender || "Disconnected"} />
+        <SwapWithPopover
+          sender={sender || "Disconnected"}
+          customStyles={DEFAULT_CONFIG.customStyles}
+          colorScheme={ColorScheme.CUSTOM}
+          theme={Theme.DARK}
+        />
       ) : (
         config &&
         queryClient &&
@@ -54,7 +62,12 @@ export const OraiDEXSwapWagmi = ({
           <WagmiProvider config={config}>
             <QueryClientProvider client={queryClient}>
               <RainbowKitProvider>
-                <SwapWithPopover connectButton={<ConnectButton />} />
+                <SwapWithPopover
+                  connectButton={<ConnectButton />}
+                  customStyles={DEFAULT_CONFIG.customStyles}
+                  colorScheme={ColorScheme.CUSTOM}
+                  theme={Theme.DARK}
+                />
               </RainbowKitProvider>
             </QueryClientProvider>
           </WagmiProvider>
