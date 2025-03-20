@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.5
+
+### Patch Changes
+
+- [#20](https://github.com/oraidex/evm-entry-point/pull/20) [`b090796`](https://github.com/oraidex/evm-entry-point/commit/b09079672c9253d9a1825b3d2fe04cb0bac2b9e5) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - Fix build with types
+
 ## 0.1.4
 
 ### Patch Changes
