@@ -11,7 +11,6 @@
     "lint": {
       "dependsOn": ["@oraichain/oraidex-evm-sdk#build", "^lint"]
     },
-  
     "lint:fix": {
       "dependsOn": ["@oraichain/oraidex-evm-sdk#build", "^lint:fix"]
     },
@@ -27,6 +26,10 @@
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "storybook": {
+      "cache": false,
+      "persistent": true
     }
   },
   "globalDependencies": ["tsconfig.json"]

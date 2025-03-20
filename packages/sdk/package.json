@@ -20,7 +20,7 @@
   "scripts": {
     "build": "tsc",
     "dev:watch": "tsc -w",
-    "lint": "eslint . --config eslint.config.js",
+    "lint": "eslint . --config eslint.config.cjs",
     "lint:fix": "eslint . --config eslint.config.cjs --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",

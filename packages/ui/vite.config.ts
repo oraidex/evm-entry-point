@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,6 +13,8 @@ export default defineConfig({
       //   __dirname,
       //   "../sdk/dist/index"
       // ),
+      process: "process/browser",
+      buffer: "buffer",
     },
   },
   build: {
@@ -37,5 +40,5 @@ export default defineConfig({
   server: {
     watch: {},
   },
-  plugins: [react(), dts({ rollupTypes: true })],
+  plugins: [react(), dts({ rollupTypes: true }), nodePolyfills()],
 });
