@@ -1,84 +1,108 @@
-# Turborepo starter
+# Oraichain EVM Entry Point
 
-This Turborepo starter is maintained by the Turborepo core team.
+A monorepo project that provides EVM compatibility for Oraichain's CosmWasm DApps, specifically designed for OraiDEX. This project enables Ethereum-compatible interactions with Oraichain's CosmWasm smart contracts through precompiled modules.
 
-## Using this example
+## Project Structure
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```
+.
+├── packages/            # Core packages
+│   ├── contracts/       # Solidity smart contracts for EVM compatibility
+│   ├── sdk/             # JavaScript/TypeScript SDK for interacting with the contracts
+│   └── ui/              # UI components and widget for integration
 ```
 
-## What's inside?
+## Packages
 
-This Turborepo includes the following packages/apps:
+### 1. Contracts (`packages/contracts`)
 
-### Apps and Packages
+The contracts package provides Solidity smart contracts that serve as an EVM entry point to interact with CosmWasm contracts on Oraichain.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+**Key Features:**
+- **Bridging EVM and CosmWasm:** Enables EVM-compatible chains to interact with CosmWasm contracts through precompiled modules.
+- **Token Standards:** Implements various token standards for cross-chain compatibility:
+  - `ERC20Native`: ERC20 representation of Oraichain native tokens
+  - `CW20ERC20`: ERC20 interface for CW20 tokens on Oraichain
+  - `NativeERC20`: Maps ERC20 interface to native Oraichain assets
+- **Precompiled Interfaces:** Provides interfaces to Oraichain's precompiled modules:
+  - `IWasmd`: Interface for CosmWasm module interactions
+  - `IJson`: Helper for JSON parsing and manipulation
+  - `IAddr`: Address conversion between EVM and Cosmos formats
+  - `IBank`: Interface for bank module operations
+  - `IAuthz`: Interface for authorization module
+- **OraiDEX Integration:** Includes contracts for interacting with OraiDEX's pools and pairs
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### 2. SDK (`packages/sdk`)
 
-### Utilities
+The SDK package provides a TypeScript library for developers to interact with the EVM entry point contracts and OraiDEX functionality.
 
-This Turborepo has some additional tools already setup for you:
+**Key Features:**
+- **OSOR (Oraichain Smart Order Router):** Optimized routing for token swaps on OraiDEX
+- **API Client:** Simplified HTTP requests with built-in error handling
+- **CosmWasm Integration:** Built-in support for CosmWasm message formats
+- **Utilities:** Helper functions for common operations with Cosmos and EVM compatibility
+- **TypeScript Support:** Full TypeScript support with type definitions
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+### 3. UI (`packages/ui`)
+
+The UI package provides React components for integrating OraiDEX's swap functionality into any EVM-compatible dApp.
+
+**Key Features:**
+- **React Components:** Reusable UI components for OraiDEX integration
+- **Widget:** Standalone widget for token swapping
+- **RainbowKit Integration:** Wallet connection via RainbowKit
+- **Responsive Design:** Mobile-friendly components using modern UI libraries
+
+## Key Use Cases
+
+1. **Token Bridging:** Use ERC20 representations of Oraichain native tokens on EVM chains.
+2. **Cross-Chain DeFi:** Access OraiDEX's liquidity pools from EVM-compatible chains.
+3. **Unified Interface:** Build applications that work seamlessly across EVM and Cosmos ecosystems.
+4. **Developer Tools:** Leverage the SDK to build custom applications with OraiDEX integration.
+
+## Development
+
+The project uses a modern monorepo setup with the following tools:
+- [pnpm](https://pnpm.io) as package manager
+- [Turborepo](https://turbo.build/repo) for monorepo management
+- [Changesets](https://github.com/changesets/changesets) for versioning and changelogs
+- [TypeScript](https://www.typescriptlang.org/) for all packages
+- [Hardhat](https://hardhat.org/) and [Foundry](https://getfoundry.sh/) for smart contract development
+
+## Getting Started
+
+### Installation
+
+```bash
+pnpm install
+```
 
 ### Build
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
+```bash
 pnpm build
 ```
 
-### Develop
+### Development
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```bash
+pnpm dev:watch
 ```
 
-### Remote Caching
+### Testing
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```bash
+pnpm test
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## Contributing
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Please refer to [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-```
-npx turbo link
-```
+## License
 
-## Useful Links
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Learn more about the power of Turborepo:
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+

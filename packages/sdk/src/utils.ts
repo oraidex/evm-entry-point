@@ -3,6 +3,7 @@ import { PoolKey } from "@oraichain/oraidex-contracts-sdk/build/OraiswapV3.types
 import Long from "long";
 
 export const isCw20Token = (token: string) => {
+  
     return token.startsWith('orai1');
 }
 

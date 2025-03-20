@@ -3,14 +3,10 @@ import {
   getDefaultConfig,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Config, WagmiProvider } from "wagmi";
 import { SwapWithPopover } from "../SwapWithPopover";
-// import "@rainbow-me/rainbowkit/styles.css";
-
-import { Buffer as BufferPolyfill } from "buffer";
-declare let Buffer: typeof BufferPolyfill;
-globalThis.Buffer = BufferPolyfill;
 
 export type OraiDEXSwapWagmiProps = {
   syncWallet: boolean;

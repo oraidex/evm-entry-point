@@ -87,6 +87,7 @@ export const SwapWidget = ({
   theme = Theme.DARK,
 }: SwapModalProps) => {
   const { tokenList } = useToken({});
+  
   const {
     token0,
     token1,

@@ -95,7 +95,7 @@ describe.skip('Osor Integration Tests', () => {
     osor = new Osor(OSOR_API_URL);
   });
 
-  describe('getSwapOraidexMsg', () => {
+  describe.skip('getSwapOraidexMsg', () => {
     it('should generate swap messages for native tokens (ORAI to USDT)', async () => {
       // Create test input
       const inputAmount: CurrencyAmount = {
@@ -109,16 +109,21 @@ describe.skip('Osor Integration Tests', () => {
         USDT_TOKEN,
         TradeType.EXACT_INPUT,
         undefined, // Default swap options
-        1 // 1% slippage
+        {
+          protocols: ['Oraidex' as Protocol],
+          maxSplits: 1
+        },
+        1,
+        [],
       );
 
       // Assertions
       expect(result).toBeDefined();
       expect(Array.isArray(result)).toBe(true);
-      expect(result.length).toBeGreaterThan(0);
+      expect(result.executeMsg.length).toBeGreaterThan(0);
 
       // Check the structure of the result
-      const executeMsg = result[0] as SwapMsg;
+      const executeMsg = result.executeMsg[0] as SwapMsg;
       expect(isExecuteMsg(executeMsg)).toBe(true);
       
       if (isExecuteMsg(executeMsg)) {

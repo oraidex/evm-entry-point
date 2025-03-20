@@ -1,12 +1,11 @@
 import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
-import { EntryPointTypes, IWasmd__factory, Osor } from "@oraichain/oraidex-evm-sdk";
+import { EntryPointTypes, IWasmd__factory, Osor, TradeType } from "@oraichain/oraidex-evm-sdk";
 import { Buffer } from "buffer";
 import { Decimal } from "decimal.js";
 import { JsonRpcSigner } from "ethers";
 import { useEffect, useMemo, useState } from "react";
-import { TradeType } from "../../../../../sdk/dist/interfaces/IRouter";
 
 interface UseSwapProps {
   tokenList: Token[];
@@ -54,6 +53,27 @@ export const useSwap = (props: UseSwapProps) => {
         setSimulateResponse(null);
         return;
       }
+
+      console.log(
+        {
+          amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
+          currency: {
+            address: token0.address.cosmos,
+            chainId: "Oraichain",
+            decimals: token0.decimals.cosmos,
+            symbol: token0.symbol,
+          },
+        },
+        {
+          address: token1.address.cosmos,
+          chainId: "Oraichain",
+          decimals: token1.decimals.cosmos,
+          symbol: token1.symbol,
+        },
+        // TODO:  query on Mapping module EVM-address
+        `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
+        TradeType.EXACT_INPUT
+      )
 
       const res = await osor.getSwapOraidexMsg(
         {
