@@ -7,6 +7,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import WidgetQueryClientProvider from "@/components/WidgetQueryClientProvider";
 import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
 import { truncateHash } from "@/lib/utils";
 import { Theme } from "@/stores/persist-config/usePersistStore";
@@ -23,9 +24,10 @@ import {
 } from "lucide-react";
 import { JSX, PropsWithChildren, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import { useBalance } from "./hooks/useBalance";
+import { usePrice } from "./hooks/usePrice";
 import { useSwap } from "./hooks/useSwap";
 import { useToken } from "./hooks/useToken";
-import WidgetQueryClientProvider from "@/components/WidgetQueryClientProvider";
 
 // Define types for the compound components
 type HeaderProps = {
@@ -96,6 +98,13 @@ export const SwapWidget = ({
 }: SwapModalProps) => {
   const { tokenList } = useToken({});
 
+  const { balances, refetch: refetchBalances, isLoading: isLoadingBalances } = useBalance({
+    tokenList,
+    signer,
+  });
+
+  const { data: prices, isLoading: isLoadingPrices } = usePrice();
+
   const {
     token0,
     token1,
@@ -111,6 +120,7 @@ export const SwapWidget = ({
   } = useSwap({
     tokenList,
     signer,
+    refetchBalances
   });
 
   return (
@@ -179,8 +189,8 @@ export const SwapWidget = ({
           <div className="w-full rounded-xl flex flex-col gap-2">
             <SelectTokenWithAmount
               token={token0}
-              balance={0}
-              price={0}
+              balance={balances[token0?.address.evm]}
+              price={prices[token0?.address.cosmos]}
               setToken={setToken0}
               tokenList={tokenList}
               amount={amountIn}
@@ -191,8 +201,8 @@ export const SwapWidget = ({
 
             <SelectTokenWithAmount
               token={token1}
-              balance={0}
-              price={0}
+              balance={balances[token1?.address.evm]}
+              price={prices[token1?.address.cosmos]}
               setToken={setToken1}
               tokenList={tokenList}
               amount={amountOut}

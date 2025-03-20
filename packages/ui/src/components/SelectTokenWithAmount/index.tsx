@@ -5,8 +5,8 @@ import { SelectToken } from "../SelectToken";
 
 type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   token: Token | null;
-  balance: number;
-  price: number;
+  balance: string;
+  price: number | undefined;
   tokenList: Token[];
   amount?: string;
   setToken: (token: Token) => void;
@@ -79,7 +79,7 @@ export const SelectTokenWithAmount = forwardRef<
                 fillOpacity="0.25"
               ></path>
             </svg>
-            <span translate="no">{(balance || 0).toFixed(2)}</span>
+            <span translate="no">{balance}</span>
             <span>{token?.symbol}</span>
           </div>
           <span className="text-xs">

@@ -199,6 +199,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.68.0
         version: 5.68.0(react@19.0.0)
+      axios:
+        specifier: ^1.7.7
+        version: 1.8.3(debug@4.4.0)
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
