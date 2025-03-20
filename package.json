@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "storybook": "turbo run storybook",
     "dev:watch": "turbo run dev:watch dev --parallel --filter=@oraichain/oraidex-evm-sdk --filter=ui",
     "lint": "turbo run lint",
     "test": "turbo run test",

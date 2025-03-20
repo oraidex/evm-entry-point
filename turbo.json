@@ -34,6 +34,9 @@
     },
     "clean": {
       "cache": false
+    },
+    "storybook": {
+      "cache": false
     }
   },
   "globalDependencies": ["tsconfig.json"]
