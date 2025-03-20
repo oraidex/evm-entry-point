@@ -27,12 +27,17 @@ export default defineConfig({
           "react-dom": "ReactDOM",
           buffer: "Buffer",
         },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'oraidex-evm-ui.css';
+          return assetInfo.name;
+        },
       },
     },
     sourcemap: true,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+    cssCodeSplit: false,
   },
   optimizeDeps: {},
   server: {
