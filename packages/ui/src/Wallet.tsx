@@ -1,11 +1,11 @@
 
 import { useAccount } from "wagmi";
-import { OraiDEXSwapWagmi } from "./widgets/OraiDEXSwapWagmi";
+import { Widget } from "../dist/oraidex-evm-ui";
 
 function Wallet() {
   const account = useAccount();
 
-  return <OraiDEXSwapWagmi syncWallet={true} sender={account.address} />;
+  return <Widget sender={account.address} />;
 }
 
 export default Wallet;
