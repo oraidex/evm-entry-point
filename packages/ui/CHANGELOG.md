@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.6
+
+### Patch Changes
+
+- [#23](https://github.com/oraidex/evm-entry-point/pull/23) [`cbaf72a`](https://github.com/oraidex/evm-entry-point/commit/cbaf72a9ff2fe56f8acd7e2fe808f2bb1f083c77) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - add source map
+
 ## 0.1.5
 
 ### Patch Changes
