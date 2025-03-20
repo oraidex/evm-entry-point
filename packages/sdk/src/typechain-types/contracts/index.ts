@@ -12,6 +12,7 @@ export type { precompiles };
 export type { ERC20Native } from "./ERC20Native";
 export type { ERC20NativeUpgradeable } from "./ERC20NativeUpgradeable";
 export type { Lock } from "./Lock";
+export type { Multicall } from "./Multicall";
 export type { NativeERC20 } from "./NativeERC20";
 export type { NativeERC20Upgradeable } from "./NativeERC20Upgradeable";
 export type { OraidexPairV2 } from "./OraidexPairV2";

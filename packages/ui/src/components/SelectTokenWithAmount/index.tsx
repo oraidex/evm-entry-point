@@ -5,8 +5,8 @@ import { SelectToken } from "../SelectToken";
 
 type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   token: Token | null;
-  balance: number;
-  price: number;
+  balance: string;
+  price: number | undefined;
   tokenList: Token[];
   amount?: string;
   setToken: (token: Token) => void;
@@ -59,6 +59,7 @@ export const SelectTokenWithAmount = forwardRef<
               disabled={!token || disableInputAmount}
               onChange={(e) => onAmountChange(e.target.value)}
               className="h-full w-full bg-transparent text-[24px] md:text-[28px] text-right font-semibold text-neutralContent focus:outline-none disabled:cursor-not-allowed"
+              readOnly={disableInputAmount}
             />
           </div>
         </div>
@@ -78,7 +79,7 @@ export const SelectTokenWithAmount = forwardRef<
                 fillOpacity="0.25"
               ></path>
             </svg>
-            <span translate="no">{(balance || 0).toFixed(2)}</span>
+            <span translate="no">{balance}</span>
             <span>{token?.symbol}</span>
           </div>
           <span className="text-xs">

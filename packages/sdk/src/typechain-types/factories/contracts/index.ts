@@ -8,6 +8,7 @@ export * as precompiles from "./precompiles";
 export { ERC20Native__factory } from "./ERC20Native__factory";
 export { ERC20NativeUpgradeable__factory } from "./ERC20NativeUpgradeable__factory";
 export { Lock__factory } from "./Lock__factory";
+export { Multicall__factory } from "./Multicall__factory";
 export { NativeERC20__factory } from "./NativeERC20__factory";
 export { NativeERC20Upgradeable__factory } from "./NativeERC20Upgradeable__factory";
 export { OraidexPairV2__factory } from "./OraidexPairV2__factory";

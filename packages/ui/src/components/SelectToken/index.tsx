@@ -93,7 +93,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
                 className="max-h-[300px] w-full rounded-md overflow-auto flex flex-col gap-2 text-base justify-start"
               >
                 {tokenList.map((token, index) => (
-                  <DrawerClose>
+                  <DrawerClose key={index}>
                     <div
                       onClick={() => setToken(token)}
                       key={index}

@@ -1,7 +1,9 @@
 import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
+import { OSOR_ENDPOINT } from "@/constants/http-endpoint";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
 import { EntryPointTypes, IWasmd__factory, Osor, TradeType } from "@oraichain/oraidex-evm-sdk";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Buffer } from "buffer";
 import { Decimal } from "decimal.js";
 import { JsonRpcSigner } from "ethers";
@@ -10,12 +12,13 @@ import { useEffect, useMemo, useState } from "react";
 interface UseSwapProps {
   tokenList: Token[];
   signer: JsonRpcSigner | undefined;
+  refetchBalances: (options?: RefetchOptions) => Promise<QueryObserverResult<Record<string, bigint>, Error>>;
 }
 
-const osor = new Osor("https://osor.oraidex.io/smart-router/alpha-router");
+const osor = new Osor(OSOR_ENDPOINT);
 
 export const useSwap = (props: UseSwapProps) => {
-  const { tokenList, signer } = props;
+  const { tokenList, signer, refetchBalances } = props;
 
   const [token0, setToken0] = useState<Token | null>(null);
   const [token1, setToken1] = useState<Token | null>(null);
@@ -32,6 +35,8 @@ export const useSwap = (props: UseSwapProps) => {
     },
     returnAmount: string
   } | null>(null)
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [isAutoRefreshing, setIsAutoRefreshing] = useState(false);
 
   useEffect(() => {
     if (tokenList.length >= 2) {
@@ -101,7 +106,7 @@ export const useSwap = (props: UseSwapProps) => {
         returnAmount: res.returnAmount
       });
     })();
-  }, [debounceAmountIn, token0, token1]);
+  }, [debounceAmountIn, token0, token1, refreshTrigger]);
 
   const amountOut = useMemo(() => {
     if (!simulateResponse) return "0";
@@ -115,7 +120,6 @@ export const useSwap = (props: UseSwapProps) => {
   };
 
   const handleSwap = async () => {
-    console.log("swap");
     const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
 
     let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
@@ -140,7 +144,9 @@ export const useSwap = (props: UseSwapProps) => {
 
     const res = await wasmd.execute(toContract, msg, Buffer.from(JSON.stringify(coins)));
 
-    console.log(res);
+    await res.wait(1);
+
+    await refetchBalances();
   }
 
   const handleReverseOrder = () => {
@@ -149,6 +155,30 @@ export const useSwap = (props: UseSwapProps) => {
     setAmountIn(amountOut);
     setToken1(newToken1);
   }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (token0 && token1 && amountIn && !amountIn.match(/^0+$/)) {
+        setRefreshTrigger(prev => prev + 1);
+        setIsAutoRefreshing(true);
+
+        setTimeout(() => {
+          setIsAutoRefreshing(false);
+        }, 1000);
+      }
+    }, 15000);
+
+    return () => clearInterval(intervalId);
+  }, [token0, token1, amountIn]);
+
+  const refreshSimulation = () => {
+    setRefreshTrigger(prev => prev + 1);
+    setIsAutoRefreshing(true);
+
+    setTimeout(() => {
+      setIsAutoRefreshing(false);
+    }, 1000);
+  };
 
   return {
     token0,
@@ -159,6 +189,8 @@ export const useSwap = (props: UseSwapProps) => {
     setToken1,
     onAmount0Change,
     handleSwap,
-    handleReverseOrder
+    handleReverseOrder,
+    refreshSimulation,
+    isAutoRefreshing
   };
 };
