@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.8
+
+### Patch Changes
+
+- [#27](https://github.com/oraidex/evm-entry-point/pull/27) [`a1327a0`](https://github.com/oraidex/evm-entry-point/commit/a1327a0cb3b43d0e51643415b901c7e978e2c5c4) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - add index for css
+
 ## 0.1.7
 
 ### Patch Changes
