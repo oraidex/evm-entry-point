@@ -50,6 +50,8 @@ export type { OraidexPairV2Query } from "./contracts/interfaces/IOraidexPairV2Qu
 export { OraidexPairV2Query__factory } from "./factories/contracts/interfaces/IOraidexPairV2Query.sol/OraidexPairV2Query__factory";
 export type { Lock } from "./contracts/Lock";
 export { Lock__factory } from "./factories/contracts/Lock__factory";
+export type { Multicall } from "./contracts/Multicall";
+export { Multicall__factory } from "./factories/contracts/Multicall__factory";
 export type { NativeERC20 } from "./contracts/NativeERC20";
 export { NativeERC20__factory } from "./factories/contracts/NativeERC20__factory";
 export type { NativeERC20Upgradeable } from "./contracts/NativeERC20Upgradeable";

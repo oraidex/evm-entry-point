@@ -59,6 +59,7 @@ export const SelectTokenWithAmount = forwardRef<
               disabled={!token || disableInputAmount}
               onChange={(e) => onAmountChange(e.target.value)}
               className="h-full w-full bg-transparent text-right font-semibold text-lg focus:outline-none disabled:cursor-not-allowed"
+              readOnly={disableInputAmount}
             />
           </div>
         </div>

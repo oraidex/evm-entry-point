@@ -34,7 +34,7 @@ export const SwapModal = ({
   signer,
 }: SwapModalProps) => {
   const { tokenList } = useToken({});
-  
+
   const {
     token0,
     token1,
@@ -45,6 +45,8 @@ export const SwapModal = ({
     setToken0,
     setToken1,
     handleReverseOrder,
+    refreshSimulation,
+    isAutoRefreshing
   } = useSwap({
     tokenList,
     signer,
@@ -61,7 +63,7 @@ export const SwapModal = ({
             <div className="flex items-center gap-4">
               <Drawer>
                 <DrawerTrigger>
-                  <Settings size={20} />
+                  <Settings size={20} className="hover:cursor-pointer hover:rotate-45 transition-transform" />
                 </DrawerTrigger>
                 <DrawerContent aria-describedby={undefined}>
                   <DrawerHeader>
@@ -88,7 +90,13 @@ export const SwapModal = ({
                 </DrawerContent>
               </Drawer>
 
-              <RotateCw size={20} />
+              <RotateCw
+                size={20}
+                strokeWidth={2}
+                className={`hover:cursor-pointer transition-all duration-300 ${isAutoRefreshing ? 'animate-spin' : 'hover:rotate-180'
+                  }`}
+                onClick={refreshSimulation}
+              />
               {sender ? (
                 <div>
                   {sender == "Disconnected" ? sender : truncateHash(sender)}
@@ -119,7 +127,7 @@ export const SwapModal = ({
                 <ArrowDownUp size={24} />
               </div>
               {/* <div> */}
-                {/* <span className="text-sm font-bold">
+              {/* <span className="text-sm font-bold">
                   1 USDT = 0.359673 ORAI
                 </span> */}
               {/* </div> */}

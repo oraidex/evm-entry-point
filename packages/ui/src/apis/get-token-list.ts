@@ -1,9 +1,20 @@
 import { Token } from "@/types/Token";
-import { OraidexCommon, TokenItemType } from "@oraichain/oraidex-common";
+import { OraiCommon, TokenItemType } from "@oraichain/common";
 
 export const getTokenList = async (): Promise<Token[]> => {
-    const oraidexCommon = await OraidexCommon.load();
-    const evmTokens = oraidexCommon.oraichainEvmTokens as (TokenItemType & {
+    const oraiCommon = await OraiCommon.initializeFromBackend("https://oraicommon.oraidex.io", "oraidex");
+    const oraichainTokens = oraiCommon.tokenItems.oraichainTokens;
+    console.log(oraichainTokens.filter((token: any) => token.evmExtendInfo));
+    const evmTokens = oraichainTokens.filter((token: any) => token.evmExtendInfo).map((token: any) => {
+        const evmExtendInfo = token.evmExtendInfo;
+        return {
+            ...token,
+            evmExtendInfo: {
+                address: evmExtendInfo.address,
+                decimals: evmExtendInfo.decimals,
+            },
+        };
+    }) as (TokenItemType & {
         evmExtendInfo: {
             address: string;
             decimals: number;

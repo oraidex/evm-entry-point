@@ -32,6 +32,8 @@ export const useSwap = (props: UseSwapProps) => {
     },
     returnAmount: string
   } | null>(null)
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [isAutoRefreshing, setIsAutoRefreshing] = useState(false);
 
   useEffect(() => {
     if (tokenList.length >= 2) {
@@ -101,7 +103,7 @@ export const useSwap = (props: UseSwapProps) => {
         returnAmount: res.returnAmount
       });
     })();
-  }, [debounceAmountIn, token0, token1]);
+  }, [debounceAmountIn, token0, token1, refreshTrigger]);
 
   const amountOut = useMemo(() => {
     if (!simulateResponse) return "0";
@@ -115,7 +117,6 @@ export const useSwap = (props: UseSwapProps) => {
   };
 
   const handleSwap = async () => {
-    console.log("swap");
     const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
 
     let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
@@ -150,6 +151,30 @@ export const useSwap = (props: UseSwapProps) => {
     setToken1(newToken1);
   }
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (token0 && token1 && amountIn && !amountIn.match(/^0+$/)) {
+        setRefreshTrigger(prev => prev + 1);
+        setIsAutoRefreshing(true);
+
+        setTimeout(() => {
+          setIsAutoRefreshing(false);
+        }, 1000);
+      }
+    }, 15000);
+
+    return () => clearInterval(intervalId);
+  }, [token0, token1, amountIn]);
+
+  const refreshSimulation = () => {
+    setRefreshTrigger(prev => prev + 1);
+    setIsAutoRefreshing(true);
+
+    setTimeout(() => {
+      setIsAutoRefreshing(false);
+    }, 1000);
+  };
+
   return {
     token0,
     token1,
@@ -159,6 +184,8 @@ export const useSwap = (props: UseSwapProps) => {
     setToken1,
     onAmount0Change,
     handleSwap,
-    handleReverseOrder
+    handleReverseOrder,
+    refreshSimulation,
+    isAutoRefreshing
   };
 };
