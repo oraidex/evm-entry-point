@@ -12,7 +12,8 @@
     ".": {
       "import": "./dist/oraidex-evm-ui.js",
       "require": "./dist/oraidex-evm-ui.umd.cjs"
-    }
+    },
+    "./style.css": "./dist/oraidex-evm-ui.css"
   },
   "scripts": {
     "dev": "vite",
