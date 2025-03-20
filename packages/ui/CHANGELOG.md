@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.2
+
+### Patch Changes
+
+- [#14](https://github.com/oraidex/evm-entry-point/pull/14) [`7028ccf`](https://github.com/oraidex/evm-entry-point/commit/7028ccf36c658472cced862fd14581bbbff0e055) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - fix: update buffer import and fix build issue
+
 ## 0.1.1
 
 ### Patch Changes
