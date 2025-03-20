@@ -1,5 +1,14 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.4
+
+### Patch Changes
+
+- [#18](https://github.com/oraidex/evm-entry-point/pull/18) [`78cfe7a`](https://github.com/oraidex/evm-entry-point/commit/78cfe7af02fa71c66fe2ef3d4d21c3d84caa908e) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - feat: integrate axios for API calls and enhance balance and price fetching - Added axios for making API requests to the new ORAIDEX API - Implemented getBalances and getPrices functions to fetch token balances and prices - Updated SelectTokenWithAmount component to display fetched balances and prices - Introduced useBalance and usePrice hooks for managing balance and price data - Enhanced getTokenList function to handle errors and return an empty array on failure - Added utility function formatLargeNumber for formatting large numbers in a user-friendly way - Updated contract addresses and HTTP endpoints for better configuration management
+
+- Updated dependencies [[`78cfe7a`](https://github.com/oraidex/evm-entry-point/commit/78cfe7af02fa71c66fe2ef3d4d21c3d84caa908e)]:
+  - @oraichain/oraidex-evm-sdk@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
