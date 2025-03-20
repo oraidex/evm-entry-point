@@ -24,11 +24,12 @@ export default defineConfig({
       fileName: "oraidex-evm-ui",
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "buffer", "vite-plugin-node-polyfills/shims/buffer"],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
+          buffer: "Buffer",
         },
       },
     },
