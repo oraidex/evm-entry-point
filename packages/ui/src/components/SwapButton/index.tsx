@@ -25,14 +25,19 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
     return (
       <>
         <Button
-          variant={variant}
-          size={size}
-          className={cn("w-full", className)}
+          // variant={variant}
+          // size={size}
+          className={cn(
+            "w-full bg-swapBtn h-10 p-2 rounded-buttonRadius text-primaryBtnText hover:brightness-110 transition-all ease-in-out",
+            className
+          )}
           ref={ref}
           asChild={false}
           {...props}
         >
-          {isLoading && <Loader2 className="animate-spin" />}
+          {isLoading && (
+            <Loader2 className="animate-spin text-primaryBtnText" />
+          )}
           {content}
         </Button>
       </>
