@@ -3,7 +3,7 @@ import {
   usePersistActions,
 } from "@/stores/persist-config/selector";
 import { CustomStyles } from "@/types/swap";
-import React, { useEffect } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import {
   AGENTS_LAND_SCHEME,
   ColorScheme,
@@ -14,7 +14,6 @@ import {
 import { Theme } from "@/stores/persist-config/usePersistStore";
 
 type ThemeProviderProps = {
-  children: React.ReactNode;
   theme?: Theme;
   colorScheme?: ColorScheme;
   customStyles: Partial<CustomStyles>;
@@ -84,7 +83,7 @@ export const ThemeProvider = ({
   theme = Theme.DARK,
   colorScheme = ColorScheme.ORAI_DEX,
   customStyles = DEFAULT_CONFIG.customStyles,
-}: ThemeProviderProps) => {
+}: PropsWithChildren<ThemeProviderProps>) => {
   const currentTheme = useGetTheme();
   const { handleSetTheme } = usePersistActions();
 

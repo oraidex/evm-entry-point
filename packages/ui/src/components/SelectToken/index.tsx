@@ -41,7 +41,6 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
       <Drawer modal>
         <DrawerTrigger asChild>
           <Button
-            size={size}
             className={twMerge(
               "rounded-boxSelectRadius bg-boxSelect border border-borderBox h-[58px] py-2",
               className

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/drawer";
 import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
 import { truncateHash } from "@/lib/utils";
+import { Theme } from "@/stores/persist-config/usePersistStore";
 import { CustomStyles } from "@/types/swap";
 import { JsonRpcSigner } from "ethers";
 import {
@@ -20,11 +21,11 @@ import {
   Settings,
   X,
 } from "lucide-react";
-import { JSX, ReactNode } from "react";
+import { JSX, PropsWithChildren, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { useSwap } from "./hooks/useSwap";
 import { useToken } from "./hooks/useToken";
-import { Theme } from "@/stores/persist-config/usePersistStore";
+import WidgetQueryClientProvider from "@/components/WidgetQueryClientProvider";
 
 // Define types for the compound components
 type HeaderProps = {
@@ -70,9 +71,17 @@ export type SwapModalProps = {
   signer?: JsonRpcSigner;
   className?: string;
   children?: ReactNode;
-  customStyles: Partial<CustomStyles>;
+  customStyles?: Partial<CustomStyles>;
   colorScheme?: ColorScheme;
   theme?: Theme;
+};
+
+export const Widget = (props: PropsWithChildren<SwapModalProps>) => {
+  return (
+    <WidgetQueryClientProvider>
+      <SwapWidget {...props} />
+    </WidgetQueryClientProvider>
+  );
 };
 
 // Create the main component with static sub-components
@@ -80,14 +89,13 @@ export const SwapWidget = ({
   sender,
   connectButton,
   signer,
-  className,
-  children,
+  className = "",
   customStyles = DEFAULT_CONFIG.customStyles,
   colorScheme = ColorScheme.ORAI_DEX,
   theme = Theme.DARK,
 }: SwapModalProps) => {
   const { tokenList } = useToken({});
-  
+
   const {
     token0,
     token1,
@@ -168,7 +176,6 @@ export const SwapWidget = ({
               tokenList={tokenList}
               amount={amountIn}
               onAmountChange={onAmount0Change}
-              // className="bg-[red]"
             />
 
             <SwapWidget.DirectionSwitch onClick={handleReverseOrder} />
@@ -182,7 +189,6 @@ export const SwapWidget = ({
               amount={amountOut}
               onAmountChange={() => console.log("set amount")}
               disableInputAmount={true}
-              // className="bg-[#cacad3]"
             />
 
             <SwapWidget.FeeInfo fee="3.211 ORAI" />

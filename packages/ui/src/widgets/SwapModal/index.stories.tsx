@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SwapModal } from ".";
+import { SwapModal, Widget } from ".";
 import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
 import { Theme } from "@/stores/persist-config/usePersistStore";
 
 const meta: Meta<typeof SwapModal> = {
   title: "Widgets/SwapModal",
-  component: SwapModal,
+  component: Widget,
   parameters: {
     layout: "centered",
   },

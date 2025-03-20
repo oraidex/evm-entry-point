@@ -6,12 +6,18 @@ import {
 } from "@radix-ui/react-popover";
 import { SwapModal, SwapModalProps } from "../SwapModal";
 import { useEthersSigner } from "@/lib/utils";
+import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
+import { Theme } from "@/stores/persist-config/usePersistStore";
 
 export type SwapWithPopoverProps = SwapModalProps;
 
 export const SwapWithPopover = ({
   sender,
   connectButton,
+  className,
+  customStyles = DEFAULT_CONFIG.customStyles,
+  colorScheme = ColorScheme.ORAI_DEX,
+  theme = Theme.DARK,
 }: SwapWithPopoverProps) => {
   const signer = useEthersSigner();
 
@@ -37,6 +43,10 @@ export const SwapWithPopover = ({
           signer={signer}
           sender={sender}
           connectButton={connectButton}
+          className={className}
+          customStyles={customStyles}
+          colorScheme={colorScheme}
+          theme={theme}
         />
       </PopoverContent>
     </Popover>
