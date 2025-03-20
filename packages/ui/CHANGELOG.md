@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.7
+
+### Patch Changes
+
+- [#25](https://github.com/oraidex/evm-entry-point/pull/25) [`1173dd1`](https://github.com/oraidex/evm-entry-point/commit/1173dd1ac077a087419a7f417a42f0284eed72d9) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - downgrade react version from 19 to 18 to fix sourcemap issue and improve build performance
+
 ## 0.1.6
 
 ### Patch Changes
