@@ -34,3 +34,31 @@ export function useEthersSigner({ chainId }: { chainId?: number } = {}) {
   const { data: client } = useConnectorClient<Config>({ chainId })
   return useMemo(() => (client ? clientToSigner(client) : undefined), [client])
 }
+
+/**
+ * Format a number to K (thousands), M (millions), B (billions) format
+ * @param value The number to format
+ * @param decimals Number of decimal places (default: 1)
+ * @returns Formatted string with appropriate suffix
+ */
+export function formatLargeNumber(value: number | string, decimals: number = 1): string {
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+
+  if (isNaN(num)) return '0';
+
+  const absValue = Math.abs(num);
+
+  if (absValue >= 1_000_000_000) {
+    return (num / 1_000_000_000).toFixed(decimals).replace(/\.0+$/, '') + 'B';
+  }
+
+  if (absValue >= 1_000_000) {
+    return (num / 1_000_000).toFixed(decimals).replace(/\.0+$/, '') + 'M';
+  }
+
+  if (absValue >= 1_000) {
+    return (num / 1_000).toFixed(decimals).replace(/\.0+$/, '') + 'K';
+  }
+
+  return num.toFixed(decimals).replace(/\.0+$/, '');
+}
