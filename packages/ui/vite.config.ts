@@ -9,10 +9,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // "@oraichain/oraidex-evm-sdk": path.resolve(
-      //   __dirname,
-      //   "../sdk/dist/index"
-      // ),
       process: "process/browser",
       buffer: "buffer",
     },
@@ -41,5 +37,12 @@ export default defineConfig({
   server: {
     watch: {},
   },
-  plugins: [react(), dts({ rollupTypes: true }), nodePolyfills()],
+  plugins: [
+    react(),
+    dts({
+      rollupTypes: true,
+      tsconfigPath: "tsconfig.app.json",
+    }),
+    nodePolyfills(),
+  ],
 });
