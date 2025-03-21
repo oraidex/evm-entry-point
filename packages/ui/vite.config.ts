@@ -20,7 +20,12 @@ export default defineConfig({
       fileName: "oraidex-evm-ui",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "buffer", "vite-plugin-node-polyfills/shims/buffer"],
+      external: [
+        "react",
+        "react-dom",
+        "buffer",
+        "vite-plugin-node-polyfills/shims/buffer",
+      ],
       output: {
         globals: {
           react: "React",
@@ -28,7 +33,7 @@ export default defineConfig({
           buffer: "Buffer",
         },
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'oraidex-evm-ui.css';
+          if (assetInfo.name === "style.css") return "oraidex-evm-ui.css";
           return assetInfo.name;
         },
       },
@@ -48,7 +53,7 @@ export default defineConfig({
     dts({
       rollupTypes: true,
       tsconfigPath: "tsconfig.app.json",
-    }),
+    }) as any,
     nodePolyfills(),
   ],
 });
