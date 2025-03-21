@@ -44,7 +44,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
           <Button
             disabled={disabled}
             className={twMerge(
-              "rounded-boxSelectRadius bg-boxSelect border border-borderBox h-[58px] py-2",
+              "disabled:opacity-100 rounded-boxSelectRadius bg-boxSelect border border-borderBox h-[58px] py-2",
               className
             )}
             asChild={false}
@@ -55,7 +55,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
               <div className="flex items-center justify-center gap-2 text-neutralContent text-[16px] md:text-[20px]">
                 <Avatar>
                   <AvatarImage
-                    className="rounded-full w-full h-full max-w-[38px] max-h-[38px]"
+                    className="rounded-full w-fit h-fit max-w-[28px] max-h-[28px]md:max-w-[38px] md:max-h-[38px]"
                     src={token.image}
                     alt="Token Image"
                   />
