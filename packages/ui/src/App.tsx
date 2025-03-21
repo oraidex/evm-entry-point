@@ -8,35 +8,58 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import Wallet from "./Wallet";
+import { MAINNET, TESTNET } from "./constants/network";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
   projectId: "YOUR_PROJECT_ID",
   chains: [
     {
-      id: 108160679,
-      name: "Oraichain Mainnet",
+      id: MAINNET.id,
+      name: MAINNET.name,
       nativeCurrency: {
-        name: "Oraichain",
-        symbol: "ORAI",
-        decimals: 18,
+        name: MAINNET.nativeCurrency.name,
+        symbol: MAINNET.nativeCurrency.symbol,
+        decimals: MAINNET.nativeCurrency.decimals,
       },
       rpcUrls: {
         default: {
-          http: ["https://evm.orai.io"],
+          http: [MAINNET.rpcUrls.default.http[0]],
         },
       },
     },
   ],
-  ssr: false, // If your dApp uses server side rendering (SSR)
+  ssr: false,
+});
+
+const testnetConfig = getDefaultConfig({
+  appName: "My RainbowKit App",
+  projectId: "YOUR_PROJECT_ID",
+  chains: [
+    {
+      id: TESTNET.id,
+      name: TESTNET.name,
+      nativeCurrency: {
+        name: TESTNET.nativeCurrency.name,
+        symbol: TESTNET.nativeCurrency.symbol,
+        decimals: TESTNET.nativeCurrency.decimals,
+      },
+      rpcUrls: {
+        default: {
+          http: [TESTNET.rpcUrls.default.http[0]],
+        },
+      },
+    },
+  ],
+  ssr: false,
 });
 
 const queryClient = new QueryClient();
 
 function App() {
-  
+
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={testnetConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
           <div className="m-10">

@@ -1,13 +1,13 @@
 import { OraiDEXIcon } from "@/assets/oraidex";
+import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
+import { useEthersSigner } from "@/lib/utils";
+import { Theme } from "@/stores/persist-config/usePersistStore";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import { SwapModal, SwapModalProps } from "../SwapModal";
-import { useEthersSigner } from "@/lib/utils";
-import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
-import { Theme } from "@/stores/persist-config/usePersistStore";
+import { SwapModalProps, Widget } from "../SwapModal";
 
 export type SwapWithPopoverProps = SwapModalProps;
 
@@ -18,6 +18,10 @@ export const SwapWithPopover = ({
   customStyles = DEFAULT_CONFIG.customStyles,
   colorScheme = ColorScheme.ORAI_DEX,
   theme = Theme.DARK,
+  defaultTokenFrom = null,
+  defaultTokenTo = null,
+  disableTokenSelectFrom = false,
+  disableTokenSelectTo = false,
 }: SwapWithPopoverProps) => {
   const signer = useEthersSigner();
 
@@ -39,7 +43,7 @@ export const SwapWithPopover = ({
         side="top"
         sideOffset={16}
       >
-        <SwapModal
+        <Widget
           signer={signer}
           sender={sender}
           connectButton={connectButton}
@@ -47,6 +51,10 @@ export const SwapWithPopover = ({
           customStyles={customStyles}
           colorScheme={colorScheme}
           theme={theme}
+          defaultTokenFrom={defaultTokenFrom}
+          defaultTokenTo={defaultTokenTo}
+          disableTokenSelectFrom={disableTokenSelectFrom}
+          disableTokenSelectTo={disableTokenSelectTo}
         />
       </PopoverContent>
     </Popover>

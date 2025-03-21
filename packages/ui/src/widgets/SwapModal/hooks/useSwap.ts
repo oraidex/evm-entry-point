@@ -1,6 +1,7 @@
 import { testGetQuote } from "@/apis/test-get-quote";
 import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
 import { OSOR_ENDPOINT } from "@/constants/http-endpoint";
+import { TESTNET } from "@/constants/network";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Token } from "@/types/Token";
 import {
@@ -95,29 +96,28 @@ export const useSwap = (props: UseSwapProps) => {
           return;
         }
 
-        console.log(
-          {
-            amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-            currency: {
-              address: token0.address.cosmos,
-              chainId: "Oraichain",
-              decimals: token0.decimals.cosmos,
-              symbol: token0.symbol,
-            },
-          },
-          {
-            address: token1.address.cosmos,
-            chainId: "Oraichain",
-            decimals: token1.decimals.cosmos,
-            symbol: token1.symbol,
-          },
-          `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
-          TradeType.EXACT_INPUT
-        )
+        // console.log(
+        //   {
+        //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
+        //     currency: {
+        //       address: token0.address.cosmos,
+        //       chainId: "Oraichain",
+        //       decimals: token0.decimals.cosmos,
+        //       symbol: token0.symbol,
+        //     },
+        //   },
+        //   {
+        //     address: token1.address.cosmos,
+        //     chainId: "Oraichain",
+        //     decimals: token1.decimals.cosmos,
+        //     symbol: token1.symbol,
+        //   },
+        //   `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
+        //   TradeType.EXACT_INPUT
+        // )
 
         // for testing
         const res = await testGetQuote(amountIn.mul(10 ** token0.decimals.cosmos).toString(), token0.address.cosmos, token1.address.cosmos);
-
         // const res = await osor.getSwapOraidexMsg(
         //   {
         //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
@@ -173,7 +173,7 @@ export const useSwap = (props: UseSwapProps) => {
       const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
 
       // let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
-      let toContract = "orai1r9wq0ehkef0l27tel9qw8hke2fsqktpxg66rnls32xffypf2htrskvrpug";
+      let toContract = TESTNET.mixedRouter;
       const coins = [];
       const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg))
 

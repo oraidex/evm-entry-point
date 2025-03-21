@@ -1,6 +1,7 @@
 import { ethers } from "hardhat";
 
-// deployed at 0xc8D06A27841533886F05F607a11825feaAB2fd7D
+// deployed at 0xc8D06A27841533886F05F607a11825feaAB2fd7D miannet
+// deployed at 0x4200000000000000000000000000000000000006 testnet
 
 async function main() {
     const [deployer] = await ethers.getSigners();

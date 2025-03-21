@@ -12,6 +12,7 @@ import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
 import { truncateHash } from "@/lib/utils";
 import { Theme } from "@/stores/persist-config/usePersistStore";
 import { CustomStyles } from "@/types/swap";
+import { Token } from "@/types/Token";
 import { JsonRpcSigner } from "ethers";
 import {
   ArrowDownUp,
@@ -28,7 +29,6 @@ import { useBalance } from "./hooks/useBalance";
 import { usePrice } from "./hooks/usePrice";
 import { useSwap } from "./hooks/useSwap";
 import { useToken } from "./hooks/useToken";
-import { Token } from "@/types/Token";
 
 // Define types for the compound components
 type HeaderProps = {
@@ -109,7 +109,20 @@ export const SwapWidget = ({
   disableTokenSelectFrom = false,
   disableTokenSelectTo = false,
 }: SwapModalProps) => {
-  const { tokenList } = useToken({});
+  const { data: tokenList } = useToken({
+    defaultTokenFrom,
+    defaultTokenTo,
+    disableTokenSelectFrom,
+    disableTokenSelectTo
+  });
+
+  const finalTokenList = [...tokenList];
+  if (defaultTokenFrom && !finalTokenList.find(t => t.address.evm === defaultTokenFrom.address.evm)) {
+    finalTokenList.unshift(defaultTokenFrom);
+  }
+  if (defaultTokenTo && !finalTokenList.find(t => t.address.evm === defaultTokenTo.address.evm)) {
+    finalTokenList.push(defaultTokenTo);
+  }
 
   const {
     balances,
@@ -142,8 +155,6 @@ export const SwapWidget = ({
     defaultTokenFrom,
     defaultTokenTo,
   });
-
-  console.log("isAutoRefreshing", isSimulating, isAutoRefreshing);
 
   return (
     <ThemeProvider
@@ -195,9 +206,8 @@ export const SwapWidget = ({
               <RotateCw
                 size={20}
                 strokeWidth={2}
-                className={`hover:cursor-pointer transition-all duration-300 ${
-                  isAutoRefreshing ? "animate-spin" : "hover:rotate-180"
-                }`}
+                className={`hover:cursor-pointer transition-all duration-300 ${isAutoRefreshing ? "animate-spin" : "hover:rotate-180"
+                  }`}
                 onClick={refreshSimulation}
               />
               {!showAccountInfo ? null : sender ? (
