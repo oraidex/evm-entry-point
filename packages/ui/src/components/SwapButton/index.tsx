@@ -18,6 +18,7 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
       size = "default",
       content,
       isLoading,
+      disabled,
       ...props
     },
     ref
@@ -31,6 +32,7 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
             "w-full bg-swapBtn h-10 p-2 rounded-buttonRadius text-primaryBtnText hover:brightness-110 transition-all ease-in-out",
             className
           )}
+          disabled={disabled || isLoading}
           ref={ref}
           asChild={false}
           {...props}

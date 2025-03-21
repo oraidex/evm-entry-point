@@ -16,6 +16,7 @@ export const useBalance = (props: UseBalanceProps) => {
 
     const { data: balances, refetch, isLoading } = useQuery({
         queryKey: ["balances", tokenList, signer],
+        enabled: !!signer,
         queryFn: () => getBalances(tokenList.map(token => token.address.evm), signer),
     });
 

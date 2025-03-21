@@ -8,7 +8,6 @@ import {
   EntryPointTypes,
   IWasmd__factory,
   Osor,
-  TradeType,
 } from "@oraichain/oraidex-evm-sdk";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Buffer } from "buffer";
@@ -41,6 +40,7 @@ export const useSwap = (props: UseSwapProps) => {
     onError,
   } = props;
 
+  const [isSwapping, setIsSwapping] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [token0, setToken0] = useState<Token | null>(defaultTokenFrom || null);
   const [token1, setToken1] = useState<Token | null>(defaultTokenTo || null);
@@ -48,32 +48,35 @@ export const useSwap = (props: UseSwapProps) => {
     string | undefined
   >(undefined, 1000);
   const [simulateResponse, setSimulateResponse] = useState<{
-    executeMsg: EntryPointTypes.ExecuteMsg | {
-      send: {
-        contract: string,
-        amount: string,
-        msg: string
-      }
-    } | {
-      execute_swap_operations: {
-        operations: {
-          orai_swap: {
-            ask_asset_info: {
-              native_token: {
-                denom: string
-              }
-            };
-            offer_asset_info: {
-              native_token: {
-                denom: string
-              }
-            };
+    executeMsg:
+      | EntryPointTypes.ExecuteMsg
+      | {
+          send: {
+            contract: string;
+            amount: string;
+            msg: string;
           };
-        }[]
-      }
-    },
-    returnAmount: string
-  } | null>(null)
+        }
+      | {
+          execute_swap_operations: {
+            operations: {
+              orai_swap: {
+                ask_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+                offer_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+              };
+            }[];
+          };
+        };
+    returnAmount: string;
+  } | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isAutoRefreshing, setIsAutoRefreshing] = useState(false);
 
@@ -90,6 +93,10 @@ export const useSwap = (props: UseSwapProps) => {
         if (!token0 || !token1) {
           console.log("choose token");
           return;
+        }
+
+        if (refreshTrigger) {
+          await refetchBalances();
         }
 
         const amountIn = new Decimal(debounceAmountIn || 0);
@@ -121,7 +128,11 @@ export const useSwap = (props: UseSwapProps) => {
         // )
 
         // for testing
-        const res = await testGetQuote(amountIn.mul(10 ** token0.decimals.cosmos).toString(), token0.address.cosmos, token1.address.cosmos);
+        const res = await testGetQuote(
+          amountIn.mul(10 ** token0.decimals.cosmos).toString(),
+          token0.address.cosmos,
+          token1.address.cosmos
+        );
         // const res = await osor.getSwapOraidexMsg(
         //   {
         //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
@@ -149,7 +160,7 @@ export const useSwap = (props: UseSwapProps) => {
 
         setSimulateResponse({
           executeMsg: res.message,
-          returnAmount: res.returnAmount
+          returnAmount: res.returnAmount,
         });
       } catch (error) {
         console.log("error simulate", error);
@@ -164,7 +175,7 @@ export const useSwap = (props: UseSwapProps) => {
 
     return new Decimal(simulateResponse.returnAmount)
       .div(10 ** token1.decimals.cosmos)
-      .toString();
+      .toFixed(6);
   }, [simulateResponse]);
 
   const onAmount0Change = (value: string | undefined) => {
@@ -174,19 +185,20 @@ export const useSwap = (props: UseSwapProps) => {
 
   const handleSwap = async () => {
     try {
+      setIsSwapping(true);
       const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
 
       // let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
       let toContract = TESTNET.mixedRouter;
       const coins = [];
-      const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg))
+      const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg));
 
       if ("send" in simulateResponse.executeMsg) {
         toContract = token0.address.cosmos;
       } else {
         const amountIn = new Decimal(debounceAmountIn || 0)
           .mul(10 ** token0.decimals.cosmos)
-          .toString();
+          .toFixed(0);
         coins.push({
           denom: token0.address.cosmos,
           amount: amountIn,
@@ -205,7 +217,9 @@ export const useSwap = (props: UseSwapProps) => {
         Buffer.from(JSON.stringify(coins))
       );
 
-      await res.wait(1);
+      const tx = await res.wait(1);
+
+      console.log("debug tx :>> ", tx.hash);
 
       await refetchBalances();
       if (onSuccess) {
@@ -216,6 +230,8 @@ export const useSwap = (props: UseSwapProps) => {
       if (onError) {
         onError();
       }
+    } finally {
+      setIsSwapping(false);
     }
   };
 
@@ -263,5 +279,6 @@ export const useSwap = (props: UseSwapProps) => {
     refreshSimulation,
     isAutoRefreshing,
     isSimulating,
+    isSwapping,
   };
 };

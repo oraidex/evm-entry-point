@@ -13,7 +13,7 @@ export const useToken = (props: UseTokenProps) => {
   const { defaultTokenFrom, defaultTokenTo, disableTokenSelectFrom, disableTokenSelectTo } = props;
 
   return useQuery({
-    queryKey: ["token"],
+    queryKey: ["token", defaultTokenFrom, defaultTokenTo],
     queryFn: getTokenList,
     initialData: [defaultTokenFrom, defaultTokenTo].filter(Boolean),
     enabled: !disableTokenSelectFrom && !disableTokenSelectTo,
