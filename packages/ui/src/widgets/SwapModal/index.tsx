@@ -121,14 +121,20 @@ export const SwapWidget = ({
     defaultTokenFrom,
     defaultTokenTo,
     disableTokenSelectFrom,
-    disableTokenSelectTo
+    disableTokenSelectTo,
   });
 
   const finalTokenList = [...tokenList];
-  if (defaultTokenFrom && !finalTokenList.find(t => t.address.evm === defaultTokenFrom.address.evm)) {
+  if (
+    defaultTokenFrom &&
+    !finalTokenList.find((t) => t.address.evm === defaultTokenFrom.address.evm)
+  ) {
     finalTokenList.unshift(defaultTokenFrom);
   }
-  if (defaultTokenTo && !finalTokenList.find(t => t.address.evm === defaultTokenTo.address.evm)) {
+  if (
+    defaultTokenTo &&
+    !finalTokenList.find((t) => t.address.evm === defaultTokenTo.address.evm)
+  ) {
     finalTokenList.push(defaultTokenTo);
   }
 
@@ -156,6 +162,7 @@ export const SwapWidget = ({
     refreshSimulation,
     isAutoRefreshing,
     isSimulating,
+    isSwapping,
   } = useSwap({
     tokenList,
     signer,
@@ -216,8 +223,9 @@ export const SwapWidget = ({
               <RotateCw
                 size={20}
                 strokeWidth={2}
-                className={`hover:cursor-pointer transition-all duration-300 ${isAutoRefreshing ? "animate-spin" : "hover:rotate-180"
-                  }`}
+                className={`hover:cursor-pointer transition-all duration-300 ${
+                  isAutoRefreshing ? "animate-spin" : "hover:rotate-180"
+                }`}
                 onClick={refreshSimulation}
               />
               {!showAccountInfo ? null : sender ? (
@@ -267,8 +275,8 @@ export const SwapWidget = ({
           <SwapWidget.Action>
             <SwapButton
               disabled={isSimulating}
+              isLoading={isSwapping}
               onClick={handleSwap}
-              isLoading={false}
               content="Swap"
             />
           </SwapWidget.Action>
