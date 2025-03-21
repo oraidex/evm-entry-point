@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.9
+
+### Patch Changes
+
+- [#29](https://github.com/oraidex/evm-entry-point/pull/29) [`a07b450`](https://github.com/oraidex/evm-entry-point/commit/a07b4509b8883fa4144a29e40236fdb0a185bfea) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - Implement testnet env for testing
+
 ## 0.1.8
 
 ### Patch Changes
