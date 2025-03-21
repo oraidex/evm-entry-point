@@ -21,5 +21,33 @@ export const Default: Story = {
     ...DEFAULT_CONFIG,
     colorScheme: ColorScheme.ORAI_DEX,
     theme: Theme.DARK,
+    disableTokenSelectFrom: true,
+    disableTokenSelectTo: true,
+    defaultTokenFrom: {
+      address: {
+        cosmos: "orai",
+        evm: "orai",
+      },
+      name: "ORAI",
+      symbol: "ORAI",
+      decimals: {
+        cosmos: 6,
+        evm: 18,
+      },
+      image: "https://images.orai.io/logo/orai-token.png",
+    },
+    defaultTokenTo: {
+      address: {
+        cosmos: "orai12hzjxfh77wl572gdzct2fxv2arxcwh6gykc7qh",
+        evm: "0xFE7394f22465EB1ae0843acEef270C377CB43567",
+      },
+      name: "USDT",
+      symbol: "USDT",
+      decimals: {
+        cosmos: 6,
+        evm: 6,
+      },
+      image: "https://s2.coinmarketcap.com/static/img/coins/64x64/825.png",
+    },
   },
 };

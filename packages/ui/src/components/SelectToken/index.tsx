@@ -33,6 +33,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
       className,
       variant = "outline",
       size = "default",
+      disabled,
       ...props
     },
     ref
@@ -41,6 +42,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
       <Drawer modal>
         <DrawerTrigger asChild>
           <Button
+            disabled={disabled}
             className={twMerge(
               "rounded-boxSelectRadius bg-boxSelect border border-borderBox h-[58px] py-2",
               className
@@ -53,9 +55,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
               <div className="flex items-center justify-center gap-2 text-neutralContent text-[16px] md:text-[20px]">
                 <Avatar>
                   <AvatarImage
-                    className="rounded-full"
-                    width={38}
-                    height={38}
+                    className="rounded-full w-full h-full max-w-[38px] max-h-[38px]"
                     src={token.image}
                     alt="Token Image"
                   />
@@ -70,7 +70,7 @@ export const SelectToken = forwardRef<HTMLButtonElement, SelectTokenProps>(
             ) : (
               <span>Select a token</span>
             )}
-            <ChevronDownIcon className="text-neutralContent" />
+            {!disabled && <ChevronDownIcon className="text-neutralContent" />}
           </Button>
         </DrawerTrigger>
         <DrawerContent aria-describedby={undefined}>
