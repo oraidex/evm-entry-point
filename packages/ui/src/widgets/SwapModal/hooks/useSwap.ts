@@ -7,8 +7,7 @@ import { Token } from "@/types/Token";
 import {
   EntryPointTypes,
   IWasmd__factory,
-  Osor,
-  TradeType,
+  Osor
 } from "@oraichain/oraidex-evm-sdk";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Buffer } from "buffer";
@@ -92,6 +91,10 @@ export const useSwap = (props: UseSwapProps) => {
           return;
         }
 
+        if (refreshTrigger) {
+          await refetchBalances();
+        }
+
         const amountIn = new Decimal(debounceAmountIn || 0);
 
         setIsSimulating(true);
@@ -164,7 +167,7 @@ export const useSwap = (props: UseSwapProps) => {
 
     return new Decimal(simulateResponse.returnAmount)
       .div(10 ** token1.decimals.cosmos)
-      .toString();
+      .toFixed(6);
   }, [simulateResponse]);
 
   const onAmount0Change = (value: string | undefined) => {
@@ -186,7 +189,7 @@ export const useSwap = (props: UseSwapProps) => {
       } else {
         const amountIn = new Decimal(debounceAmountIn || 0)
           .mul(10 ** token0.decimals.cosmos)
-          .toString();
+          .toFixed(0);
         coins.push({
           denom: token0.address.cosmos,
           amount: amountIn,
@@ -205,7 +208,9 @@ export const useSwap = (props: UseSwapProps) => {
         Buffer.from(JSON.stringify(coins))
       );
 
-      await res.wait(1);
+      const tx = await res.wait(1);
+
+      console.log('debug tx :>> ', tx.hash);
 
       await refetchBalances();
       if (onSuccess) {

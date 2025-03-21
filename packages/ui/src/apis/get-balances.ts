@@ -6,8 +6,12 @@ export const getBalances = async (listAddress: string[], signer: JsonRpcSigner):
     try {
         const balanceRecord: Record<string, bigint> = {};
 
+        console.log('debug balanceRecord :>> ', listAddress, signer);
+
         const oraiBalance = await signer.provider.getBalance(signer);
         balanceRecord["orai"] = oraiBalance;
+
+        console.log('debug oraiBalance :>> ', oraiBalance);
 
         const multicall = Multicall__factory.connect(TESTNET.multicall, signer);
         const filteredAddresses = listAddress.filter(address => address !== "orai");
@@ -33,6 +37,8 @@ export const getBalances = async (listAddress: string[], signer: JsonRpcSigner):
                 });
             })
         );
+
+        console.log('debug balanceRecord :>> ', balanceRecord);
 
         return balanceRecord;
     } catch (error) {
