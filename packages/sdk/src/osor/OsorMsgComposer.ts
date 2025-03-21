@@ -1,9 +1,5 @@
 import { SwapOperation } from '@oraichain/osor-api-contracts-sdk/src';
-import {
-  ActionRoute,
-  RouteResponse,
-  SwapActionRoute,
-} from '../interfaces/IRouter';
+import { ActionRoute, Route, SwapActionRoute } from '../interfaces/IRouter';
 import { SwapV2, SwapV3 } from '../interfaces/ISwapMessage';
 import {
   denomToAssetInfo,
@@ -53,7 +49,7 @@ export class OsorMsgComposer {
     }
   }
 
-  generateMsgFromRouteResponse(routeResponse: RouteResponse) {
+  generateMsgFromRouteResponse(routeResponse: Route) {
     const isUniversalMsg = routeResponse.paths.some((path) =>
       path.actions.some((action) => action.type === 'Bridge'),
     );
@@ -131,7 +127,7 @@ export class OsorMsgComposer {
     return swapMsgs;
   }
 
-  _generateUniversalSwapMsg(_routeResponse: RouteResponse): SwapOperation[] {
+  _generateUniversalSwapMsg(_routeResponse: Route): SwapOperation[] {
     throw new Error('Universal swap have not supported yet');
   }
 }

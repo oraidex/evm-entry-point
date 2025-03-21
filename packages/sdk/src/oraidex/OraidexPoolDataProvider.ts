@@ -119,7 +119,6 @@ export class OraidexPoolDataProvider implements IPoolDataProvider {
         } as PoolDataV3;
       }
     });
-    console.log({ poolData });
     return poolData;
   }
 

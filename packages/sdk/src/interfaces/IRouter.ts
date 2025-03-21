@@ -70,7 +70,7 @@ export type Path = {
   actions: ActionRoute[];
 };
 
-export type RouteResponse = {
+export type Route = {
   swapAmount: string;
   returnAmount: string;
   paths: Path[];

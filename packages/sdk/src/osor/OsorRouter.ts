@@ -4,7 +4,7 @@ import {
   Currency,
   CurrencyAmount,
   IRouter,
-  RouteResponse,
+  Route,
   SwapOptions,
   TradeType,
 } from '../interfaces/IRouter';
