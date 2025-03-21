@@ -1,6 +1,7 @@
 import { Protocol } from '../constants';
 import { ActionRoute, CurrencyAmount, Path } from '../interfaces';
 import Decimal from 'decimal.js';
+import { IPoolDataProvider } from '../interfaces/IPoolDataProvider';
 
 export const computePriceImpact = (
   midPrice: Decimal,
@@ -15,10 +16,10 @@ export const computePriceImpact = (
 
 export const computePriceImpactPath = async (
   path: Path,
-  poolDataProvider: (protocol: Protocol, poolKey: string) => Promise<any>,
+  poolDataProvider: IPoolDataProvider,
 ) => {
   const { tokenInAmount, tokenOutAmount, actions } = path;
-  const midPrice = await getMidPriceFromActions(actions);
+  const midPrice = await getMidPriceFromActions(actions, poolDataProvider);
   const inputAmount: CurrencyAmount = {
     currency: {
       chainId: '',
@@ -42,7 +43,10 @@ export const computePriceImpactPath = async (
   return computePriceImpact(midPrice, inputAmount, outputAmount);
 };
 
-export const getMidPriceFromActions = async (actions: ActionRoute[]) => {
+export const getMidPriceFromActions = async (
+  actions: ActionRoute[],
+  poolDataProvider: IPoolDataProvider,
+) => {
   // TODO: Implement mid price calculation from actions
   return new Decimal(0);
 };

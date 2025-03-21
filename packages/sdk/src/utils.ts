@@ -67,3 +67,13 @@ export const parsePoolKey = (poolKeyStr: string): PoolKey => {
     },
   };
 };
+
+export const extractJsonFromHexString = (hexString: string) => {
+  const jsonStartIndex = hexString.indexOf('{');
+  const jsonEndIndex = hexString.lastIndexOf('}') + 1;
+  if (jsonStartIndex >= 0 && jsonEndIndex > jsonStartIndex) {
+    const jsonString = hexString.substring(jsonStartIndex, jsonEndIndex);
+    return JSON.parse(jsonString);
+  }
+  throw new Error('No JSON found in hex string');
+};
