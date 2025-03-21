@@ -11,6 +11,4 @@ export interface SwapV3 {
   x_to_y: boolean;
 }
 
-
-
 export type SwapMsg = SwapV2 | SwapV3;
