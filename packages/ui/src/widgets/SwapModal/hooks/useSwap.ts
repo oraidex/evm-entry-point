@@ -7,7 +7,7 @@ import { Token } from "@/types/Token";
 import {
   EntryPointTypes,
   IWasmd__factory,
-  Osor
+  Osor,
 } from "@oraichain/oraidex-evm-sdk";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Buffer } from "buffer";
@@ -40,6 +40,7 @@ export const useSwap = (props: UseSwapProps) => {
     onError,
   } = props;
 
+  const [isSwapping, setIsSwapping] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [token0, setToken0] = useState<Token | null>(defaultTokenFrom || null);
   const [token1, setToken1] = useState<Token | null>(defaultTokenTo || null);
@@ -47,32 +48,35 @@ export const useSwap = (props: UseSwapProps) => {
     string | undefined
   >(undefined, 1000);
   const [simulateResponse, setSimulateResponse] = useState<{
-    executeMsg: EntryPointTypes.ExecuteMsg | {
-      send: {
-        contract: string,
-        amount: string,
-        msg: string
-      }
-    } | {
-      execute_swap_operations: {
-        operations: {
-          orai_swap: {
-            ask_asset_info: {
-              native_token: {
-                denom: string
-              }
-            };
-            offer_asset_info: {
-              native_token: {
-                denom: string
-              }
-            };
+    executeMsg:
+      | EntryPointTypes.ExecuteMsg
+      | {
+          send: {
+            contract: string;
+            amount: string;
+            msg: string;
           };
-        }[]
-      }
-    },
-    returnAmount: string
-  } | null>(null)
+        }
+      | {
+          execute_swap_operations: {
+            operations: {
+              orai_swap: {
+                ask_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+                offer_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+              };
+            }[];
+          };
+        };
+    returnAmount: string;
+  } | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isAutoRefreshing, setIsAutoRefreshing] = useState(false);
 
@@ -124,7 +128,11 @@ export const useSwap = (props: UseSwapProps) => {
         // )
 
         // for testing
-        const res = await testGetQuote(amountIn.mul(10 ** token0.decimals.cosmos).toString(), token0.address.cosmos, token1.address.cosmos);
+        const res = await testGetQuote(
+          amountIn.mul(10 ** token0.decimals.cosmos).toString(),
+          token0.address.cosmos,
+          token1.address.cosmos
+        );
         // const res = await osor.getSwapOraidexMsg(
         //   {
         //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
@@ -152,7 +160,7 @@ export const useSwap = (props: UseSwapProps) => {
 
         setSimulateResponse({
           executeMsg: res.message,
-          returnAmount: res.returnAmount
+          returnAmount: res.returnAmount,
         });
       } catch (error) {
         console.log("error simulate", error);
@@ -177,12 +185,13 @@ export const useSwap = (props: UseSwapProps) => {
 
   const handleSwap = async () => {
     try {
+      setIsSwapping(true);
       const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
 
       // let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
       let toContract = TESTNET.mixedRouter;
       const coins = [];
-      const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg))
+      const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg));
 
       if ("send" in simulateResponse.executeMsg) {
         toContract = token0.address.cosmos;
@@ -210,7 +219,7 @@ export const useSwap = (props: UseSwapProps) => {
 
       const tx = await res.wait(1);
 
-      console.log('debug tx :>> ', tx.hash);
+      console.log("debug tx :>> ", tx.hash);
 
       await refetchBalances();
       if (onSuccess) {
@@ -221,6 +230,8 @@ export const useSwap = (props: UseSwapProps) => {
       if (onError) {
         onError();
       }
+    } finally {
+      setIsSwapping(false);
     }
   };
 
@@ -268,5 +279,6 @@ export const useSwap = (props: UseSwapProps) => {
     refreshSimulation,
     isAutoRefreshing,
     isSimulating,
+    isSwapping,
   };
 };
