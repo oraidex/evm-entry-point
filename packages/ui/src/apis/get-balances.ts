@@ -4,7 +4,6 @@ import { JsonRpcSigner } from "ethers";
 
 export const getBalances = async (listAddress: string[], signer: JsonRpcSigner): Promise<Record<string, bigint>> => {
     try {
-        console.log("call get Balances")
         const balanceRecord: Record<string, bigint> = {};
 
         const oraiBalance = await signer.provider.getBalance(signer);

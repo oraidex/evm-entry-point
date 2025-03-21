@@ -1,3 +1,4 @@
+import { testGetQuote } from "@/apis/test-get-quote";
 import { WASMD_PRECOMPILE_ENTRY } from "@/constants/contract-address";
 import { OSOR_ENDPOINT } from "@/constants/http-endpoint";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -31,6 +32,23 @@ export const useSwap = (props: UseSwapProps) => {
         contract: string,
         amount: string,
         msg: string
+      }
+    } | {
+      execute_swap_operations: {
+        operations: {
+          orai_swap: {
+            ask_asset_info: {
+              native_token: {
+                denom: string
+              }
+            };
+            offer_asset_info: {
+              native_token: {
+                denom: string
+              }
+            };
+          };
+        }[]
       }
     },
     returnAmount: string
@@ -75,34 +93,40 @@ export const useSwap = (props: UseSwapProps) => {
           decimals: token1.decimals.cosmos,
           symbol: token1.symbol,
         },
-        // TODO:  query on Mapping module EVM-address
         `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
         TradeType.EXACT_INPUT
       )
 
-      const res = await osor.getSwapOraidexMsg(
-        {
-          amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-          currency: {
-            address: token0.address.cosmos,
-            chainId: "Oraichain",
-            decimals: token0.decimals.cosmos,
-            symbol: token0.symbol,
-          },
-        },
-        {
-          address: token1.address.cosmos,
-          chainId: "Oraichain",
-          decimals: token1.decimals.cosmos,
-          symbol: token1.symbol,
-        },
-        // TODO:  query on Mapping module EVM-address
-        `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
-        TradeType.EXACT_INPUT
-      );
+      // for testing
+      const res = await testGetQuote(amountIn.mul(10 ** token0.decimals.cosmos).toString(), token0.address.cosmos, token1.address.cosmos);
+
+      // const res = await osor.getSwapOraidexMsg(
+      //   {
+      //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
+      //     currency: {
+      //       address: token0.address.cosmos,
+      //       chainId: "Oraichain",
+      //       decimals: token0.decimals.cosmos,
+      //       symbol: token0.symbol,
+      //     },
+      //   },
+      //   {
+      //     address: token1.address.cosmos,
+      //     chainId: "Oraichain",
+      //     decimals: token1.decimals.cosmos,
+      //     symbol: token1.symbol,
+      //   },
+      //   `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
+      //   TradeType.EXACT_INPUT
+      // );
+
+      // setSimulateResponse({
+      //   executeMsg: res.executeMsg[0],
+      //   returnAmount: res.returnAmount
+      // });
 
       setSimulateResponse({
-        executeMsg: res.executeMsg[0],
+        executeMsg: res.message,
         returnAmount: res.returnAmount
       });
     })();
@@ -122,7 +146,8 @@ export const useSwap = (props: UseSwapProps) => {
   const handleSwap = async () => {
     const wasmd = IWasmd__factory.connect(WASMD_PRECOMPILE_ENTRY, signer);
 
-    let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
+    // let toContract = osor.ORAICHAIN_OSOR_ROUTER_ADDRESS;
+    let toContract = "orai1r9wq0ehkef0l27tel9qw8hke2fsqktpxg66rnls32xffypf2htrskvrpug";
     const coins = [];
     const msg = Buffer.from(JSON.stringify(simulateResponse.executeMsg))
 
