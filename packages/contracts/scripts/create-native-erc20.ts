@@ -11,7 +11,7 @@ const main = async () => {
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
   const tokenFactoryAddress =
-    "orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9";
+    "orai1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqtsu49d";
 
   const bank = IBank__factory.connect(
     "0x9000000000000000000000000000000000000004",
@@ -26,10 +26,10 @@ const main = async () => {
   // local: orai1fventeva948ue0fzhp6xselr522rnqwger9wg7r0g9f4jemsqh6slh3t69
   // mainnet: orai17hyr3eg92fv34fdnkend48scu32hn26gqxw3hnwkfy904lk9r09qqzty42
   const nativeERC20 = await new ExampleNativeERC20__factory(account).deploy(
-    `factory/${tokenFactoryAddress}/oraix39mVDGnusyjag97Tz5H8GvGriSZmhVvkvXRoc4`,
-    "LEE",
-    "LEE",
-    6
+    `factory/${tokenFactoryAddress}/0xe594600bd02c112ed52237291c55351cc39ef3fa`,
+    "ADL",
+    "ADL",
+    18
   );
   console.log("Deploy tx:", await nativeERC20.waitForDeployment());
   console.log("ERC20Native address:", nativeERC20.target);

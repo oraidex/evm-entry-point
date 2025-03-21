@@ -1,11 +1,46 @@
 
 import { useAccount } from "wagmi";
-import { OraiDEXSwapWagmi } from "./widgets/OraiDEXSwapWagmi";
+import { Token } from "./types/Token";
+import { OraiDEXSwapWagmi } from "./widgets";
 
+const ADL: Token = {
+  address: {
+    cosmos: "factory/orai1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqtsu49d/0xe594600bd02c112ed52237291c55351cc39ef3fa",
+    evm: "0x6A3317D3873Fb18885561A8507110fB3a2E4fb1F",
+  },
+  name: "ADL",
+  symbol: "ADL",
+  decimals: {
+    cosmos: 18,
+    evm: 18,
+  },
+  image: "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+};
+
+const ORAI: Token = {
+  address: {
+    cosmos: "orai",
+    evm: "orai",
+  },
+  name: "ORAI",
+  symbol: "ORAI",
+  decimals: {
+    cosmos: 6,
+    evm: 18,
+  },
+  image: "https://images.orai.io/logo/orai-token.png",
+};
 function Wallet() {
   const account = useAccount();
 
-  return <OraiDEXSwapWagmi syncWallet={true} sender={account.address} />;
+  return <OraiDEXSwapWagmi
+    syncWallet={true}
+    sender={account.address}
+    defaultTokenFrom={ADL}
+    defaultTokenTo={ORAI}
+    disableTokenSelectFrom={true}
+    disableTokenSelectTo={true}
+  />;
 }
 
 export default Wallet;

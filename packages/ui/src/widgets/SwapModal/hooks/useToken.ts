@@ -1,14 +1,21 @@
 import { getTokenList } from "@/apis/get-token-list";
+import { Token } from "@/types/Token";
 import { useQuery } from "@tanstack/react-query";
 
-export const useToken = (_props: any) => {
-  const { status, data: tokenList, error } = useQuery({
-    queryKey: ["token"],
-    queryFn: getTokenList,
-    initialData: [],
-  });
+type UseTokenProps = {
+  defaultTokenFrom?: Token;
+  defaultTokenTo?: Token;
+  disableTokenSelectFrom?: boolean;
+  disableTokenSelectTo?: boolean;
+};
 
-  return {
-    tokenList,
-  };
+export const useToken = (props: UseTokenProps) => {
+  const { defaultTokenFrom, defaultTokenTo, disableTokenSelectFrom, disableTokenSelectTo } = props;
+
+  return useQuery({
+    queryKey: ["token", defaultTokenFrom, defaultTokenTo],
+    queryFn: getTokenList,
+    initialData: [defaultTokenFrom, defaultTokenTo].filter(Boolean),
+    enabled: !disableTokenSelectFrom && !disableTokenSelectTo,
+  });
 };

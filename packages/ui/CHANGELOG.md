@@ -1,5 +1,41 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.10
+
+### Patch Changes
+
+- [#31](https://github.com/oraidex/evm-entry-point/pull/31) [`3dc00f0`](https://github.com/oraidex/evm-entry-point/commit/3dc00f09d317e37aeaa54b996f53a67b7b404060) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - Fix loading state, parse big amount in
+
+## 0.1.9
+
+### Patch Changes
+
+- [#29](https://github.com/oraidex/evm-entry-point/pull/29) [`a07b450`](https://github.com/oraidex/evm-entry-point/commit/a07b4509b8883fa4144a29e40236fdb0a185bfea) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - Implement testnet env for testing
+
+## 0.1.8
+
+### Patch Changes
+
+- [#27](https://github.com/oraidex/evm-entry-point/pull/27) [`a1327a0`](https://github.com/oraidex/evm-entry-point/commit/a1327a0cb3b43d0e51643415b901c7e978e2c5c4) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - add index for css
+
+## 0.1.7
+
+### Patch Changes
+
+- [#25](https://github.com/oraidex/evm-entry-point/pull/25) [`1173dd1`](https://github.com/oraidex/evm-entry-point/commit/1173dd1ac077a087419a7f417a42f0284eed72d9) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - downgrade react version from 19 to 18 to fix sourcemap issue and improve build performance
+
+## 0.1.6
+
+### Patch Changes
+
+- [#23](https://github.com/oraidex/evm-entry-point/pull/23) [`cbaf72a`](https://github.com/oraidex/evm-entry-point/commit/cbaf72a9ff2fe56f8acd7e2fe808f2bb1f083c77) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - add source map
+
+## 0.1.5
+
+### Patch Changes
+
+- [#20](https://github.com/oraidex/evm-entry-point/pull/20) [`b090796`](https://github.com/oraidex/evm-entry-point/commit/b09079672c9253d9a1825b3d2fe04cb0bac2b9e5) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - Fix build with types
+
 ## 0.1.4
 
 ### Patch Changes
