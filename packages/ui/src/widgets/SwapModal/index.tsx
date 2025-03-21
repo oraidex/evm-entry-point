@@ -83,6 +83,8 @@ export type SwapModalProps = {
   defaultTokenTo?: Token;
   disableTokenSelectFrom?: boolean;
   disableTokenSelectTo?: boolean;
+  onSuccess?: () => void;
+  onError?: () => void;
 };
 
 export const Widget = (props: PropsWithChildren<SwapModalProps>) => {
@@ -108,6 +110,12 @@ export const SwapWidget = ({
   defaultTokenTo = null,
   disableTokenSelectFrom = false,
   disableTokenSelectTo = false,
+  onSuccess = () => {
+    console.log("swap success");
+  },
+  onError = () => {
+    console.log("swap error");
+  },
 }: SwapModalProps) => {
   const { tokenList } = useToken({});
 
@@ -141,6 +149,8 @@ export const SwapWidget = ({
     refetchBalances,
     defaultTokenFrom,
     defaultTokenTo,
+    onSuccess,
+    onError,
   });
 
   console.log("isAutoRefreshing", isSimulating, isAutoRefreshing);

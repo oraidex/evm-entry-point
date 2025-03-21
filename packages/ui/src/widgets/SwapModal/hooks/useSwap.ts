@@ -22,6 +22,8 @@ interface UseSwapProps {
   ) => Promise<QueryObserverResult<Record<string, bigint>, Error>>;
   defaultTokenFrom?: Token;
   defaultTokenTo?: Token;
+  onSuccess?: () => void;
+  onError?: () => void;
 }
 
 const osor = new Osor(OSOR_ENDPOINT);
@@ -33,6 +35,8 @@ export const useSwap = (props: UseSwapProps) => {
     refetchBalances,
     defaultTokenFrom,
     defaultTokenTo,
+    onSuccess,
+    onError,
   } = props;
 
   const [isSimulating, setIsSimulating] = useState(false);
@@ -181,8 +185,14 @@ export const useSwap = (props: UseSwapProps) => {
       await res.wait(1);
 
       await refetchBalances();
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       console.log("error swap", error);
+      if (onError) {
+        onError();
+      }
     }
   };
 
