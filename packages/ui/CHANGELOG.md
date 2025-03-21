@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.1.10
+
+### Patch Changes
+
+- [#31](https://github.com/oraidex/evm-entry-point/pull/31) [`3dc00f0`](https://github.com/oraidex/evm-entry-point/commit/3dc00f09d317e37aeaa54b996f53a67b7b404060) Thanks [@vuonghuuhung](https://github.com/vuonghuuhung)! - Fix loading state, parse big amount in
+
 ## 0.1.9
 
 ### Patch Changes
