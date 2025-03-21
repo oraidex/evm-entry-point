@@ -1,16 +1,15 @@
-import { MULTICALL_ADDRESS } from "@/constants/contract-address";
+import { TESTNET } from "@/constants/network";
 import { IERC20__factory, Multicall__factory } from "@oraichain/oraidex-evm-sdk";
 import { JsonRpcSigner } from "ethers";
 
 export const getBalances = async (listAddress: string[], signer: JsonRpcSigner): Promise<Record<string, bigint>> => {
     try {
-        console.log("call get Balances")
         const balanceRecord: Record<string, bigint> = {};
 
         const oraiBalance = await signer.provider.getBalance(signer);
         balanceRecord["orai"] = oraiBalance;
 
-        const multicall = Multicall__factory.connect(MULTICALL_ADDRESS, signer);
+        const multicall = Multicall__factory.connect(TESTNET.multicall, signer);
         const filteredAddresses = listAddress.filter(address => address !== "orai");
 
         const chunkSize = 15;

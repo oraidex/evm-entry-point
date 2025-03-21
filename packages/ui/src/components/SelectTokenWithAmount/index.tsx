@@ -12,6 +12,7 @@ type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   setToken: (token: Token) => void;
   onAmountChange: (value: string) => void;
   disableInputAmount?: boolean;
+  disableTokenSelect?: boolean;
 };
 
 export const SelectTokenWithAmount = forwardRef<
@@ -29,6 +30,7 @@ export const SelectTokenWithAmount = forwardRef<
       disableInputAmount,
       className,
       onAmountChange,
+      disableTokenSelect,
       ...props
     },
     _ref
@@ -49,6 +51,7 @@ export const SelectTokenWithAmount = forwardRef<
             tokenList={tokenList}
             className="border-2"
             setToken={setToken}
+            disabled={disableTokenSelect}
           />
           <div className="text-right">
             <input

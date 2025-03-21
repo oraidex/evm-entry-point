@@ -12,6 +12,7 @@ import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
 import { truncateHash } from "@/lib/utils";
 import { Theme } from "@/stores/persist-config/usePersistStore";
 import { CustomStyles } from "@/types/swap";
+import { Token } from "@/types/Token";
 import { JsonRpcSigner } from "ethers";
 import {
   ArrowDownUp,
@@ -76,6 +77,14 @@ export type SwapModalProps = {
   customStyles?: Partial<CustomStyles>;
   colorScheme?: ColorScheme;
   theme?: Theme;
+  showAccountInfo?: boolean;
+  title?: string;
+  defaultTokenFrom?: Token;
+  defaultTokenTo?: Token;
+  disableTokenSelectFrom?: boolean;
+  disableTokenSelectTo?: boolean;
+  onSuccess?: () => void;
+  onError?: () => void;
 };
 
 export const Widget = (props: PropsWithChildren<SwapModalProps>) => {
@@ -95,10 +104,39 @@ export const SwapWidget = ({
   customStyles = DEFAULT_CONFIG.customStyles,
   colorScheme = ColorScheme.ORAI_DEX,
   theme = Theme.DARK,
+  showAccountInfo = true,
+  title = "OBridge Swap",
+  defaultTokenFrom = null,
+  defaultTokenTo = null,
+  disableTokenSelectFrom = false,
+  disableTokenSelectTo = false,
+  onSuccess = () => {
+    console.log("swap success");
+  },
+  onError = () => {
+    console.log("swap error");
+  },
 }: SwapModalProps) => {
-  const { tokenList } = useToken({});
+  const { data: tokenList } = useToken({
+    defaultTokenFrom,
+    defaultTokenTo,
+    disableTokenSelectFrom,
+    disableTokenSelectTo
+  });
 
-  const { balances, refetch: refetchBalances, isLoading: isLoadingBalances } = useBalance({
+  const finalTokenList = [...tokenList];
+  if (defaultTokenFrom && !finalTokenList.find(t => t.address.evm === defaultTokenFrom.address.evm)) {
+    finalTokenList.unshift(defaultTokenFrom);
+  }
+  if (defaultTokenTo && !finalTokenList.find(t => t.address.evm === defaultTokenTo.address.evm)) {
+    finalTokenList.push(defaultTokenTo);
+  }
+
+  const {
+    balances,
+    refetch: refetchBalances,
+    isLoading: isLoadingBalances,
+  } = useBalance({
     tokenList,
     signer,
   });
@@ -116,11 +154,16 @@ export const SwapWidget = ({
     setToken1,
     handleReverseOrder,
     refreshSimulation,
-    isAutoRefreshing
+    isAutoRefreshing,
+    isSimulating,
   } = useSwap({
     tokenList,
     signer,
-    refetchBalances
+    refetchBalances,
+    defaultTokenFrom,
+    defaultTokenTo,
+    onSuccess,
+    onError,
   });
 
   return (
@@ -131,17 +174,20 @@ export const SwapWidget = ({
     >
       <div
         className={twMerge(
-          "relative h-full p-4 rounded-2xl overflow-hidden border-2 border-borderContainer flex flex-col w-full max-h-[520px] max-w-[var(--maxWidgetWidth)] bg-primary",
+          "relative p-4 rounded-borderWrapperRadius overflow-hidden border-2 border-borderContainer flex flex-col w-full max-w-[var(--maxWidgetWidth)] bg-background",
           className
         )}
       >
         <div>
           <SwapWidget.Header>
-            <SwapWidget.Title>OBridge Swap</SwapWidget.Title>
+            <SwapWidget.Title>{title}</SwapWidget.Title>
             <SwapWidget.Controls>
               <Drawer>
                 <DrawerTrigger>
-                  <Settings size={20} className="hover:cursor-pointer hover:rotate-45 transition-transform" />
+                  <Settings
+                    size={20}
+                    className="hover:cursor-pointer hover:rotate-45 transition-transform"
+                  />
                 </DrawerTrigger>
                 <DrawerContent aria-describedby={undefined}>
                   <DrawerHeader>
@@ -170,11 +216,11 @@ export const SwapWidget = ({
               <RotateCw
                 size={20}
                 strokeWidth={2}
-                className={`hover:cursor-pointer transition-all duration-300 ${isAutoRefreshing ? 'animate-spin' : 'hover:rotate-180'
+                className={`hover:cursor-pointer transition-all duration-300 ${isAutoRefreshing ? "animate-spin" : "hover:rotate-180"
                   }`}
                 onClick={refreshSimulation}
               />
-              {sender ? (
+              {!showAccountInfo ? null : sender ? (
                 <div>
                   {sender == "Disconnected" ? sender : truncateHash(sender)}
                 </div>
@@ -189,32 +235,42 @@ export const SwapWidget = ({
           <div className="w-full rounded-xl flex flex-col gap-2">
             <SelectTokenWithAmount
               token={token0}
-              balance={balances[token0?.address.evm]}
-              price={prices[token0?.address.cosmos]}
+              balance={balances[token0?.address.evm || ""]}
+              price={prices[token0?.address.cosmos || ""]}
               setToken={setToken0}
               tokenList={tokenList}
               amount={amountIn}
               onAmountChange={onAmount0Change}
+              disableTokenSelect={disableTokenSelectFrom}
             />
 
             <SwapWidget.DirectionSwitch onClick={handleReverseOrder} />
 
             <SelectTokenWithAmount
               token={token1}
-              balance={balances[token1?.address.evm]}
-              price={prices[token1?.address.cosmos]}
+              balance={balances[token1?.address.evm || ""]}
+              price={prices[token1?.address.cosmos || ""]}
               setToken={setToken1}
               tokenList={tokenList}
               amount={amountOut}
               onAmountChange={() => console.log("set amount")}
               disableInputAmount={true}
+              disableTokenSelect={disableTokenSelectTo}
+              className={
+                isSimulating || isAutoRefreshing ? "animate-pulse" : ""
+              }
             />
 
-            <SwapWidget.FeeInfo fee="3.211 ORAI" />
+            <SwapWidget.FeeInfo fee="-- ORAI" />
           </div>
 
           <SwapWidget.Action>
-            <SwapButton onClick={handleSwap} isLoading={false} content="Swap" />
+            <SwapButton
+              disabled={isSimulating}
+              onClick={handleSwap}
+              isLoading={false}
+              content="Swap"
+            />
           </SwapWidget.Action>
         </SwapWidget.Content>
       </div>
@@ -251,7 +307,7 @@ SwapWidget.DirectionSwitch = ({
   >
     <div
       onClick={onClick}
-      className="p-2 bg-secondary border border-primary rounded-full text-neutralContent hover:cursor-pointer"
+      className="p-2 bg-secondary border border-primary rounded-full text-neutralContent hover:cursor-pointer hover:brightness-125 hover:rotate-180 transition-all duration-300"
     >
       {icon || <ArrowDownUp size={24} />}
     </div>
@@ -291,7 +347,7 @@ SwapWidget.FeeInfo = ({ className, fee, children }: FeeInfoProps) => (
                 <div className="flex items-center gap-2">
                   <span>Total</span>
                 </div>
-                <span>≈ 0.312 ORAI</span>
+                <span>≈ -- ORAI</span>
               </div>
               <div></div>
             </div>

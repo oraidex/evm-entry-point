@@ -1,3 +1,7 @@
+import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
+import { MAINNET } from "@/constants/network";
+import { Theme } from "@/stores/persist-config/usePersistStore";
+import { Token } from "@/types/Token";
 import {
   ConnectButton,
   getDefaultConfig,
@@ -7,15 +11,16 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Config, WagmiProvider } from "wagmi";
 import { SwapWithPopover } from "../SwapWithPopover";
-import { ColorScheme } from "@/constants/config";
-import { DEFAULT_CONFIG } from "@/constants/config";
-import { Theme } from "@/stores/persist-config/usePersistStore";
 
 export type OraiDEXSwapWagmiProps = {
   syncWallet: boolean;
   sender?: string;
   config?: Config;
   queryClient?: QueryClient;
+  defaultTokenFrom?: Token;
+  defaultTokenTo?: Token;
+  disableTokenSelectFrom?: boolean;
+  disableTokenSelectTo?: boolean;
 };
 
 const config = getDefaultConfig({
@@ -23,16 +28,16 @@ const config = getDefaultConfig({
   projectId: "YOUR_PROJECT_ID",
   chains: [
     {
-      id: 108160679,
-      name: "Oraichain Mainnet",
+      id: MAINNET.id,
+      name: MAINNET.name,
       nativeCurrency: {
-        name: "Oraichain",
-        symbol: "ORAI",
-        decimals: 18,
+        name: MAINNET.nativeCurrency.name,
+        symbol: MAINNET.nativeCurrency.symbol,
+        decimals: MAINNET.nativeCurrency.decimals,
       },
       rpcUrls: {
         default: {
-          http: ["https://evm.orai.io"],
+          http: [MAINNET.rpcUrls.default.http[0]],
         },
       },
     },
@@ -45,6 +50,10 @@ const queryClient = new QueryClient();
 export const OraiDEXSwapWagmi = ({
   syncWallet,
   sender,
+  defaultTokenFrom,
+  defaultTokenTo,
+  disableTokenSelectFrom,
+  disableTokenSelectTo,
 }: OraiDEXSwapWagmiProps) => {
   return (
     <>
@@ -54,6 +63,10 @@ export const OraiDEXSwapWagmi = ({
           customStyles={DEFAULT_CONFIG.customStyles}
           colorScheme={ColorScheme.CUSTOM}
           theme={Theme.DARK}
+          defaultTokenFrom={defaultTokenFrom}
+          defaultTokenTo={defaultTokenTo}
+          disableTokenSelectFrom={disableTokenSelectFrom}
+          disableTokenSelectTo={disableTokenSelectTo}
         />
       ) : (
         config &&
@@ -67,6 +80,10 @@ export const OraiDEXSwapWagmi = ({
                   customStyles={DEFAULT_CONFIG.customStyles}
                   colorScheme={ColorScheme.CUSTOM}
                   theme={Theme.DARK}
+                  defaultTokenFrom={defaultTokenFrom}
+                  defaultTokenTo={defaultTokenTo}
+                  disableTokenSelectFrom={disableTokenSelectFrom}
+                  disableTokenSelectTo={disableTokenSelectTo}
                 />
               </RainbowKitProvider>
             </QueryClientProvider>
