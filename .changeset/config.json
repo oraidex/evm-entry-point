@@ -1,12 +1,20 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": [
-    "@changesets/changelog-github", {"repo": "oraidex/evm-entry-point"}],
+    "@changesets/changelog-github",
+    { "repo": "oraidex/evm-entry-point" }
+  ],
   "commit": true,
   "fixed": [],
-  "linked": [["@oraichain/oraidex-evm-sdk", "@oraichain/oraidex-evm-widget"]],
+  "linked": [
+    [
+      "@oraichain/oraidex-evm-sdk",
+      "@oraichain/oraidex-evm-widget",
+      "@oraichain/evm-entry-point"
+    ]
+  ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@oraichain/evm-entry-point"]
+  "ignore": []
 }
