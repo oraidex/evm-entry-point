@@ -1,8 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn, formatLargeNumber } from "@/lib/utils";
 import { Token } from "@/types/Token";
 import { ComponentProps, forwardRef } from "react";
 import { SelectToken } from "../SelectToken";
 import NumberFormat from "react-number-format";
+import Decimal from "decimal.js";
+import { twMerge } from "tailwind-merge";
 
 type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   token: Token | null;
@@ -14,6 +16,7 @@ type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   onAmountChange: (value: string) => void;
   disableInputAmount?: boolean;
   disableTokenSelect?: boolean;
+  showHalfButton?: boolean;
 };
 
 export const SelectTokenWithAmount = forwardRef<
@@ -32,6 +35,7 @@ export const SelectTokenWithAmount = forwardRef<
       className,
       onAmountChange,
       disableTokenSelect,
+      showHalfButton = true,
       ...props
     },
     _ref
@@ -45,7 +49,7 @@ export const SelectTokenWithAmount = forwardRef<
         {...props}
         // ref={ref}
       >
-        <div className="flex justify-between items-baseline text-baseContent">
+        <div className="flex text-baseContent justify-between items-center gap-2 mb-4">
           <div className="flex text-[12px] gap-1 items-center justify-center">
             <svg
               width="10"
@@ -61,23 +65,42 @@ export const SelectTokenWithAmount = forwardRef<
                 fillOpacity="0.25"
               ></path>
             </svg>
-            <span className="text-neutralContent">{balance}</span>
+
+            <span className="text-neutralContent">
+              {formatLargeNumber(balance, 2)}
+            </span>
             <span className="text-neutralContent">{token?.symbol}</span>
           </div>
-          <div className="flex gap-1">
-            <button
-              onClick={() => onAmountChange((Number(balance) / 2).toString())}
-              className="text-[12px] px-1 py-0.5 transition-all duration-300 ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
-            >
-              50%
-            </button>
-            <button
-              onClick={() => onAmountChange(balance)}
-              className="text-[12px] px-1 py-0.5 transition-all duration-300 ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
-            >
-              100%
-            </button>
-          </div>
+          {showHalfButton && (
+            <div className="flex gap-1">
+              <button
+                onClick={() => {
+                  if (new Decimal(amount).eq(new Decimal(balance).div(2))) {
+                    return onAmountChange("");
+                  }
+                  onAmountChange(new Decimal(balance).div(2).toString() || "0");
+                }}
+                className={twMerge(
+                  "h-[22px] w-[40px] text-[12px] px-1 py-0.5 transition-all ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
+                )}
+              >
+                50%
+              </button>
+              <button
+                onClick={() => {
+                  if (new Decimal(amount).eq(balance)) {
+                    return onAmountChange("");
+                  }
+                  onAmountChange(balance);
+                }}
+                className={twMerge(
+                  "h-[22px] w-[40px] text-[12px] px-1 py-0.5 transition-all ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
+                )}
+              >
+                100%
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="flex justify-between items-center">

@@ -16,7 +16,7 @@ export const SwapWithPopover = ({
   connectButton,
   className,
   customStyles = DEFAULT_CONFIG.customStyles,
-  colorScheme = ColorScheme.ORAI_DEX,
+  colorScheme = ColorScheme.AGENTS_LAND,
   theme = Theme.DARK,
   defaultTokenFrom = null,
   defaultTokenTo = null,

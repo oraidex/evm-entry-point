@@ -56,12 +56,12 @@ export const OraiDEXSwapWagmi = ({
   disableTokenSelectTo,
 }: OraiDEXSwapWagmiProps) => {
   return (
-    <>
+    <div className="w-full h-full overflow-auto">
       {syncWallet ? (
         <SwapWithPopover
           sender={sender || "Disconnected"}
           customStyles={DEFAULT_CONFIG.customStyles}
-          colorScheme={ColorScheme.CUSTOM}
+          colorScheme={ColorScheme.AGENTS_LAND}
           theme={Theme.DARK}
           defaultTokenFrom={defaultTokenFrom}
           defaultTokenTo={defaultTokenTo}
@@ -78,7 +78,7 @@ export const OraiDEXSwapWagmi = ({
                 <SwapWithPopover
                   connectButton={<ConnectButton />}
                   customStyles={DEFAULT_CONFIG.customStyles}
-                  colorScheme={ColorScheme.CUSTOM}
+                  colorScheme={ColorScheme.ORAI_DEX}
                   theme={Theme.DARK}
                   defaultTokenFrom={defaultTokenFrom}
                   defaultTokenTo={defaultTokenTo}
@@ -90,6 +90,6 @@ export const OraiDEXSwapWagmi = ({
           </WagmiProvider>
         )
       )}
-    </>
+    </div>
   );
 };

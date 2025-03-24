@@ -147,8 +147,6 @@ export const SwapWidget = ({
     signer,
   });
 
-  console.log("balances", balances);
-
   const { data: prices, isLoading: isLoadingPrices } = usePrice();
 
   const {
@@ -269,6 +267,7 @@ export const SwapWidget = ({
               className={
                 isSimulating || isAutoRefreshing ? "animate-pulse" : ""
               }
+              showHalfButton={false}
             />
 
             <SwapWidget.FeeInfo fee="-- ORAI" />

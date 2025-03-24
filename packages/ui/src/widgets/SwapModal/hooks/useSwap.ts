@@ -49,32 +49,32 @@ export const useSwap = (props: UseSwapProps) => {
   >(undefined, 1000);
   const [simulateResponse, setSimulateResponse] = useState<{
     executeMsg:
-    | EntryPointTypes.ExecuteMsg
-    | {
-      send: {
-        contract: string;
-        amount: string;
-        msg: string;
-      };
-    }
-    | {
-      execute_swap_operations: {
-        operations: {
-          orai_swap: {
-            ask_asset_info: {
-              native_token: {
-                denom: string;
-              };
-            };
-            offer_asset_info: {
-              native_token: {
-                denom: string;
-              };
-            };
+      | EntryPointTypes.ExecuteMsg
+      | {
+          send: {
+            contract: string;
+            amount: string;
+            msg: string;
           };
-        }[];
-      };
-    };
+        }
+      | {
+          execute_swap_operations: {
+            operations: {
+              orai_swap: {
+                ask_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+                offer_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+              };
+            }[];
+          };
+        };
     returnAmount: string;
   } | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -95,9 +95,10 @@ export const useSwap = (props: UseSwapProps) => {
           return;
         }
 
-        if (refreshTrigger) {
-          await refetchBalances();
-        }
+        // TODO: remove this refetch balances when trigger refreshSimulation
+        // if (refreshTrigger) {
+        //   await refetchBalances();
+        // }
 
         const amountIn = new Decimal(debounceAmountIn || 0);
 
