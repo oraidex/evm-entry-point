@@ -3,7 +3,7 @@ import {
   PoolData,
   PoolDataV2,
   PoolDataV3,
-} from '../interfaces/IPoolDataProvider';
+} from '../../interfaces/IPoolDataProvider';
 
 export const formatPriceFromPoolData = (
   poolData: PoolData,

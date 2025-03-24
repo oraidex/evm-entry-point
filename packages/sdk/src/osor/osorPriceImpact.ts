@@ -1,7 +1,7 @@
 import Decimal from 'decimal.js';
 import { CurrencyAmount, OsorSmartRouteResponse } from '../interfaces';
 import { IPoolDataProvider } from '../interfaces/IPoolDataProvider';
-import { getMidPriceFromPaths, computePriceImpact } from '../libs';
+import { computePriceImpact, getMidPriceFromPaths } from '../oraidex/libs';
 
 export const computePriceImpactFromOsorResponse = async (
   osorResponse: OsorSmartRouteResponse,

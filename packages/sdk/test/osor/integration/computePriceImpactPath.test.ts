@@ -1,10 +1,10 @@
-import { describe, it, beforeAll } from 'vitest';
-import { OraidexPoolDataProvider } from '../../../src/oraidex/OraidexPoolDataProvider';
 import { JsonRpcProvider } from 'ethers';
-import { MULTICALL_ADDRESS } from '../../../src/constants/addresses';
-import { computePriceImpactRoute } from '../../../src/libs';
+import { beforeAll, describe, it } from 'vitest';
 import { OsorSmartRouteResponse, Route } from '../../../src';
+import { MULTICALL_ADDRESS } from '../../../src/constants/addresses';
+import { OraidexPoolDataProvider } from '../../../src/oraidex/OraidexPoolDataProvider';
 import { computePriceImpactFromOsorResponse } from '../../../src/osor/osorPriceImpact';
+import { computePriceImpactRoute } from '../../../src/oraidex/libs';
 
 // Define test constants
 const JSON_RPC_URL = 'https://evm.orai.io/';

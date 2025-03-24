@@ -1,5 +1,6 @@
 export * from './ApiClient';
-export * from './osor';
-export * from './typechain-types';
-export * from './utils';
 export * from './interfaces';
+export * from './oraidex';
+export * from './osor';
+export * from './utils';
+

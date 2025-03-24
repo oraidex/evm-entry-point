@@ -1,12 +1,10 @@
-import {
-  ActionRoute,
-  CurrencyAmount,
-  OsorSmartRouteResponse,
-  Path,
-  Route,
-} from '../interfaces';
 import Decimal from 'decimal.js';
-import { IPoolDataProvider } from '../interfaces/IPoolDataProvider';
+import {
+  CurrencyAmount,
+  Path,
+  Route
+} from '../../interfaces';
+import { IPoolDataProvider } from '../../interfaces/IPoolDataProvider';
 import { formatPriceFromPoolData } from './price';
 
 export const computePriceImpact = (

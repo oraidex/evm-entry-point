@@ -1,4 +1,14 @@
 import {
+  OraiswapPairTypes,
+  OraiswapV3Types,
+} from '@oraichain/oraidex-contracts-sdk';
+import { PoolResponse } from '@oraichain/oraidex-contracts-sdk/build/OraiswapPair.types';
+import { JsonRpcProvider } from 'ethers';
+import {
+  MULTICALL_ADDRESS,
+  WASMD_PRECOMPILE_ENTRY,
+} from '../constants/addresses';
+import {
   GetPoolDataArg,
   IPoolDataProvider,
   PoolData,
@@ -6,25 +16,15 @@ import {
   PoolDataV3,
 } from '../interfaces/IPoolDataProvider';
 import {
-  OraiswapPairTypes,
-  OraiswapV3Types,
-} from '@oraichain/oraidex-contracts-sdk';
-import {
-  IWasmd__factory,
-  Multicall,
-  Multicall__factory,
-} from '../typechain-types';
-import {
   assetInfoToDenom,
   extractJsonFromHexString,
   parsePoolKey,
 } from '../utils';
-import { JsonRpcProvider } from 'ethers';
 import {
-  MULTICALL_ADDRESS,
-  WASMD_PRECOMPILE_ENTRY,
-} from '../constants/addresses';
-import { PoolResponse } from '@oraichain/oraidex-contracts-sdk/build/OraiswapPair.types';
+  IWasmd__factory,
+  Multicall,
+  Multicall__factory,
+} from './typechain-types';
 
 export interface OraidexPoolDataProviderConfig {
   multicallAddress?: string;
@@ -32,10 +32,10 @@ export interface OraidexPoolDataProviderConfig {
 }
 
 export const defaultOraidexPoolDataProviderConfig: OraidexPoolDataProviderConfig =
-  {
-    multicallAddress: MULTICALL_ADDRESS,
-    chunkSize: 15,
-  };
+{
+  multicallAddress: MULTICALL_ADDRESS,
+  chunkSize: 15,
+};
 
 export class OraidexPoolDataProvider implements IPoolDataProvider {
   static readonly ORAIDEX_V3_ADDRESS =
