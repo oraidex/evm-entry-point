@@ -79,6 +79,9 @@ abstract contract NativeERC20 is IERC20, Context {
                 amount
             )
         );
+        if (success) {
+            emit Transfer(msg.sender, to, amount);
+        }
         return success;
     }
 
@@ -112,6 +115,9 @@ abstract contract NativeERC20 is IERC20, Context {
                 amount
             )
         );
+        if (success) {
+            emit Transfer(from, to, amount);
+        }
         return success;
     }
 
