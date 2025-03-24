@@ -99,6 +99,7 @@ contract CW20ERC20Token is IERC20, Ownable {
             formatPayload("transfer", curlyBrace(join(recipient, amt, ",")))
         );
         _execute(req);
+        emit Transfer(msg.sender, to, amount);
         return true;
     }
 
@@ -154,6 +155,7 @@ contract CW20ERC20Token is IERC20, Ownable {
             )
         );
         _execute(req);
+        emit Transfer(from, to, amount);
         return true;
     }
 
