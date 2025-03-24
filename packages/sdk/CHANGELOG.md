@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-sdk
 
+## 0.2.0
+
+### Minor Changes
+
+- [#33](https://github.com/oraidex/evm-entry-point/pull/33) [`f16f31e`](https://github.com/oraidex/evm-entry-point/commit/f16f31efd88dd76499ff4011310f06c39f6d6c1d) Thanks [@meomeocoj](https://github.com/meomeocoj)! - Add computePriceImpact and OraidexPoolDataProvider
+
 ## 0.1.4
 
 ### Patch Changes
