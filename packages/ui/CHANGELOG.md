@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.2.2
+
+### Patch Changes
+
+- [#38](https://github.com/oraidex/evm-entry-point/pull/38) [`5b2f609`](https://github.com/oraidex/evm-entry-point/commit/5b2f6096202d24abe24212deeabd53fa67ce485e) Thanks [@quangdz1704](https://github.com/quangdz1704)! - feat: add half and max button in select token with amount
+
 ## 0.2.0
 
 ### Patch Changes
