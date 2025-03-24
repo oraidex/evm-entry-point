@@ -80,7 +80,9 @@ export const SelectTokenWithAmount = forwardRef<
                     return onAmountChange("");
                   }
                   onAmountChange(
-                    new Decimal(balance).div(2).toFixed(6, 0) || "0"
+                    new Decimal(balance)
+                      .div(2)
+                      .toFixed(6, Decimal.ROUND_DOWN) || "0"
                   );
                 }}
                 className={twMerge(
@@ -94,7 +96,9 @@ export const SelectTokenWithAmount = forwardRef<
                   if (new Decimal(balance).lt(MIN_AMOUNT_FOR_SWAP)) {
                     return onAmountChange("");
                   }
-                  onAmountChange(balance);
+                  onAmountChange(
+                    new Decimal(balance).toFixed(6, Decimal.ROUND_DOWN)
+                  );
                 }}
                 className={twMerge(
                   "h-[22px] w-[40px] text-[12px] px-1 py-0.5 transition-all ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
