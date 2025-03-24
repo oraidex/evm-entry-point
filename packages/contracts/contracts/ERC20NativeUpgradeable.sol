@@ -112,6 +112,8 @@ abstract contract ERC20NativeUpgradeable is
                 amount
             )
         );
+        require(success, "ERC20: transfer failed");
+        emit Transfer(_msgSender(), to, amount);
         return success;
     }
 
@@ -148,6 +150,8 @@ abstract contract ERC20NativeUpgradeable is
                 amount
             )
         );
+        require(success, "ERC20: transferFrom failed");
+        emit Transfer(from, to, amount);
         return success;
     }
 

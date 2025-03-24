@@ -90,9 +90,8 @@ abstract contract ERC20Native is IERC20, Context {
                 amount
             )
         );
-        if (success) {
-            emit Transfer(msg.sender, to, amount);
-        }
+        require(success, "ERC20: transfer failed");
+        emit Transfer(msg.sender, to, amount);
         return success;
     }
 
@@ -126,9 +125,8 @@ abstract contract ERC20Native is IERC20, Context {
                 amount
             )
         );
-        if (success) {
-            emit Transfer(from, to, amount);
-        }
+        require(success, "ERC20: transferFrom failed");
+        emit Transfer(from, to, amount);
         return success;
     }
 
