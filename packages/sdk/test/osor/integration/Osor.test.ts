@@ -169,11 +169,13 @@ describe.skip('Osor Integration Tests', () => {
 
       // Assertions
       expect(result).toBeDefined();
+
+      const executeMsg = result.executeMsg;
       expect(Array.isArray(result)).toBe(true);
-      expect(result.length).toBeGreaterThan(0);
+      expect(executeMsg.length).toBeGreaterThan(0);
 
       // For CW20 tokens, we should get a different message format
-      const cw20Msg = result[0] as SwapMsg;
+      const cw20Msg = executeMsg[0] as SwapMsg;
       expect(isCw20SendMsg(cw20Msg)).toBe(true);
       
       if (isCw20SendMsg(cw20Msg)) {
@@ -200,6 +202,7 @@ describe.skip('Osor Integration Tests', () => {
       const result = await osor.getSwapOraidexMsg(
         inputAmount,
         USDT_TOKEN,
+        "orai1...",
         TradeType.EXACT_INPUT,
         undefined,
         0.5 // 0.5% slippage
@@ -211,7 +214,7 @@ describe.skip('Osor Integration Tests', () => {
       
       // The min_asset amount should reflect the 0.5% slippage
       // We can't assert the exact value in an integration test, but we can check it exists
-      const executeMsg = result[0] as SwapMsg;
+      const executeMsg = result.executeMsg[0] as SwapMsg;
       
       if (isExecuteMsg(executeMsg)) {
         expect(executeMsg.swap_and_action.min_asset.native?.amount).toBeDefined();
@@ -237,6 +240,7 @@ describe.skip('Osor Integration Tests', () => {
       const result = await osor.getSwapOraidexMsg(
         inputAmount,
         USDT_TOKEN,
+        "orai1...",
         TradeType.EXACT_INPUT,
         undefined,
         1, // 1% slippage
@@ -248,7 +252,7 @@ describe.skip('Osor Integration Tests', () => {
       expect(Array.isArray(result)).toBe(true);
       
       // Check affiliates are included
-      const executeMsg = result[0] as SwapMsg;
+      const executeMsg = result.executeMsg[0] as SwapMsg;
       
       if (isExecuteMsg(executeMsg)) {
         expect(executeMsg.swap_and_action.affiliates).toEqual(affiliates);
@@ -272,6 +276,7 @@ describe.skip('Osor Integration Tests', () => {
       const result = await osor.getSwapOraidexMsg(
         inputAmount,
         USDT_TOKEN,
+        "orai1...",
         TradeType.EXACT_INPUT,
         swapOptions,
         1 // 1% slippage
@@ -283,7 +288,7 @@ describe.skip('Osor Integration Tests', () => {
       
       // We can't directly assert how swap options affect the result in an integration test
       // But we can check the basic structure is correct
-      const executeMsg = result[0] as SwapMsg;
+      const executeMsg = result.executeMsg[0] as SwapMsg;
       
       if (isExecuteMsg(executeMsg)) {
         expect(executeMsg).toHaveProperty('swap_and_action');
@@ -309,7 +314,7 @@ describe.skip('Osor Integration Tests', () => {
       expect(Array.isArray(result)).toBe(true);
       
       // Basic structure checks
-      const executeMsg = result[0] as SwapMsg;
+      const executeMsg = result.executeMsg[0] as SwapMsg;
       
       if (isExecuteMsg(executeMsg)) {
         expect(executeMsg).toHaveProperty('swap_and_action');

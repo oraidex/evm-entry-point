@@ -1,4 +1,9 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+} from 'axios';
 
 // Types
 export interface ApiResponse<T = any> {
@@ -27,7 +32,9 @@ const defaultConfig: AxiosRequestConfig = {
 };
 
 // Create axios instance with default config
-const createAxiosInstance = (config: AxiosRequestConfig = {}): AxiosInstance => {
+const createAxiosInstance = (
+  config: AxiosRequestConfig = {},
+): AxiosInstance => {
   const instance = axios.create({
     ...defaultConfig,
     ...config,
@@ -61,7 +68,7 @@ const createAxiosInstance = (config: AxiosRequestConfig = {}): AxiosInstance => 
           status: 0,
         });
       }
-    }
+    },
   );
 
   return instance;
@@ -75,7 +82,10 @@ export class ApiClient {
     this.instance = createAxiosInstance(config);
   }
 
-  async get<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async get<T>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     const response = await this.instance.get<T>(url, config);
     return {
       data: response.data,
@@ -83,7 +93,11 @@ export class ApiClient {
     };
   }
 
-  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async post<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     const response = await this.instance.post<T>(url, data, config);
     return {
       data: response.data,
@@ -91,7 +105,11 @@ export class ApiClient {
     };
   }
 
-  async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async put<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     const response = await this.instance.put<T>(url, data, config);
     return {
       data: response.data,
@@ -99,7 +117,10 @@ export class ApiClient {
     };
   }
 
-  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async delete<T>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     const response = await this.instance.delete<T>(url, config);
     return {
       data: response.data,
@@ -107,7 +128,11 @@ export class ApiClient {
     };
   }
 
-  async patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async patch<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     const response = await this.instance.patch<T>(url, data, config);
     return {
       data: response.data,

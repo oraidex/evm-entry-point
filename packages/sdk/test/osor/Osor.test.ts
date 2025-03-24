@@ -149,7 +149,7 @@ describe('Osor', () => {
         mockQuoteCurrency,
         'recipient123',
         TradeType.EXACT_INPUT
-      )).rejects.toThrow('Failed to route swap');
+      )).rejects.toThrow('No route found');
     });
 
     it('should successfully generate swap messages for native tokens', async () => {
@@ -322,7 +322,7 @@ describe('Osor', () => {
         mockQuoteCurrency,
         'recipient123',
         TradeType.EXACT_INPUT
-      )).rejects.toThrow('Failed to route swap');
+      )).rejects.toThrow('Network error');
     });
   });
 }); 
