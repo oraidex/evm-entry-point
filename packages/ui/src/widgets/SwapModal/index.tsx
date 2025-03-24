@@ -147,6 +147,8 @@ export const SwapWidget = ({
     signer,
   });
 
+  console.log("balances", balances);
+
   const { data: prices, isLoading: isLoadingPrices } = usePrice();
 
   const {

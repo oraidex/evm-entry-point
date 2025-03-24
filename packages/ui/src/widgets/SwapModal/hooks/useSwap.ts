@@ -107,56 +107,12 @@ export const useSwap = (props: UseSwapProps) => {
           return;
         }
 
-        // console.log(
-        //   {
-        //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-        //     currency: {
-        //       address: token0.address.cosmos,
-        //       chainId: "Oraichain",
-        //       decimals: token0.decimals.cosmos,
-        //       symbol: token0.symbol,
-        //     },
-        //   },
-        //   {
-        //     address: token1.address.cosmos,
-        //     chainId: "Oraichain",
-        //     decimals: token1.decimals.cosmos,
-        //     symbol: token1.symbol,
-        //   },
-        //   `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
-        //   TradeType.EXACT_INPUT
-        // )
-
         // for testing
         const res = await testGetQuote(
           amountIn.mul(10 ** token0.decimals.cosmos).toString(),
           token0.address.cosmos,
           token1.address.cosmos
         );
-        // const res = await osor.getSwapOraidexMsg(
-        //   {
-        //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-        //     currency: {
-        //       address: token0.address.cosmos,
-        //       chainId: "Oraichain",
-        //       decimals: token0.decimals.cosmos,
-        //       symbol: token0.symbol,
-        //     },
-        //   },
-        //   {
-        //     address: token1.address.cosmos,
-        //     chainId: "Oraichain",
-        //     decimals: token1.decimals.cosmos,
-        //     symbol: token1.symbol,
-        //   },
-        //   `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
-        //   TradeType.EXACT_INPUT
-        // );
-
-        // setSimulateResponse({
-        //   executeMsg: res.executeMsg[0],
-        //   returnAmount: res.returnAmount
-        // });
 
         setSimulateResponse({
           executeMsg: res.message,

@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Token } from "@/types/Token";
 import { ComponentProps, forwardRef } from "react";
 import { SelectToken } from "../SelectToken";
+import NumberFormat from "react-number-format";
 
 type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   token: Token | null;
@@ -44,30 +45,8 @@ export const SelectTokenWithAmount = forwardRef<
         {...props}
         // ref={ref}
       >
-        <div className="flex justify-between items-center">
-          <SelectToken
-            variant="secondary"
-            token={token}
-            tokenList={tokenList}
-            className="border-2"
-            setToken={setToken}
-            disabled={disableTokenSelect}
-          />
-          <div className="text-right">
-            <input
-              type="text"
-              placeholder="0.0"
-              inputMode="numeric"
-              value={amount}
-              disabled={!token || disableInputAmount}
-              onChange={(e) => onAmountChange(e.target.value)}
-              className="h-full w-full bg-transparent text-[24px] md:text-[28px] text-right font-semibold text-neutralContent focus:outline-none disabled:cursor-not-allowed"
-              readOnly={disableInputAmount}
-            />
-          </div>
-        </div>
         <div className="flex justify-between items-baseline text-baseContent">
-          <div className="flex mt-3 space-x-1 text-xs items-center fill-current cursor-pointer">
+          <div className="flex text-[12px] gap-1 items-center justify-center">
             <svg
               width="10"
               height="10"
@@ -82,12 +61,59 @@ export const SelectTokenWithAmount = forwardRef<
                 fillOpacity="0.25"
               ></path>
             </svg>
-            <span translate="no">{balance}</span>
-            <span>{token?.symbol}</span>
+            <span className="text-neutralContent">{balance}</span>
+            <span className="text-neutralContent">{token?.symbol}</span>
           </div>
-          <span className="text-xs">
-            ${((price || 0) * (Number(amount) || 0)).toFixed(2)}
-          </span>
+          <div className="flex gap-1">
+            <button
+              onClick={() => onAmountChange((Number(balance) / 2).toString())}
+              className="text-[12px] px-1 py-0.5 transition-all duration-300 ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
+            >
+              50%
+            </button>
+            <button
+              onClick={() => onAmountChange(balance)}
+              className="text-[12px] px-1 py-0.5 transition-all duration-300 ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
+            >
+              100%
+            </button>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <SelectToken
+            variant="secondary"
+            token={token}
+            tokenList={tokenList}
+            className="border-2"
+            setToken={setToken}
+            disabled={disableTokenSelect}
+          />
+          <div className="text-right">
+            <div className="flex flex-col gap-1">
+              <NumberFormat
+                placeholder="0.0"
+                thousandSeparator
+                className="h-full w-full bg-transparent text-[24px] md:text-[28px] text-right font-semibold text-neutralContent focus:outline-none disabled:cursor-not-allowed"
+                decimalScale={6}
+                disabled={false}
+                type="text"
+                value={amount}
+                onChange={() => {}}
+                isAllowed={(values) => {
+                  const { floatValue } = values;
+                  // allow !floatValue to let user can clear their input
+                  return !floatValue || (floatValue >= 0 && floatValue <= 1e14);
+                }}
+                onValueChange={({ floatValue }) => {
+                  onAmountChange(floatValue?.toString() || "0");
+                }}
+              />
+              <span className="text-xs text-baseContent">
+                ${((price || 0) * (Number(amount) || 0)).toFixed(2)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     );
