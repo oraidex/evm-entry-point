@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.2.3
+
+### Patch Changes
+
+- [#40](https://github.com/oraidex/evm-entry-point/pull/40) [`355ebce`](https://github.com/oraidex/evm-entry-point/commit/355ebceb26f28f45792b4f93021e7981c6e57117) Thanks [@quangdz1704](https://github.com/quangdz1704)! - fix: update amount with half and max button
+
 ## 0.2.2
 
 ### Patch Changes
