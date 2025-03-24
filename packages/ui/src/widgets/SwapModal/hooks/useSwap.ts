@@ -49,32 +49,32 @@ export const useSwap = (props: UseSwapProps) => {
   >(undefined, 1000);
   const [simulateResponse, setSimulateResponse] = useState<{
     executeMsg:
-    | EntryPointTypes.ExecuteMsg
-    | {
-      send: {
-        contract: string;
-        amount: string;
-        msg: string;
-      };
-    }
-    | {
-      execute_swap_operations: {
-        operations: {
-          orai_swap: {
-            ask_asset_info: {
-              native_token: {
-                denom: string;
-              };
-            };
-            offer_asset_info: {
-              native_token: {
-                denom: string;
-              };
-            };
+      | EntryPointTypes.ExecuteMsg
+      | {
+          send: {
+            contract: string;
+            amount: string;
+            msg: string;
           };
-        }[];
-      };
-    };
+        }
+      | {
+          execute_swap_operations: {
+            operations: {
+              orai_swap: {
+                ask_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+                offer_asset_info: {
+                  native_token: {
+                    denom: string;
+                  };
+                };
+              };
+            }[];
+          };
+        };
     returnAmount: string;
   } | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -95,9 +95,10 @@ export const useSwap = (props: UseSwapProps) => {
           return;
         }
 
-        if (refreshTrigger) {
-          await refetchBalances();
-        }
+        // TODO: remove this refetch balances when trigger refreshSimulation
+        // if (refreshTrigger) {
+        //   await refetchBalances();
+        // }
 
         const amountIn = new Decimal(debounceAmountIn || 0);
 
@@ -107,56 +108,12 @@ export const useSwap = (props: UseSwapProps) => {
           return;
         }
 
-        // console.log(
-        //   {
-        //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-        //     currency: {
-        //       address: token0.address.cosmos,
-        //       chainId: "Oraichain",
-        //       decimals: token0.decimals.cosmos,
-        //       symbol: token0.symbol,
-        //     },
-        //   },
-        //   {
-        //     address: token1.address.cosmos,
-        //     chainId: "Oraichain",
-        //     decimals: token1.decimals.cosmos,
-        //     symbol: token1.symbol,
-        //   },
-        //   `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
-        //   TradeType.EXACT_INPUT
-        // )
-
         // for testing
         const res = await testGetQuote(
           amountIn.mul(10 ** token0.decimals.cosmos).toString(),
           token0.address.cosmos,
           token1.address.cosmos
         );
-        // const res = await osor.getSwapOraidexMsg(
-        //   {
-        //     amount: amountIn.mul(10 ** token0.decimals.cosmos).toString(),
-        //     currency: {
-        //       address: token0.address.cosmos,
-        //       chainId: "Oraichain",
-        //       decimals: token0.decimals.cosmos,
-        //       symbol: token0.symbol,
-        //     },
-        //   },
-        //   {
-        //     address: token1.address.cosmos,
-        //     chainId: "Oraichain",
-        //     decimals: token1.decimals.cosmos,
-        //     symbol: token1.symbol,
-        //   },
-        //   `orai123wgyr9vfzfn37hh5s7xk2ucyhynex2ulspwj9`,
-        //   TradeType.EXACT_INPUT
-        // );
-
-        // setSimulateResponse({
-        //   executeMsg: res.executeMsg[0],
-        //   returnAmount: res.returnAmount
-        // });
 
         setSimulateResponse({
           executeMsg: res.message,

@@ -62,7 +62,7 @@ export const AGENTS_LAND_SCHEME = {
     warningText: "#e6cf00",
 
     swapBtn: "#FCFCFC",
-    primaryBtnBg: "#aee67f",
+    primaryBtnBg: "#FCFCFC",
     primaryBtnText: "#080A14",
     thirdBtnBg: "#31332e",
     secondaryNeutralText: "#f7f7f7",
@@ -81,7 +81,7 @@ export const AGENTS_LAND_SCHEME = {
     warningText: "#e6cf00",
 
     swapBtn: "#FCFCFC",
-    primaryBtnBg: "#aee67f",
+    primaryBtnBg: "#FCFCFC",
     primaryBtnText: "#080A14",
     thirdBtnBg: "#31332e",
     secondaryNeutralText: "#f7f7f7",
@@ -92,7 +92,7 @@ export const DEFAULT_CONFIG = {
   // initFromToken: "usdt",
   // initToToken: "orai",
   theme: "dark" as const,
-  colorScheme: ColorScheme.ORAI_DEX,
+  colorScheme: ColorScheme.AGENTS_LAND,
   customStyles: {
     colors: ORAI_DEX_SCHEME,
     size: {

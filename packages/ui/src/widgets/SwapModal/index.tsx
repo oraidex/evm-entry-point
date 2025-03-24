@@ -267,6 +267,7 @@ export const SwapWidget = ({
               className={
                 isSimulating || isAutoRefreshing ? "animate-pulse" : ""
               }
+              showHalfButton={false}
             />
 
             <SwapWidget.FeeInfo fee="-- ORAI" />
