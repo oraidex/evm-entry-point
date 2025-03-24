@@ -8,7 +8,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import WidgetQueryClientProvider from "@/components/WidgetQueryClientProvider";
-import { ColorScheme, DEFAULT_CONFIG } from "@/constants/config";
+import {
+  ColorScheme,
+  DEFAULT_CONFIG,
+  MIN_AMOUNT_FOR_SWAP,
+} from "@/constants/config";
 import { truncateHash } from "@/lib/utils";
 import { Theme } from "@/stores/persist-config/usePersistStore";
 import { CustomStyles } from "@/types/swap";
@@ -23,12 +27,13 @@ import {
   Settings,
   X,
 } from "lucide-react";
-import { JSX, PropsWithChildren, ReactNode } from "react";
+import { JSX, PropsWithChildren, ReactNode, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { useBalance } from "./hooks/useBalance";
 import { usePrice } from "./hooks/usePrice";
 import { useSwap } from "./hooks/useSwap";
 import { useToken } from "./hooks/useToken";
+import Decimal from "decimal.js";
 
 // Define types for the compound components
 type HeaderProps = {
@@ -173,6 +178,10 @@ export const SwapWidget = ({
     onError,
   });
 
+  const isInsufficientBalance = useMemo(() => {
+    return new Decimal(amountIn || 0).gt(balances[token0?.address.evm]);
+  }, [amountIn, balances, token0]);
+
   return (
     <ThemeProvider
       customStyles={customStyles}
@@ -275,7 +284,12 @@ export const SwapWidget = ({
 
           <SwapWidget.Action>
             <SwapButton
-              disabled={isSimulating}
+              disabled={
+                isSimulating ||
+                !amountIn ||
+                !Number(amountIn) ||
+                isInsufficientBalance
+              }
               isLoading={isSwapping}
               onClick={handleSwap}
               content="Swap"

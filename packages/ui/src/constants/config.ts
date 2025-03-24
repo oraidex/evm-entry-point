@@ -1,4 +1,5 @@
 export const STYLES_THEME_ID = "theme-styles-swap-widget";
+export const MIN_AMOUNT_FOR_SWAP = 0.000001;
 
 export enum ColorScheme {
   AGENTS_LAND = "agentsland",

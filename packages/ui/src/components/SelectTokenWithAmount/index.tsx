@@ -5,6 +5,7 @@ import { SelectToken } from "../SelectToken";
 import NumberFormat from "react-number-format";
 import Decimal from "decimal.js";
 import { twMerge } from "tailwind-merge";
+import { MIN_AMOUNT_FOR_SWAP } from "@/constants/config";
 
 type SelectTokenWithAmountProps = ComponentProps<"div"> & {
   token: Token | null;
@@ -75,10 +76,14 @@ export const SelectTokenWithAmount = forwardRef<
             <div className="flex gap-1">
               <button
                 onClick={() => {
-                  // if (new Decimal(amount).eq(new Decimal(balance).div(2))) {
-                  //   return onAmountChange("");
-                  // }
-                  onAmountChange(new Decimal(balance).div(2).toString() || "0");
+                  if (new Decimal(balance).div(2).lt(MIN_AMOUNT_FOR_SWAP)) {
+                    return onAmountChange("");
+                  }
+                  onAmountChange(
+                    new Decimal(balance)
+                      .div(2)
+                      .toFixed(6, Decimal.ROUND_DOWN) || "0"
+                  );
                 }}
                 className={twMerge(
                   "h-[22px] w-[40px] text-[12px] px-1 py-0.5 transition-all ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
@@ -88,10 +93,12 @@ export const SelectTokenWithAmount = forwardRef<
               </button>
               <button
                 onClick={() => {
-                  // if (new Decimal(amount).eq(balance)) {
-                  //   return onAmountChange("");
-                  // }
-                  onAmountChange(balance);
+                  if (new Decimal(balance).lt(MIN_AMOUNT_FOR_SWAP)) {
+                    return onAmountChange("");
+                  }
+                  onAmountChange(
+                    new Decimal(balance).toFixed(6, Decimal.ROUND_DOWN)
+                  );
                 }}
                 className={twMerge(
                   "h-[22px] w-[40px] text-[12px] px-1 py-0.5 transition-all ease-in text-primaryBtnText bg-primaryBtnBg rounded-buttonRadius opacity-80 hover:opacity-100"
