@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.2.4
+
+### Patch Changes
+
+- [#42](https://github.com/oraidex/evm-entry-point/pull/42) [`910b199`](https://github.com/oraidex/evm-entry-point/commit/910b199b60fe563dfeb2d006e41cbb3612106471) Thanks [@quangdz1704](https://github.com/quangdz1704)! - fix: update calculate amount in out for swap
+
 ## 0.2.3
 
 ### Patch Changes
