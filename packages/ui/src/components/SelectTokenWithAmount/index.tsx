@@ -75,9 +75,9 @@ export const SelectTokenWithAmount = forwardRef<
             <div className="flex gap-1">
               <button
                 onClick={() => {
-                  if (new Decimal(amount).eq(new Decimal(balance).div(2))) {
-                    return onAmountChange("");
-                  }
+                  // if (new Decimal(amount).eq(new Decimal(balance).div(2))) {
+                  //   return onAmountChange("");
+                  // }
                   onAmountChange(new Decimal(balance).div(2).toString() || "0");
                 }}
                 className={twMerge(
@@ -88,9 +88,9 @@ export const SelectTokenWithAmount = forwardRef<
               </button>
               <button
                 onClick={() => {
-                  if (new Decimal(amount).eq(balance)) {
-                    return onAmountChange("");
-                  }
+                  // if (new Decimal(amount).eq(balance)) {
+                  //   return onAmountChange("");
+                  // }
                   onAmountChange(balance);
                 }}
                 className={twMerge(
