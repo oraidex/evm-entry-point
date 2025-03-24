@@ -1,5 +1,12 @@
 # @oraichain/oraidex-evm-widget
 
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [[`f16f31e`](https://github.com/oraidex/evm-entry-point/commit/f16f31efd88dd76499ff4011310f06c39f6d6c1d)]:
+  - @oraichain/oraidex-evm-sdk@0.2.0
+
 ## 0.1.10
 
 ### Patch Changes
