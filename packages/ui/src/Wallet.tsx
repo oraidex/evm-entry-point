@@ -37,10 +37,10 @@ function Wallet() {
     <OraiDEXSwapWagmi
       syncWallet={true}
       sender={account.address}
-      defaultTokenFrom={ADL}
-      defaultTokenTo={ORAI}
-      disableTokenSelectFrom={true}
-      disableTokenSelectTo={true}
+      // defaultTokenFrom={ADL}
+      // defaultTokenTo={ORAI}
+      // disableTokenSelectFrom={true}
+      // disableTokenSelectTo={true}
     />
   );
 }

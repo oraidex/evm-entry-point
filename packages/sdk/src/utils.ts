@@ -58,6 +58,7 @@ export const denomToAssetInfo = (value: string): AssetInfo => {
 
 export const parsePoolKey = (poolKeyStr: string): PoolKey => {
   const [tokenX, tokenY, fee, tickSpacing] = poolKeyStr.split('-');
+  console.log('tokenX', tokenX);
   return {
     token_x: tokenX!,
     token_y: tokenY!,
