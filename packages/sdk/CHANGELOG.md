@@ -1,5 +1,11 @@
 # @oraichain/oraidex-evm-sdk
 
+## 0.2.5
+
+### Patch Changes
+
+- [#44](https://github.com/oraidex/evm-entry-point/pull/44) [`85a4543`](https://github.com/oraidex/evm-entry-point/commit/85a4543860e4a7e2c1bdded5aa6ff6e3ca84b9cf) Thanks [@meomeocoj](https://github.com/meomeocoj)! - chore console.log
+
 ## 0.2.0
 
 ### Minor Changes
