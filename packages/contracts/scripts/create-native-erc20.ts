@@ -10,8 +10,8 @@ const main = async () => {
   console.log("Connect account with address:", account.address);
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
-  const tokenFactoryAddress =
-    "orai1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqtsu49d";
+  const tokenFactoryAddress = process.env.TOKEN_FACTORY_ADDRESS || "orai1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqtsu49d";
+  console.log("Token factory address:", tokenFactoryAddress);
 
   const bank = IBank__factory.connect(
     "0x9000000000000000000000000000000000000004",
