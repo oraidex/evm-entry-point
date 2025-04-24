@@ -6,8 +6,8 @@ const main = async () => {
   console.log("Connect account with address:", account.address);
   const balance = await account.provider.getBalance(account.address);
   console.log("Account balance:", ethers.formatEther(balance));
-  const tokenFactoryAddress =
-    "orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9";
+  const tokenFactoryAddress = process.env.TOKEN_FACTORY_ADDRESS || "orai1wkwy0xh89ksdgj9hr347dyd2dw7zesmtrue6kfzyml4vdtz6e5ws5thn3e";
+  console.log("Token factory address:", tokenFactoryAddress);
 
   const ExampleNativeERC20Upgradeable = await hre.ethers.getContractFactory(
     "ExampleNativeERC20Upgradeable"
