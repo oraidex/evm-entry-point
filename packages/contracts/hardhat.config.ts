@@ -40,6 +40,20 @@ const hardhatConfig: HardhatUserConfig = {
         ? [process.env.PRIVATE_KEY || "", ...privateKeys]
         : { mnemonic: process.env.MNEMONIC || "" },
     },
+    exachain: {
+      url: "http://128.199.120.187:8545",
+      chainId: 20250626,
+      accounts: process.env.PRIVATE_KEY
+        ? [process.env.PRIVATE_KEY || "", ...privateKeys]
+        : { mnemonic: process.env.MNEMONIC || "" },
+    },
+    localnet: {
+      url: "http://127.0.0.1:8545",
+      chainId: 20250626,
+      accounts: process.env.PRIVATE_KEY
+        ? [process.env.PRIVATE_KEY || "", ...privateKeys]
+        : { mnemonic: process.env.MNEMONIC || "" },
+    },
     testing: {
       url: "http://127.0.0.1:8545",
       chainId: 3481324938,
