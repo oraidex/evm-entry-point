@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 0.2.6
+
+### Patch Changes
+
+- [#49](https://github.com/oraidex/evm-entry-point/pull/49) [`c66eb94`](https://github.com/oraidex/evm-entry-point/commit/c66eb94244bb2843b531bf0d08e733ee170def8f) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - feat: add exachain precompile
+
 ## 0.2.1
 
 ### Patch Changes
