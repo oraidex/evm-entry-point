@@ -1,6 +1,6 @@
 {
   "name": "@oraichain/evm-entry-point",
-  "version": "0.2.6",
+  "version": "1.0.0",
   "private": false,
   "license": "MIT",
   "files": [
