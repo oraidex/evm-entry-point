@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.0
+
+### Major Changes
+
+- [#51](https://github.com/oraidex/evm-entry-point/pull/51) [`53d999f`](https://github.com/oraidex/evm-entry-point/commit/53d999f4255562ee97185695f0992710294ae76d) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - "feat: add erc20 recover contract"
+
 ## 0.2.6
 
 ### Patch Changes
