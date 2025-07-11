@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.1
+
+### Patch Changes
+
+- [#53](https://github.com/oraidex/evm-entry-point/pull/53) [`9665ee5`](https://github.com/oraidex/evm-entry-point/commit/9665ee58d9d5937116eae7c94e76f00ba611b792) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - feat: change erc20 recover interface
+
 ## 1.0.0
 
 ### Major Changes
