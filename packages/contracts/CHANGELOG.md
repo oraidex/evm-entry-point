@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.2
+
+### Patch Changes
+
+- [#55](https://github.com/oraidex/evm-entry-point/pull/55) [`4c5e054`](https://github.com/oraidex/evm-entry-point/commit/4c5e054f875bb35f5b68b924e0cd3057deea1c95) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - "feat: add viex proof verifier"
+
 ## 1.0.1
 
 ### Patch Changes
