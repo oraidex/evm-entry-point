@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.3
+
+### Patch Changes
+
+- [#57](https://github.com/oraidex/evm-entry-point/pull/57) [`3da45f4`](https://github.com/oraidex/evm-entry-point/commit/3da45f4e07b49a5d83126350e9eec5f98e4dd6e6) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - "feat: implement set account address and account hash function"
+
 ## 1.0.2
 
 ### Patch Changes
