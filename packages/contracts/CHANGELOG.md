@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.4
+
+### Patch Changes
+
+- [#59](https://github.com/oraidex/evm-entry-point/pull/59) [`614a2c2`](https://github.com/oraidex/evm-entry-point/commit/614a2c2a70f92e5ae7a9ace8ac1de50bfc1babf6) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - "feat: add update account logic"
+
 ## 1.0.3
 
 ### Patch Changes
