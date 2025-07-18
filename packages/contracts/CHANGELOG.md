@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.5
+
+### Patch Changes
+
+- [#61](https://github.com/oraidex/evm-entry-point/pull/61) [`c388054`](https://github.com/oraidex/evm-entry-point/commit/c388054d0389618e0bbac8f24033dd4186724377) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - "feat: revert viex proof contract"
+
 ## 1.0.4
 
 ### Patch Changes
