@@ -1,5 +1,11 @@
 # @oraichain/evm-entry-point
 
+## 1.0.6
+
+### Patch Changes
+
+- [#63](https://github.com/oraidex/evm-entry-point/pull/63) [`aade8d7`](https://github.com/oraidex/evm-entry-point/commit/aade8d73e782ab08ac14cf772ab7e5ac6464f9a6) Thanks [@ledanghuy1811](https://github.com/ledanghuy1811)! - "feat: add recover info precompile"
+
 ## 1.0.5
 
 ### Patch Changes
